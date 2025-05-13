@@ -119,6 +119,7 @@ public class FlashLight : MonoBehaviour
     public void Brightness()
     {
         braightCoroutine = StartCoroutine(BrightnessCo());
+        player.isHourglass = true;
     }
 
     private IEnumerator BrightnessCo()
@@ -145,7 +146,7 @@ public class FlashLight : MonoBehaviour
         baseLight.pointLightInnerRadius = endIn;
         baseLight.pointLightOuterRadius = endOut;
 
-        yield return new WaitForSeconds(player.brightDuration);
+        yield return new WaitForSeconds(player.brightDurationTime);
 
         // off
         elapsed = 0f;
@@ -161,5 +162,7 @@ public class FlashLight : MonoBehaviour
         // origin set
         baseLight.pointLightInnerRadius = originInBaseLightRadius;
         baseLight.pointLightOuterRadius = originOutBaseLightRadius;
+
+        player.isHourglass = false;
     }
 }

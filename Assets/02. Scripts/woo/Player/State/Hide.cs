@@ -12,7 +12,7 @@ public class Hide : BaseState
 
         // hide set
         player.isHide = true;
-        player.Invisible(player.invisibleTargetAlpha);
+        player.HideInvisible(player.invisibleTargetAlpha);
     }
 
     /// Change State
@@ -46,7 +46,7 @@ public class Hide : BaseState
         {
             player.ani.Play("Walk");
             player.sr.flipX = player.lastDirX == 1 ? false : true;
-            player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.speed;
+            player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.curSpeed;
         }
         // idle
         else
@@ -60,7 +60,7 @@ public class Hide : BaseState
     public override void Exit()
     {
         player.isHide = false;
-        player.Invisible(player.originAlpha);
+        player.HideInvisible(player.originAlpha);
 
         Debug.Log("Hide Exit");
     }

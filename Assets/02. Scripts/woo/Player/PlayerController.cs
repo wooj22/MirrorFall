@@ -18,14 +18,14 @@ public class PlayerController : MonoBehaviour
     public enum PlayerWayState { LeftUp, LeftDown, RightUp, RightDown }   // animation 방향 처리 state
 
     [Header("Player Stat")]
-    public int hp;
-    public int maxHp;
-    public float speed;
+    public int curHp;
+    public int initHp;
+    public float curSpeed;
     public float initSpeed;
 
     [Header("Hit Data")]
-    public float hitTime;                               // 그림힐데 AI Hit 유지시간
-    public float addictionTime;                         // 난쟁이 AI 중독 유지시간
+    public float hitDurationTime;                           // 그림힐데 AI Hit 유지시간
+    public float addictionDurationTime;                     // 난쟁이 AI 중독 유지시간
     public float speedDownRate;                         // 난쟁이랑 닿았을 때 감속율
     [SerializeField] private Color addictionColor;      // 난쟁이 hit color
     private Color originColor;
@@ -37,7 +37,11 @@ public class PlayerController : MonoBehaviour
     private Coroutine invisibleCo;
 
     [Header("Bright Data")]
-    public float brightDuration;
+    public float brightDurationTime;
+
+    [Header("Hourglass Data")]
+    public float speedUpRate;
+    public float hourglassDurationTime;
 
     [Header("Player State Flags")]
     public bool isDie;
@@ -45,6 +49,8 @@ public class PlayerController : MonoBehaviour
     public bool isAddiction;
     public bool isInHideZone;
     public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
+    public bool isBright;
+    public bool isHourglass;
 
     // controll
     [HideInInspector] public float moveX;
@@ -108,10 +114,17 @@ public class PlayerController : MonoBehaviour
             MoveInputUpdate();
             WayUpdate();
 
-            // Test (디버깅용 임시 코드)
+            // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
             if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+
+            // Test (아이템 사용)
             if (Input.GetKeyDown(KeyCode.Alpha2)) flashLight.Brightness();
+            if (Input.GetKeyDown(KeyCode.Alpha3))
+            {
+                HourGlass();
+                Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
+            }
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -161,8 +174,8 @@ public class PlayerController : MonoBehaviour
     public void PlayerInit()
     {
         // player stat init
-        hp = maxHp;
-        speed = initSpeed;
+        curHp = initHp;
+        curSpeed = initSpeed;
         isDie = false;
         isHit = false;
 
@@ -174,7 +187,7 @@ public class PlayerController : MonoBehaviour
         originColor = sr.color;
 
         // UI
-        PlayerUIHandler.Instance.UpdateHduUI(hp);
+        PlayerUIHandler.Instance.UpdateHduUI(curHp);
 
         // player state init
         ChangeState(PlayerState.Idle);
@@ -209,6 +222,24 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /*------------------------- Skill -------------------------------*/
+    /// Apple(state), Bright(FalshLight), Hourglass(here)
+
+    /// HourGalss 스킬 이속 버프
+    public void HourGlass()
+    {
+        isHourglass = true;
+        curSpeed = initSpeed * speedUpRate;
+    }
+
+    /// 이속 원상복귀
+    public void ReturnHourGalss()
+    {
+        curSpeed = initSpeed;
+        isHourglass = false;
+    }
+
+
     /*------------------------- Event -------------------------------*/
     /// Hit
     public void Hit(string aiTag)
@@ -220,10 +251,9 @@ public class PlayerController : MonoBehaviour
         {
             if (!isHit)
             {
-                speed = initSpeed * speedDownRate;
-                sr.color = addictionColor;
-                isAddiction = true;
-                Invoke(nameof(ReturnAddiction), addictionTime);
+                // 중독
+                Addiction();
+                Invoke(nameof(ReturnAddiction), addictionDurationTime);
             }
         }
 
@@ -233,12 +263,12 @@ public class PlayerController : MonoBehaviour
             // Hit중일때는 피격을 받지 않음 (Hit State에서 관리)
             if (!isHit)
             {
-                hp --;
-                PlayerUIHandler.Instance.UpdateHduUI(hp);
+                curHp --;
+                PlayerUIHandler.Instance.UpdateHduUI(curHp);
 
-                if (hp <= 0)
+                if (curHp <= 0)
                 {
-                    hp = 0;
+                    curHp = 0;
                     ChangeState(PlayerState.Die);
                 }
                 else
@@ -249,10 +279,18 @@ public class PlayerController : MonoBehaviour
         } 
     }
 
-    /// Speed 원상복귀 (난쟁이 hit)
+    // 난쟁이 Hit => 중독 (감속)
+    private void Addiction()
+    {
+        curSpeed = initSpeed * speedDownRate;
+        sr.color = addictionColor;
+        isAddiction = true;
+    }
+
+    /// 중독 원상복귀
     private void ReturnAddiction()
     {
-        speed = initSpeed;
+        curSpeed = initSpeed;
         sr.color = originColor;
         isAddiction = false;
     }
@@ -263,8 +301,8 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    // 투명화
-    public void Invisible(float targetAlpha)
+    /// Hide 투명화
+    public void HideInvisible(float targetAlpha)
     {
         // 중복 실행 방지
         if (invisibleCo != null)
@@ -293,6 +331,9 @@ public class PlayerController : MonoBehaviour
         sr.color = color;
         invisibleCo = null;
     }
+
+    // 
+
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

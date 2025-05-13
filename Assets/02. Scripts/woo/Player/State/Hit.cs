@@ -30,7 +30,7 @@ public class Hit : BaseState
     public override void UpdateLigic() 
     {
         timer += Time.deltaTime;
-        if (timer > player.hitTime)
+        if (timer > player.hitDurationTime)
         {
             // ide
             player.ChangeState(PlayerState.Idle);

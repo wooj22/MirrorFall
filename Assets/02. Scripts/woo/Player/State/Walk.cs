@@ -42,7 +42,7 @@ public class Walk : BaseState
         player.sr.flipX = player.lastDirX == 1 ? false : true;
 
         // move
-        player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.speed;
+        player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.curSpeed;
     }
 
     /// Exit
