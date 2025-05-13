@@ -12,7 +12,7 @@ public class PlayerController : MonoBehaviour
     public BaseState[] stateArr;                  // state class array
     public enum PlayerState       // state class array 접근, 관리용 enum
     {
-        Idle, Walk, Hide, Lure, Hit, Die
+        Idle, Walk, Hide, Thrrow, Hit, Die
     }
 
     public enum PlayerWayState { LeftUp, LeftDown, RightUp, RightDown }   // animation 방향 처리 state
@@ -24,8 +24,8 @@ public class PlayerController : MonoBehaviour
     public float initSpeed;
 
     [Header("Hit Data")]
-    public float hitDurationTime;                           // 그림힐데 AI Hit 유지시간
-    public float addictionDurationTime;                     // 난쟁이 AI 중독 유지시간
+    public float hitDurationTime;                       // 그림힐데 AI Hit 유지시간
+    public float addictionDurationTime;                 // 난쟁이 AI 중독 유지시간
     public float speedDownRate;                         // 난쟁이랑 닿았을 때 감속율
     [SerializeField] private Color addictionColor;      // 난쟁이 hit color
     private Color originColor;
@@ -35,6 +35,10 @@ public class PlayerController : MonoBehaviour
     public float invisibleTargetAlpha = 0.2f;
     public float originAlpha = 1;
     private Coroutine invisibleCo;
+
+    [Header("Apple Thrrow Data")]
+    [SerializeField] public Sprite appleOnUpSprite;
+    [SerializeField] public Sprite appleOnDownSprite;
 
     [Header("Bright Data")]
     public float brightDurationTime;
@@ -51,6 +55,7 @@ public class PlayerController : MonoBehaviour
     public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
     public bool isBright;
     public bool isHourglass;
+    public bool isThrrow;
 
     // controll
     [HideInInspector] public float moveX;
@@ -119,6 +124,7 @@ public class PlayerController : MonoBehaviour
             if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // Test (아이템 사용)
+            if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
             if (Input.GetKeyDown(KeyCode.Alpha2)) flashLight.Brightness();
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
@@ -141,7 +147,7 @@ public class PlayerController : MonoBehaviour
         stateArr[(int)PlayerState.Idle] = new Idle(this);
         stateArr[(int)PlayerState.Walk] = new Walk(this);
         stateArr[(int)PlayerState.Hide] = new Hide(this);
-        stateArr[(int)PlayerState.Lure] = new Lure(this);
+        stateArr[(int)PlayerState.Thrrow] = new Thrrow(this);
         stateArr[(int)PlayerState.Hit] = new Hit(this);
         stateArr[(int)PlayerState.Die] = new Die(this);
     }
