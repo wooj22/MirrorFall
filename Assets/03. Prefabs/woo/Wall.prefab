@@ -291,7 +291,7 @@ MonoBehaviour:
   - {x: 0.15, y: -1.8, z: 0}
   m_ShapePathHash: 1969791629
   m_Mesh: {fileID: 0}
-  m_InstanceId: -306812
+  m_InstanceId: -4468
   m_LocalBounds:
     m_Center: {x: -0.08466457, y: -1.55, z: 0}
     m_Extent: {x: 0.23466457, y: 0.25, z: 0}
@@ -322,7 +322,7 @@ GameObject:
   - component: {fileID: 2430131652096166161}
   m_Layer: 0
   m_Name: WallHide_Trigger
-  m_TagString: WallHideTrigger
+  m_TagString: WallHideZone
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -24,7 +24,7 @@ public class Wall : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            if (curCo != null) StopCoroutine(curCo);
+            if (curCo != null) StopCoroutine(curCo); // 중복 실행 방지
             curCo = StartCoroutine(FadeToAlpha(targetAlpha));
         }
     }

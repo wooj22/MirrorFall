@@ -534,11 +534,24 @@ MonoBehaviour:
   speed: 3
   initSpeed: 3
   hitTime: 1.5
-  hitSpeedDownTime: 5
-  speedDownRate: 0.2
+  addictionTime: 2
+  speedDownRate: 0.5
+  invisibleDuration: 0.2
+  invisibleTargetAlpha: 0.2
+  originAlpha: 1
   isDie: 0
   isHit: 0
-  isHitSpeedDown: 0
+  isAddiction: 0
+  isInHideZone: 0
+  addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
+  moveX: 0
+  moveY: 0
+  lastDirX: 1
+  lastDirY: 1
+  sr: {fileID: 0}
+  rb: {fileID: 0}
+  ani: {fileID: 0}
+  flashLight: {fileID: 0}
   isMoveLKey: 0
   isMoveRKey: 0
   isMoveUpKey: 0
@@ -557,15 +570,6 @@ MonoBehaviour:
   Item1Key: 49
   Item2Key: 50
   Item3Key: 51
-  addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
-  moveX: 0
-  moveY: 0
-  lastDirX: 1
-  lastDirY: 1
-  sr: {fileID: 0}
-  rb: {fileID: 0}
-  ani: {fileID: 0}
-  flashLight: {fileID: 0}
 --- !u!114 &1749880759073450607
 MonoBehaviour:
   m_ObjectHideFlags: 0

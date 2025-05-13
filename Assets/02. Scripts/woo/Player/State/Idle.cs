@@ -12,7 +12,10 @@ public class Idle : BaseState
 
         // animation
         player.ani.Play("Idle");
-        
+
+        // filp, las Dir X
+        player.sr.flipX = player.lastDirX == 1 ? false : true;
+
         // velocity zero
         player.rb.velocity = Vector2.zero;
     }
@@ -24,6 +27,13 @@ public class Idle : BaseState
         if (player.isMoveLKey || player.isMoveRKey || player.isMoveUpKey || player.isMoveDownKey)
         {
             player.ChangeState(PlayerState.Walk);
+            return;
+        }
+
+        // hide
+        if(player.isInHideZone && player.isHideKey)
+        {
+            player.ChangeState(PlayerState.Hide);
             return;
         }
     }

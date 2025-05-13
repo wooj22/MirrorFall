@@ -23,6 +23,13 @@ public class Walk : BaseState
             player.ChangeState(PlayerState.Idle);
             return;
         }
+
+        // hide
+        if (player.isInHideZone && player.isHideKey)
+        {
+            player.ChangeState(PlayerState.Hide);
+            return;
+        }
     }
 
     /// Logic Update
@@ -32,8 +39,7 @@ public class Walk : BaseState
         player.ani.SetFloat("Vertical", player.lastDirY);
 
         // filp, las Dir X
-        if (player.moveX < 0) { player.sr.flipX = true;}         // left
-        else if (player.moveX > 0) { player.sr.flipX = false;}   // right
+        player.sr.flipX = player.lastDirX == 1 ? false : true;
 
         // move
         player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.speed;

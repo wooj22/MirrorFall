@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("State")]
+    [Header("[State]")]
     [SerializeField] public PlayerState state; 
     [SerializeField] public PlayerWayState wayState;    
     public BaseState curState;                    // state class
@@ -22,14 +22,38 @@ public class PlayerController : MonoBehaviour
     public int maxHp;
     public float speed;
     public float initSpeed;
-    public float hitTime;              // ±◊∏≤»˙µ• AI Hit ¿Ø¡ˆΩ√∞£
-    public float hitSpeedDownTime;     // ≥≠¿Ô¿Ã AI Hit ¿Ø¡ˆΩ√∞£
-    public float speedDownRate;        // ≥≠¿Ô¿Ã∂˚ ¥Íæ“¿ª ∂ß ∞®º”¿≤
+
+    [Header("Hit Data")]
+    public float hitTime;                               // ±◊∏≤»˙µ• AI Hit ¿Ø¡ˆΩ√∞£
+    public float addictionTime;                         // ≥≠¿Ô¿Ã AI ¡ﬂµ∂ ¿Ø¡ˆΩ√∞£
+    public float speedDownRate;                         // ≥≠¿Ô¿Ã∂˚ ¥Íæ“¿ª ∂ß ∞®º”¿≤
+    [SerializeField] private Color addictionColor;      // ≥≠¿Ô¿Ã hit color
+    private Color originColor;
+
+    [Header("Hide Data")]
+    [SerializeField] private float invisibleDuration = 0.2f;
+    public float invisibleTargetAlpha = 0.2f;
+    public float originAlpha = 1;
+    private Coroutine invisibleCo;
 
     [Header("Player State Flags")]
     public bool isDie;
     public bool isHit;
-    public bool isHitSpeedDown;
+    public bool isAddiction;
+    public bool isInHideZone;
+    public bool isHide;                               // ### AI ∫–µÈ ¿Ã∞≈ get«ÿº≠ æ≤ººø©
+
+    // controll
+    [HideInInspector] public float moveX;
+    [HideInInspector] public float moveY;
+    [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
+    [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
+
+    // Components
+    [HideInInspector] public SpriteRenderer sr;
+    [HideInInspector] public Rigidbody2D rb;
+    [HideInInspector] public Animator ani;
+    [HideInInspector] public FlashLight flashLight;
 
     [Header("Player Key Input Flags")]
     [HideInInspector] public bool isMoveLKey;
@@ -52,23 +76,6 @@ public class PlayerController : MonoBehaviour
     public KeyCode Item1Key = KeyCode.Alpha2;
     public KeyCode Item2Key = KeyCode.Alpha3;
     public KeyCode Item3Key = KeyCode.Alpha1;
-
-
-    [Header("Controll")]
-    [SerializeField] private Color addictionColor;      // ≥≠¿Ô¿Ã hit color
-    private Color originColor;
-
-    // controll
-    [HideInInspector] public float moveX;
-    [HideInInspector] public float moveY;
-    [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
-    [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
-    
-    // Components
-    [HideInInspector] public SpriteRenderer sr;
-    [HideInInspector] public Rigidbody2D rb;
-    [HideInInspector] public Animator ani;
-    [HideInInspector] public FlashLight flashLight;
 
 
     /*------------------------- Function -------------------------------*/
@@ -138,9 +145,9 @@ public class PlayerController : MonoBehaviour
         isMoveRKey = Input.GetKey(moveR);
         isMoveUpKey = Input.GetKey(moveUp);
         isMoveDownKey = Input.GetKey(moveDown);
+        isHideKey = Input.GetKey(hideKey);
 
         isInteractionKey = Input.GetKeyDown(interationKey);
-        isHideKey = Input.GetKeyDown(hideKey);
         isItem1Key = Input.GetKeyDown(Item1Key);
         isItem2Key = Input.GetKeyDown(Item2Key);
         isItem3Key = Input.GetKeyDown(Item3Key);
@@ -211,8 +218,8 @@ public class PlayerController : MonoBehaviour
             {
                 speed = initSpeed * speedDownRate;
                 sr.color = addictionColor;
-                isHitSpeedDown = true;
-                Invoke(nameof(InitSpeed), hitSpeedDownTime);
+                isAddiction = true;
+                Invoke(nameof(ReturnAddiction), addictionTime);
             }
         }
 
@@ -239,11 +246,11 @@ public class PlayerController : MonoBehaviour
     }
 
     /// Speed ø¯ªÛ∫π±Õ (≥≠¿Ô¿Ã hit)
-    private void InitSpeed()
+    private void ReturnAddiction()
     {
         speed = initSpeed;
         sr.color = originColor;
-        isHitSpeedDown = false;
+        isAddiction = false;
     }
 
     /// TODO :: Die ∑Œ¡˜ √≥∏Æ
@@ -252,14 +259,52 @@ public class PlayerController : MonoBehaviour
         
     }
 
+    // ≈ı∏Ì»≠
+    public void Invisible(float targetAlpha)
+    {
+        // ¡ﬂ∫π Ω««‡ πÊ¡ˆ
+        if (invisibleCo != null)
+            StopCoroutine(invisibleCo);
+
+        invisibleCo = StartCoroutine(FadeInvisible(targetAlpha));
+    }
+
+    IEnumerator FadeInvisible(float targetAlpha)
+    {
+        float startAlpha = sr.color.a;
+        float time = 0f;
+        Color color = sr.color;
+
+        while (time < invisibleDuration)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / invisibleDuration);
+            color.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            sr.color = color;
+            yield return null;
+        }
+
+        // last set
+        color.a = targetAlpha;
+        sr.color = color;
+        invisibleCo = null;
+    }
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
-
+        // hide zone
+        if (collision.gameObject.CompareTag("WallHideZone")){
+            isInHideZone = true;
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
-
+        // hide zone
+        if (collision.gameObject.CompareTag("WallHideZone"))
+        {
+            isInHideZone = false;
+        }
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
