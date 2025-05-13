@@ -40,6 +40,17 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public Sprite appleOnUpSprite;
     [SerializeField] public Sprite appleOnDownSprite;
 
+    public GameObject applePrefab;              // 사과 프리팹
+    public Transform appleSpawnPoint;           // 사과 생성 위치
+    public float throwForce = 5f;               // 던지는 힘
+    public LayerMask appleHitLayer;             // 충돌 감지 레이어
+
+    public LineRenderer lineRenderer; // 포물선을 그릴 라인 렌더러
+    public int lineSegmentCount = 30; // 포물선의 점 개수
+    public float timeBetweenPoints = 0.1f; // 포물선 간격
+    public float throwPower = 5f; // 던지는 힘 (속도)
+
+
     [Header("Bright Data")]
     public float brightDurationTime;
 

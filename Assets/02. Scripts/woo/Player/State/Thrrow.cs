@@ -14,6 +14,8 @@ public class Thrrow : BaseState
         player.ani.enabled = false;
         player.isThrrow = true;
 
+        player.lineRenderer.enabled = true; // LineRenderer 켜기
+
         // velocity zero
         player.rb.velocity = Vector2.zero;
     }
@@ -45,6 +47,9 @@ public class Thrrow : BaseState
             // Left/ Right Filp
             player.sr.flipX = dir.x < 0;
 
+            // 포물선 시각화
+            DrawParabola(mouseWorldPos);
+
             // 좌클릭으로 Apple 던지기
             if (Input.GetMouseButtonDown(0))
             {
@@ -62,6 +67,29 @@ public class Thrrow : BaseState
     /// Exit
     public override void Exit()
     {
+        player.lineRenderer.enabled = false; // LineRenderer 끄기
+
         Debug.Log("Thrrow Exit");
+    }
+
+
+
+    private void DrawParabola(Vector3 target)
+    {
+        Vector2 start = player.appleSpawnPoint.position;
+        Vector2 direction = (target - player.appleSpawnPoint.position).normalized;
+        Vector2 throwDir = new Vector2(direction.x, 1f).normalized;
+
+        Vector2 velocity = throwDir * player.throwPower;
+        Vector2 gravity = Physics2D.gravity;
+
+        player.lineRenderer.positionCount = player.lineSegmentCount;
+
+        for (int i = 0; i < player.lineSegmentCount; i++)
+        {
+            float t = i * player.timeBetweenPoints;
+            Vector2 pos = start + velocity * t + 0.5f * gravity * t * t;
+            player.lineRenderer.SetPosition(i, pos);
+        }
     }
 }
