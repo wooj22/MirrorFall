@@ -1997,6 +1997,14 @@ PrefabInstance:
       propertyPath: Hdu_Image
       value: 
       objectReference: {fileID: 1958707091}
+    - target: {fileID: 1749880759073450607, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
+      propertyPath: targetInBaseLightRadius
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 1749880759073450607, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
+      propertyPath: targetOutBaseLightRadius
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.041
@@ -2037,9 +2045,21 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3965391298991220039, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
+      propertyPath: m_PointLightInnerRadius
+      value: 0.4
+      objectReference: {fileID: 0}
+    - target: {fileID: 3965391298991220039, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 7843688002810659842, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
+      propertyPath: brightDuration
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7843688002810659842, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: invisibleTargetAlpha
-      value: 0.5
+      value: 0.3
       objectReference: {fileID: 0}
     - target: {fileID: 7868016681953158331, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_Name

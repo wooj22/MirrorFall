@@ -15,7 +15,15 @@ public class FlashLight : MonoBehaviour
     public Light2D baseLight;
     [SerializeField] public Transform flashLight;
 
-    // lihgt 밝기 연출 data
+    [Header("Base Light Skill")]
+    [SerializeField] private float brightDuration = 1f;
+    [SerializeField] private float targetInBaseLightRadius;       // inner (out = inner + 0.6)
+    [SerializeField] private float targetOutBaseLightRadius;
+    private float originInBaseLightRadius;      // 0.4
+    private float originOutBaseLightRadius;     // 0.8
+    private Coroutine braightCoroutine;
+
+    // Hit lihgt 연출 data
     private float defaultSpotIntensity;
     private float defaultBaseIntensity;
     private float lightEffectDuration = 0.5f;
@@ -31,6 +39,8 @@ public class FlashLight : MonoBehaviour
 
         defaultSpotIntensity = spotLight.intensity;
         defaultBaseIntensity = baseLight.intensity;
+        originInBaseLightRadius = baseLight.pointLightInnerRadius;
+        originOutBaseLightRadius = baseLight.pointLightOuterRadius;
 
         // component
         player = GetComponent<PlayerController>();
@@ -59,7 +69,7 @@ public class FlashLight : MonoBehaviour
     }
 
 
-    /*-------------------- Event --------------------*/
+    /*-------------------- Hit Event --------------------*/
     /// Hit Light Logic
     public void HitLightLogic()
     {
@@ -79,7 +89,7 @@ public class FlashLight : MonoBehaviour
     }
 
     // Hit Right Effect
-    IEnumerator HitLightEffectCo()
+    private IEnumerator HitLightEffectCo()
     {
         // off
         spotLight.intensity = 0;
@@ -102,5 +112,54 @@ public class FlashLight : MonoBehaviour
             elapsed += Time.deltaTime;
             yield return null;
         }
+    }
+
+    /*-------------------- Bright Skill Event --------------------*/
+    /// 양초 스킬 사용시 밝아짐
+    public void Brightness()
+    {
+        braightCoroutine = StartCoroutine(BrightnessCo());
+    }
+
+    private IEnumerator BrightnessCo()
+    {
+        float startIn = baseLight.pointLightInnerRadius;
+        float startOut = baseLight.pointLightOuterRadius;
+
+        float endIn = targetInBaseLightRadius;
+        float endOut = targetOutBaseLightRadius;
+
+        float elapsed = 0f;
+        
+        // on
+        while (elapsed < brightDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / brightDuration);
+            baseLight.pointLightInnerRadius = Mathf.Lerp(startIn, endIn, t);
+            baseLight.pointLightOuterRadius = Mathf.Lerp(startOut, endOut, t);
+            yield return null;
+        }
+
+        // max set
+        baseLight.pointLightInnerRadius = endIn;
+        baseLight.pointLightOuterRadius = endOut;
+
+        yield return new WaitForSeconds(player.brightDuration);
+
+        // off
+        elapsed = 0f;
+        while (elapsed < brightDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / brightDuration);
+            baseLight.pointLightInnerRadius = Mathf.Lerp(endIn, originInBaseLightRadius, t);
+            baseLight.pointLightOuterRadius = Mathf.Lerp(endOut, originOutBaseLightRadius, t);
+            yield return null;
+        }
+
+        // origin set
+        baseLight.pointLightInnerRadius = originInBaseLightRadius;
+        baseLight.pointLightOuterRadius = originOutBaseLightRadius;
     }
 }

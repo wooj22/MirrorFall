@@ -36,6 +36,9 @@ public class PlayerController : MonoBehaviour
     public float originAlpha = 1;
     private Coroutine invisibleCo;
 
+    [Header("Bright Data")]
+    public float brightDuration;
+
     [Header("Player State Flags")]
     public bool isDie;
     public bool isHit;
@@ -108,6 +111,7 @@ public class PlayerController : MonoBehaviour
             // Test (디버깅용 임시 코드)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
             if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            if (Input.GetKeyDown(KeyCode.Alpha2)) flashLight.Brightness();
 
             // state update logic
             curState?.ChangeStateLogic();
