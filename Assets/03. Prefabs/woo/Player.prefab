@@ -578,7 +578,7 @@ LineRenderer:
       m_Curve:
       - serializedVersion: 3
         time: 0
-        value: 1
+        value: 0.06363678
         inSlope: 0
         outSlope: 0
         tangentMode: 0
@@ -590,9 +590,9 @@ LineRenderer:
       m_RotationOrder: 4
     colorGradient:
       serializedVersion: 2
-      key0: {r: 1, g: 1, b: 1, a: 1}
-      key1: {r: 1, g: 1, b: 1, a: 1}
-      key2: {r: 0, g: 0, b: 0, a: 0}
+      key0: {r: 1, g: 0.2999999, b: 0.2999999, a: 0.5254902}
+      key1: {r: 1, g: 0.4660377, b: 0.4660377, a: 0.5803922}
+      key2: {r: 1, g: 0.4660377, b: 0.4660377, a: 0}
       key3: {r: 0, g: 0, b: 0, a: 0}
       key4: {r: 0, g: 0, b: 0, a: 0}
       key5: {r: 0, g: 0, b: 0, a: 0}
@@ -600,7 +600,7 @@ LineRenderer:
       key7: {r: 0, g: 0, b: 0, a: 0}
       ctime0: 0
       ctime1: 65535
-      ctime2: 0
+      ctime2: 65535
       ctime3: 0
       ctime4: 0
       ctime5: 0
@@ -615,7 +615,7 @@ LineRenderer:
       atime6: 0
       atime7: 0
       m_Mode: 0
-      m_ColorSpace: -1
+      m_ColorSpace: 0
       m_NumColorKeys: 2
       m_NumAlphaKeys: 2
     numCornerVertices: 0
@@ -679,15 +679,11 @@ MonoBehaviour:
   originAlpha: 1
   appleOnUpSprite: {fileID: -66238934464334820, guid: c2b0974540b914b4fad41b9a586889bd, type: 3}
   appleOnDownSprite: {fileID: -66238934464334820, guid: 96854cd607b35f6478f703bc298a37fb, type: 3}
-  lineSegmentCount: 0
-  lineBetweenPoints: 0
+  lineSegmentCount: 10
+  lineBetweenPoints: 0.1
   throwPower: 5
-  applePrefab: {fileID: 0}
+  applePrefab: {fileID: 3276579282958200528, guid: b6e6045ec6918c44ba3df28cde9c0804, type: 3}
   appleSpawnPoint: {fileID: 9209111969447757852}
-  throwForce: 5
-  appleHitLayer:
-    serializedVersion: 2
-    m_Bits: 0
   brightDurationTime: 5
   speedUpRate: 1.5
   hourglassDurationTime: 5

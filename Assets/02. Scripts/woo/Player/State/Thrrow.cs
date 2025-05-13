@@ -67,11 +67,10 @@ public class Thrrow : BaseState
     public override void Exit()
     {
         player.lineRenderer.enabled = false; // LineRenderer 끄기
-
         Debug.Log("Thrrow Exit");
     }
 
-    // 포물선 그리기
+    /// 포물선 그리기
     private void DrawParabola(Vector2 targetPos)
     {
         Vector2 startPos = player.appleSpawnPoint.position;
@@ -94,7 +93,7 @@ public class Thrrow : BaseState
         player.lineRenderer.SetPositions(points);
     }
 
-    // 포물선 포인트 계산
+    /// 포물선 포인트 계산
     private Vector2 GetParabolaPoint(Vector2 start, Vector2 end, float height, float t)
     {
         // 선형 보간

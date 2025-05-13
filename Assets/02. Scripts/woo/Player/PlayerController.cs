@@ -39,14 +39,11 @@ public class PlayerController : MonoBehaviour
     [Header("Apple Thrrow Data")]
     public Sprite appleOnUpSprite;
     public Sprite appleOnDownSprite;
-    public int   lineSegmentCount;       // 포물선의 점 개수
-    public float lineBetweenPoints;      // 포물선 간격
-
-    public float throwPower = 5f;               // 던지는 힘 (속도)
-    //public GameObject applePrefab;              // 사과 프리팹
-    public Transform appleSpawnPoint;           // 사과 생성 위치
-    //public float throwForce = 5f;               // 던지는 힘
-    //public LayerMask appleHitLayer;             // 충돌 감지 레이어
+    public int    lineSegmentCount;       // 포물선의 점 개수
+    public float  lineBetweenPoints;      // 포물선 간격
+    public float  throwPower = 5f;        // 던지는 힘 (속도)
+    public GameObject applePrefab;        // 사과 프리팹
+    public Transform  appleSpawnPoint;    // 사과 생성 위치
 
     [Header("Bright Data")]
     public float brightDurationTime;
@@ -96,9 +93,9 @@ public class PlayerController : MonoBehaviour
     public KeyCode moveDown = KeyCode.S;
     public KeyCode interationKey = KeyCode.F;
     public KeyCode hideKey = KeyCode.LeftShift;
-    public KeyCode Item1Key = KeyCode.Alpha2;
-    public KeyCode Item2Key = KeyCode.Alpha3;
-    public KeyCode Item3Key = KeyCode.Alpha1;
+    public KeyCode Item1Key = KeyCode.Alpha1;
+    public KeyCode Item2Key = KeyCode.Alpha2;
+    public KeyCode Item3Key = KeyCode.Alpha3;
 
 
     /*------------------------- Function -------------------------------*/
@@ -243,6 +240,37 @@ public class PlayerController : MonoBehaviour
     public void AppleThrrow()
     {
         Debug.Log("사과 던짐");
+        Vector2 start = appleSpawnPoint.position;
+        Vector2 end = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        float distance = Vector2.Distance(start, end);
+        float height = Mathf.Max(1f, distance / 2f);
+
+        StartCoroutine(MoveAppleParabola(start, end, height, 0.5f)); // duration은 0.5초 정도
+    }
+
+    private IEnumerator MoveAppleParabola(Vector2 start, Vector2 end, float height, float duration)
+    {
+        float time = 0f;
+
+        GameObject apple = Instantiate(applePrefab, start, Quaternion.identity);
+
+        while (time < duration)
+        {
+            float t = time / duration;
+
+            Vector2 pos = Vector2.Lerp(start, end, t);
+            pos.y += 4 * height * t * (1 - t); // 포물선 공식과 동일
+
+            apple.transform.position = pos;
+
+            time += Time.deltaTime;
+            yield return null;
+        }
+
+        apple.transform.position = end;
+
+        // 여기서 충돌 처리나 터지는 효과 등 추가 가능
     }
 
     /// 2. Bright Skill 밝기
