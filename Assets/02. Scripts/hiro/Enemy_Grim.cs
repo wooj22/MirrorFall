@@ -295,6 +295,9 @@ public class Enemy_Grim : MonoBehaviour
         // applefindDistance ½Ã°¢È­
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, applefindDistance);
+
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, findDistance);
     }
 #endif
 
