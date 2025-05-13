@@ -136,10 +136,10 @@ public class PlayerController : MonoBehaviour
 
             // Test (아이템 사용)
             if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) flashLight.Brightness();
+            if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                HourGlass();
+                HourGlassSkill();
                 Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
             }
 
@@ -240,10 +240,21 @@ public class PlayerController : MonoBehaviour
 
 
     /*------------------------- Skill -------------------------------*/
-    /// Apple(state), Bright(FalshLight), Hourglass(here)
+    /// 1. Apple Thrrow 유인
+    public void AppleThrrow()
+    {
 
-    /// HourGalss 스킬 이속 버프
-    public void HourGlass()
+    }
+
+    /// 2. Bright Skill 밝기
+    public void BrightSkill()
+    {
+        flashLight.Brightness();
+    }
+
+
+    /// 3. HourGalss Skill 이속 버프
+    public void HourGlassSkill()
     {
         isHourglass = true;
         curSpeed = initSpeed * speedUpRate;
@@ -254,6 +265,37 @@ public class PlayerController : MonoBehaviour
     {
         curSpeed = initSpeed;
         isHourglass = false;
+    }
+
+    /// Hide 투명화
+    public void HideInvisible(float targetAlpha)
+    {
+        // 중복 실행 방지
+        if (invisibleCo != null)
+            StopCoroutine(invisibleCo);
+
+        invisibleCo = StartCoroutine(FadeInvisible(targetAlpha));
+    }
+
+    IEnumerator FadeInvisible(float targetAlpha)
+    {
+        float startAlpha = sr.color.a;
+        float time = 0f;
+        Color color = sr.color;
+
+        while (time < invisibleDuration)
+        {
+            time += Time.deltaTime;
+            float t = Mathf.Clamp01(time / invisibleDuration);
+            color.a = Mathf.Lerp(startAlpha, targetAlpha, t);
+            sr.color = color;
+            yield return null;
+        }
+
+        // last set
+        color.a = targetAlpha;
+        sr.color = color;
+        invisibleCo = null;
     }
 
 
@@ -318,40 +360,9 @@ public class PlayerController : MonoBehaviour
         
     }
 
-    /// Hide 투명화
-    public void HideInvisible(float targetAlpha)
-    {
-        // 중복 실행 방지
-        if (invisibleCo != null)
-            StopCoroutine(invisibleCo);
+    
 
-        invisibleCo = StartCoroutine(FadeInvisible(targetAlpha));
-    }
-
-    IEnumerator FadeInvisible(float targetAlpha)
-    {
-        float startAlpha = sr.color.a;
-        float time = 0f;
-        Color color = sr.color;
-
-        while (time < invisibleDuration)
-        {
-            time += Time.deltaTime;
-            float t = Mathf.Clamp01(time / invisibleDuration);
-            color.a = Mathf.Lerp(startAlpha, targetAlpha, t);
-            sr.color = color;
-            yield return null;
-        }
-
-        // last set
-        color.a = targetAlpha;
-        sr.color = color;
-        invisibleCo = null;
-    }
-
-    // 
-
-
+    /*------------------------- Collision -------------------------------*/
     private void OnTriggerEnter2D(Collider2D collision)
     {
         // hide zone
