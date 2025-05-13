@@ -31,25 +31,22 @@ public class PlayerController : MonoBehaviour
     private Color originColor;
 
     [Header("Hide Data")]
-    [SerializeField] private float invisibleDuration = 0.2f;
-    public float invisibleTargetAlpha = 0.2f;
-    public float originAlpha = 1;
+    [SerializeField] private float invisibleDuration;
+    public float invisibleTargetAlpha;
+    public float originAlpha;
     private Coroutine invisibleCo;
 
     [Header("Apple Thrrow Data")]
-    [SerializeField] public Sprite appleOnUpSprite;
-    [SerializeField] public Sprite appleOnDownSprite;
+    public Sprite appleOnUpSprite;
+    public Sprite appleOnDownSprite;
+    public int   lineSegmentCount;       // 포물선의 점 개수
+    public float lineBetweenPoints;      // 포물선 간격
 
-    public GameObject applePrefab;              // 사과 프리팹
+    public float throwPower = 5f;               // 던지는 힘 (속도)
+    //public GameObject applePrefab;              // 사과 프리팹
     public Transform appleSpawnPoint;           // 사과 생성 위치
-    public float throwForce = 5f;               // 던지는 힘
-    public LayerMask appleHitLayer;             // 충돌 감지 레이어
-
-    public LineRenderer lineRenderer; // 포물선을 그릴 라인 렌더러
-    public int lineSegmentCount = 30; // 포물선의 점 개수
-    public float timeBetweenPoints = 0.1f; // 포물선 간격
-    public float throwPower = 5f; // 던지는 힘 (속도)
-
+    //public float throwForce = 5f;               // 던지는 힘
+    //public LayerMask appleHitLayer;             // 충돌 감지 레이어
 
     [Header("Bright Data")]
     public float brightDurationTime;
@@ -79,6 +76,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator ani;
     [HideInInspector] public FlashLight flashLight;
+    [HideInInspector] public LineRenderer lineRenderer;
 
     [Header("Player Key Input Flags")]
     [HideInInspector] public bool isMoveLKey;
@@ -117,6 +115,7 @@ public class PlayerController : MonoBehaviour
         ani = GetComponent<Animator>();
         sr = GetComponent<SpriteRenderer>();
         flashLight = GetComponent<FlashLight>();
+        lineRenderer = GetComponent<LineRenderer>();
 
         // player init
         PlayerInit();
@@ -240,10 +239,10 @@ public class PlayerController : MonoBehaviour
 
 
     /*------------------------- Skill -------------------------------*/
-    /// 1. Apple Thrrow 유인
+    /// 1. Apple Thrrow 유인 (state)
     public void AppleThrrow()
     {
-
+        Debug.Log("사과 던짐");
     }
 
     /// 2. Bright Skill 밝기
@@ -267,7 +266,7 @@ public class PlayerController : MonoBehaviour
         isHourglass = false;
     }
 
-    /// Hide 투명화
+    /// Hide 투명화 (state)
     public void HideInvisible(float targetAlpha)
     {
         // 중복 실행 방지

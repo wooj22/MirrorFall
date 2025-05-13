@@ -26,6 +26,7 @@ public class Thrrow : BaseState
         // 사과 던지고 나서 Idle
         if (!player.isThrrow)
         {
+            // 현재 애니메이션이 끝났을때 전환
             player.ChangeState(PlayerState.Idle);
         }
     }
@@ -47,7 +48,7 @@ public class Thrrow : BaseState
             // Left/ Right Filp
             player.sr.flipX = dir.x < 0;
 
-            // 포물선 시각화
+            // 포물선
             DrawParabola(mouseWorldPos);
 
             // 좌클릭으로 Apple 던지기
@@ -56,9 +57,7 @@ public class Thrrow : BaseState
                 player.ani.enabled = true;
                 player.ani.Play("Throw");
 
-                // TODO: 사과 던지기 함수 호출
-                Debug.Log("사과 던짐");
-
+                player.AppleThrrow();
                 player.isThrrow = false;
             }
         }
@@ -72,24 +71,39 @@ public class Thrrow : BaseState
         Debug.Log("Thrrow Exit");
     }
 
-
-
-    private void DrawParabola(Vector3 target)
+    // 포물선 그리기
+    private void DrawParabola(Vector2 targetPos)
     {
-        Vector2 start = player.appleSpawnPoint.position;
-        Vector2 direction = (target - player.appleSpawnPoint.position).normalized;
-        Vector2 throwDir = new Vector2(direction.x, 1f).normalized;
+        Vector2 startPos = player.appleSpawnPoint.position;
 
-        Vector2 velocity = throwDir * player.throwPower;
-        Vector2 gravity = Physics2D.gravity;
+        // 거리와 방향 계산
+        float distance = Vector2.Distance(startPos, targetPos);
+        float height = Mathf.Max(1f, distance / 2f); // 높이를 거리 기반으로 조절 (너무 낮지 않게 최소값 1)
 
-        player.lineRenderer.positionCount = player.lineSegmentCount;
+        int resolution = 30;
+        Vector3[] points = new Vector3[resolution + 1];
 
-        for (int i = 0; i < player.lineSegmentCount; i++)
+        for (int i = 0; i <= resolution; i++)
         {
-            float t = i * player.timeBetweenPoints;
-            Vector2 pos = start + velocity * t + 0.5f * gravity * t * t;
-            player.lineRenderer.SetPosition(i, pos);
+            float t = i / (float)resolution;
+            Vector2 point = GetParabolaPoint(startPos, targetPos, height, t);
+            points[i] = point;
         }
+
+        player.lineRenderer.positionCount = points.Length;
+        player.lineRenderer.SetPositions(points);
+    }
+
+    // 포물선 포인트 계산
+    private Vector2 GetParabolaPoint(Vector2 start, Vector2 end, float height, float t)
+    {
+        // 선형 보간
+        Vector2 mid = Vector2.Lerp(start, end, t);
+
+        // y 보정: 포물선 공식
+        float parabola = 4 * height * t * (1 - t); // 0~1에서 최대값이 height
+        mid.y += parabola;
+
+        return mid;
     }
 }

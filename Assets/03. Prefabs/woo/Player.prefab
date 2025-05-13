@@ -82,6 +82,37 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!1 &2021072240746224158
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9209111969447757852}
+  m_Layer: 0
+  m_Name: ApplePoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9209111969447757852
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2021072240746224158}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.211, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 3259930336176531700}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4032136241834649852
 GameObject:
   m_ObjectHideFlags: 0
@@ -314,6 +345,7 @@ GameObject:
   - component: {fileID: 6903647883329300969}
   - component: {fileID: 4023090683897514245}
   - component: {fileID: 4825744414941917805}
+  - component: {fileID: 2688271738604839717}
   - component: {fileID: 3254228696181296704}
   - component: {fileID: 7843688002810659842}
   - component: {fileID: 1749880759073450607}
@@ -341,6 +373,7 @@ Transform:
   - {fileID: 4857317823345840488}
   - {fileID: 8179565181517098581}
   - {fileID: 8447491594967507698}
+  - {fileID: 9209111969447757852}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &2013674928099304148
@@ -492,6 +525,110 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0047450215, y: 0.15826437}
   m_Size: {x: 0.3, y: 0.56}
   m_Direction: 0
+--- !u!120 &2688271738604839717
+LineRenderer:
+  serializedVersion: 2
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7868016681953158331}
+  m_Enabled: 1
+  m_CastShadows: 1
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 0
+  m_LightProbeUsage: 0
+  m_ReflectionProbeUsage: 0
+  m_RayTracingMode: 0
+  m_RayTraceProcedural: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 10
+  m_Positions:
+  - {x: 0, y: 0, z: 0}
+  - {x: 0, y: 0, z: 1}
+  m_Parameters:
+    serializedVersion: 3
+    widthMultiplier: 1
+    widthCurve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    colorGradient:
+      serializedVersion: 2
+      key0: {r: 1, g: 1, b: 1, a: 1}
+      key1: {r: 1, g: 1, b: 1, a: 1}
+      key2: {r: 0, g: 0, b: 0, a: 0}
+      key3: {r: 0, g: 0, b: 0, a: 0}
+      key4: {r: 0, g: 0, b: 0, a: 0}
+      key5: {r: 0, g: 0, b: 0, a: 0}
+      key6: {r: 0, g: 0, b: 0, a: 0}
+      key7: {r: 0, g: 0, b: 0, a: 0}
+      ctime0: 0
+      ctime1: 65535
+      ctime2: 0
+      ctime3: 0
+      ctime4: 0
+      ctime5: 0
+      ctime6: 0
+      ctime7: 0
+      atime0: 0
+      atime1: 65535
+      atime2: 0
+      atime3: 0
+      atime4: 0
+      atime5: 0
+      atime6: 0
+      atime7: 0
+      m_Mode: 0
+      m_ColorSpace: -1
+      m_NumColorKeys: 2
+      m_NumAlphaKeys: 2
+    numCornerVertices: 0
+    numCapVertices: 0
+    alignment: 0
+    textureMode: 0
+    textureScale: {x: 1, y: 1}
+    shadowBias: 0.5
+    generateLightingData: 0
+  m_MaskInteraction: 0
+  m_UseWorldSpace: 1
+  m_Loop: 0
+  m_ApplyActiveColorSpace: 1
 --- !u!95 &3254228696181296704
 Animator:
   serializedVersion: 5
@@ -529,21 +666,39 @@ MonoBehaviour:
   wayState: 0
   curState: {fileID: 0}
   stateArr: []
-  hp: 3
-  maxHp: 3
-  speed: 3
+  curHp: 3
+  initHp: 3
+  curSpeed: 3
   initSpeed: 3
-  hitTime: 1.5
-  addictionTime: 2
+  hitDurationTime: 1
+  addictionDurationTime: 3
   speedDownRate: 0.5
+  addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
   invisibleDuration: 0.2
-  invisibleTargetAlpha: 0.2
+  invisibleTargetAlpha: 0.3
   originAlpha: 1
+  appleOnUpSprite: {fileID: -66238934464334820, guid: c2b0974540b914b4fad41b9a586889bd, type: 3}
+  appleOnDownSprite: {fileID: -66238934464334820, guid: 96854cd607b35f6478f703bc298a37fb, type: 3}
+  lineSegmentCount: 0
+  lineBetweenPoints: 0
+  throwPower: 5
+  applePrefab: {fileID: 0}
+  appleSpawnPoint: {fileID: 9209111969447757852}
+  throwForce: 5
+  appleHitLayer:
+    serializedVersion: 2
+    m_Bits: 0
+  brightDurationTime: 5
+  speedUpRate: 1.5
+  hourglassDurationTime: 5
   isDie: 0
   isHit: 0
   isAddiction: 0
   isInHideZone: 0
-  addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
+  isHide: 0
+  isBright: 0
+  isHourglass: 0
+  isThrrow: 0
   moveX: 0
   moveY: 0
   lastDirX: 1
@@ -552,6 +707,7 @@ MonoBehaviour:
   rb: {fileID: 0}
   ani: {fileID: 0}
   flashLight: {fileID: 0}
+  lineRenderer: {fileID: 2688271738604839717}
   isMoveLKey: 0
   isMoveRKey: 0
   isMoveUpKey: 0
@@ -591,6 +747,9 @@ MonoBehaviour:
   spotLight: {fileID: 2480763438400090637}
   baseLight: {fileID: 3965391298991220039}
   flashLight: {fileID: 4857317823345840488}
+  brightDuration: 1
+  targetInBaseLightRadius: 4
+  targetOutBaseLightRadius: 10
 --- !u!114 &432883931298557293
 MonoBehaviour:
   m_ObjectHideFlags: 0
