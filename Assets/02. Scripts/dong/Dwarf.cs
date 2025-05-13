@@ -282,5 +282,15 @@ public class Dwarf : MonoBehaviour
         anim_cur = anim;
         ani.Play(anim);
     }
+#if UNITY_EDITOR
+    private void OnDrawGizmosSelected()
+    {
+        // applefindDistance ½Ã°¢È­
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, applefindDistance);
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, findDistance);
+    }
+#endif
 
 }
