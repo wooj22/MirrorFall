@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BaseState : MonoBehaviour
+public class BaseState
 {
     protected PlayerController player;
 
