@@ -59,7 +59,7 @@ public class Enemy_Grim : MonoBehaviour
 
     void Update()
     {
-        Debug.Log(playerdistance);
+        //Debug.Log(playerdistance);
 
         PlayerCheck();
         AppleCheck();
@@ -88,7 +88,7 @@ public class Enemy_Grim : MonoBehaviour
 
     void AppleCheck()
     {
-        Apples = GameObject.FindGameObjectsWithTag("Finish");
+        Apples = GameObject.FindGameObjectsWithTag("Apple");
         if (Apples.Length > 0)
         {
             float minDistance = float.MaxValue;
@@ -96,6 +96,8 @@ public class Enemy_Grim : MonoBehaviour
 
             foreach (GameObject Apple in Apples)
             {
+                if (!Apple.GetComponent<Apple>().isGround) return;
+
                 float dist = Vector2.Distance(transform.position, Apple.transform.position);
                 if (dist < minDistance)
                 {
@@ -126,10 +128,12 @@ public class Enemy_Grim : MonoBehaviour
         if (applefind) return;
         if (isAttacking) return;
 
+        bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
+
         if (!find)
         {
             // 플레이어 근처로 오면 추적 시작
-            if (playerdistance < findDistance)
+            if (playerdistance < findDistance && !isPlayerHidden)
             {
                 find = true;
             }
@@ -148,6 +152,13 @@ public class Enemy_Grim : MonoBehaviour
         {
             if (playerdistance > missDistance)
             {
+                if (isPlayerHidden)
+                {
+                    rb.velocity = Vector2.zero;
+                    find = false;
+                    return;
+                }
+
                 // 원래 위치로 돌아가기
                 Vector2 dirToStart = startPos - (Vector2)transform.position;
                 if (dirToStart.magnitude < 0.05f)
