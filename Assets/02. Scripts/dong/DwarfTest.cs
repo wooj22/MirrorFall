@@ -1,8 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
-public class DwarfwithRay : MonoBehaviour
+public class DwarfTest : MonoBehaviour
 {
     public string anim_cur = "Idle";
     public float moveDistance = 3f;     // 왔다갔다할 거리
@@ -13,7 +14,6 @@ public class DwarfwithRay : MonoBehaviour
     public float applemissDistance = 15f;
     public float attackDistance = 1f;
     public float eatDistance = 1f;
-    public Vector2 startPos;
     bool playerfind = false;
     bool goback = false;
     bool applefind = false;
@@ -31,9 +31,11 @@ public class DwarfwithRay : MonoBehaviour
     Vector2 PlayerPos;
     Vector2 ApplePos;
 
+    public List<Transform> patrolPoints; //순찰 좌표리스트
+    private int currentPointIndex=0; //좌표리스트 인덱스
+
     void Start()
     {
-        startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         ani = GetComponent<Animator>();
@@ -122,13 +124,25 @@ public class DwarfwithRay : MonoBehaviour
             }
             else
             {
-                Vector2 targetPos = new Vector2(0, 0);
-                float xOffset = Mathf.PingPong(Time.time * speed, moveDistance * 2) - moveDistance;
-                float yOffset = Mathf.PingPong(Time.time * speed, moveDistance * 2) - moveDistance;
-                // 왔다갔다 움직임
-                targetPos = startPos + new Vector2(xOffset, 0.5f * yOffset);
-                Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
-                rb.velocity = dir * speed;
+                if (patrolPoints.Count == 0) return;
+                Vector2 NextPos = patrolPoints[currentPointIndex].position;
+                Vector2 dirToNext = (NextPos - (Vector2)transform.position).normalized;
+                rb.velocity = dirToNext * speed;
+
+                // 거리가 충분히 가까워졌으면 다음 지점으로
+                if (Vector2.Distance(transform.position, NextPos) < 0.2f)
+                {
+                    int nextIndex = (currentPointIndex + 1) % patrolPoints.Count;
+
+                    int attempts = 0;
+                    while (patrolPoints[nextIndex] == null && attempts < patrolPoints.Count)
+                    {
+                        nextIndex = (nextIndex + 1) % patrolPoints.Count;
+                        attempts++;
+                    }
+
+                    currentPointIndex = nextIndex;
+                }
             }
         }
         else if (playerfind && !goback)
@@ -147,21 +161,32 @@ public class DwarfwithRay : MonoBehaviour
         }
         else if (!playerfind && goback)
         {
-            Vector2 dirToStart = startPos - (Vector2)transform.position;
-            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide)
+            if (patrolPoints.Count == 0) return;
+
+            // 가장 가까운 순찰 지점 찾기
+            float closestDistance = float.MaxValue;
+            int closestIndex = 0;
+
+            for (int i = 0; i < patrolPoints.Count; i++)
             {
-                playerfind = true;
-                goback = false;
+                float dist = Vector2.Distance(transform.position, patrolPoints[i].position);
+                if (dist < closestDistance)
+                {
+                    closestDistance = dist;
+                    closestIndex = i;
+                }
             }
-            if (dirToStart.magnitude < 0.05f)
+
+            // 해당 지점으로 이동
+            Vector2 restartPos = patrolPoints[closestIndex].position;
+            Vector2 dirToPatrol = (restartPos - (Vector2)transform.position).normalized;
+            rb.velocity = dirToPatrol * speed;
+
+            // 도착하면 순찰 재시작
+            if (Vector2.Distance(transform.position, restartPos) < 0.2f)
             {
-                rb.velocity = Vector2.zero;
-                transform.position = startPos; // 위치 정확히 맞춤
+                currentPointIndex = closestIndex;
                 goback = false;
-            }
-            else
-            {
-                rb.velocity = dirToStart.normalized * speed;
             }
         }
     }
@@ -279,8 +304,8 @@ public class DwarfwithRay : MonoBehaviour
 
     private void ResetToStart()
     {
-        transform.position = startPos;
-
+        transform.position = patrolPoints[0].position;
+        currentPointIndex = 0;
         col.enabled = true;
         isReturning = false;
         isAttacking = false;
@@ -303,6 +328,8 @@ public class DwarfwithRay : MonoBehaviour
         anim_cur = anim;
         ani.Play(anim);
     }
+
+
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
