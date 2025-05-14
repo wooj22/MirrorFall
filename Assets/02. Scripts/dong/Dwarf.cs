@@ -112,13 +112,12 @@ public class Dwarf : MonoBehaviour
     }
     void NormalMove()
     {
-        bool isPlayerHiding = Player.GetComponent<PlayerController>().isHide;
         if (isReturning) return;
         if (applefind) return;
         if (!playerfind&&!goback)
         {
             // 플레이어 근처로 오면 추적 시작
-            if (playerdistance < findDistance&&!isPlayerHiding)
+            if (playerdistance < findDistance&&!Player.GetComponent<PlayerController>().isHide)
             {
                 playerfind = true;
             }
@@ -150,7 +149,7 @@ public class Dwarf : MonoBehaviour
         else if (!playerfind && goback)
         {
             Vector2 dirToStart = startPos - (Vector2)transform.position;
-            if (playerdistance < findDistance&&!isPlayerHiding)
+            if (playerdistance < findDistance&& !Player.GetComponent<PlayerController>().isHide)
             {
                 playerfind = true;
                 goback = false;
@@ -248,7 +247,7 @@ public class Dwarf : MonoBehaviour
     }
     void Attack()
     {
-        if (playerdistance <= attackDistance && !isAttacking && !isReturning)
+        if (playerdistance <= attackDistance && !isAttacking && !isReturning && playerfind)
         {
             // attack
             Player.GetComponent<PlayerController>().Hit("L");

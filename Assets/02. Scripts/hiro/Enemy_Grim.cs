@@ -237,6 +237,10 @@ public class Enemy_Grim : MonoBehaviour
 
     void Attack()
     {
+        bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
+
+        if (isPlayerHidden) return;
+
         if (playerdistance <= attackDistance)
         {
             player.GetComponent<PlayerController>().Hit("K");
@@ -246,6 +250,7 @@ public class Enemy_Grim : MonoBehaviour
             isAttacking = true;
             Invoke(nameof(ResetToStart), 0.5f);
         }
+
     }
 
     void Eating()
