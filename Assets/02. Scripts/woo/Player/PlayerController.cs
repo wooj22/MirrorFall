@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public Animator ani;
     [HideInInspector] public FlashLight flashLight;
     [HideInInspector] public LineRenderer lineRenderer;
+    [HideInInspector] public Inventory inventory;
 
     [Header("Player Key Input Flags")]
     [HideInInspector] public bool isMoveLKey;
@@ -116,6 +117,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         flashLight = GetComponent<FlashLight>();
         lineRenderer = GetComponent<LineRenderer>();
+        inventory = GetComponent<Inventory>();
 
         // player init
         PlayerInit();
@@ -132,8 +134,7 @@ public class PlayerController : MonoBehaviour
             // Item PickUp
             if (isInteractionKey && curFiledItem != null)
             {
-                PickUpItem(curFiledItem);
-                curFiledItem = null;
+                PickUpItem(curFiledItem); 
             }
 
             // Test (아이템 스킬 사용)     // TODO :: 인벤토리 연계
@@ -246,13 +247,24 @@ public class PlayerController : MonoBehaviour
 
 
     /*----------------- Item Interation ------------------------*/
+    // Pick Up Filed Item
     private void PickUpItem(FiledItem item)
     {
-        // 인벤토리 등에 아이템 추가 로직 넣기 (TODO)
-        Debug.Log($"{item.name} 획득");
+        // 인벤토리 꽉 찼는지 검사
+        if (inventory.IsInventoryFull())
+        {
+            Debug.Log("인벤토리가 꽉 찼습니다.");
+            return;
+        }
+        else
+        {
+            inventory.AddItem(item.name);
+            curFiledItem = null;
+            Debug.Log(item.name + "획득");
 
-        item.InterationUIOff();       // UI 꺼주고
-        Destroy(item.gameObject);     // 아이템 제거
+            item.InterationUIOff();
+            Destroy(item.gameObject);
+        }  
     }
 
 
