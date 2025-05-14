@@ -27,7 +27,14 @@ public class Enemy_Grim : MonoBehaviour
     public float rayDistance = 1f; // 레이의 최대 거리
     public LayerMask wallLayer;
     private Vector2 rayDirection;
-    private Vector2 originalDirection; // 원래 가던 방향을 저장
+
+    private bool isAvoiding = false;
+    private Vector2 avoidDir = Vector2.zero;
+    private float avoidCooldown = 0f;
+    public float avoidDuration = 0.5f; // 회피 방향 유지 시간
+
+    public List<Transform> patrolPoints;
+    private int currentPointIndex = 0;
 
     // map
     public float minX = -10f;
@@ -35,7 +42,7 @@ public class Enemy_Grim : MonoBehaviour
     public float minY = -5f;
     public float maxY = 5f;
 
-    private bool find = false;
+    private bool playerfind = false;
     private bool applefind = false;
     private bool isReturning = false;
     private bool isAttacking = false;
@@ -129,52 +136,98 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
+    private Vector2[] diagonalDirs = new Vector2[]
+    {
+        new Vector2(1f, 0.5f).normalized, 
+        new Vector2(-1f, 0.5f).normalized,  
+        new Vector2(-1f, -0.5f).normalized, 
+        new Vector2(1f, -0.5f).normalized 
+    };
 
     void NormalMove()
     {
-        if (isReturning) return;
-        if (applefind) return;
-        if (isAttacking) return;
+        if (isReturning || applefind || isAttacking) return;
 
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
 
-
-        if (!find)
+        if (!playerfind)
         {
-            // 플레이어 근처로 오면 추적 시작
             if (playerdistance < findDistance && !isPlayerHidden)
             {
-                find = true;
+                playerfind = true;
             }
             else
             {
-                Vector2 targetPos= new Vector2(0,0);
-                float xOffset = Mathf.PingPong(Time.time * speed, moveDistanceX * 2) - moveDistanceX;
-                float yOffset = Mathf.PingPong(Time.time * speed, moveDistanceY * 2) - moveDistanceY;
-                // 왔다갔다 움직임
-                targetPos = newPos + new Vector2(xOffset, yOffset * 0.5f);
-                Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
-                rb.velocity = dir * speed;
+                if (patrolPoints.Count == 0) return;
+
+                Vector2 nextPos = patrolPoints[currentPointIndex].position;
+                Vector2 dirToNext = (nextPos - (Vector2)transform.position).normalized;
+
+                if (isAvoiding)
+                {
+                    // 회피 상태일 때
+                    rb.velocity = avoidDir * speed;
+                    avoidCooldown -= Time.deltaTime; // 쿨다운 시간 감소
+
+                    if (avoidCooldown <= 0f)
+                    {
+                        isAvoiding = false; // 쿨다운 끝나면 회피 해제
+                    }
+                    return; // 회피 중에는 다른 이동 안 함
+                }
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToNext, rayDistance, wallLayer);
+
+                if (hit.collider != null)
+                {
+                    // 벽을 만났을 때 회피
+                    foreach (var dir in diagonalDirs)
+                    {
+                        RaycastHit2D check = Physics2D.Raycast(transform.position, dir, rayDistance, wallLayer);
+                        if (check.collider == null)
+                        {
+                            // 벽이 없다면 회피 시작
+                            avoidDir = dir;
+                            isAvoiding = true;
+                            avoidCooldown = avoidDuration; // 쿨다운 시간 설정
+                            rb.velocity = avoidDir * speed;
+                            return; // 회피 중에는 이동 안 함
+                        }
+                    }
+
+                    rb.velocity = Vector2.zero; // 벽이 있는데 회피할 방향이 없으면 멈춤
+                }
+                else
+                {
+                    // 회피 상태가 아니면 정상적으로 이동
+                    rb.velocity = dirToNext * speed;
+                }
+
+                // 순찰 지점 갱신
+                if (Vector2.Distance(transform.position, nextPos) < 0.2f)
+                {
+                    currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
+                }
             }
         }
         else
         {
+            // 플레이어 추적
             if (playerdistance > missDistance)
             {
                 if (isPlayerHidden)
                 {
                     rb.velocity = Vector2.zero;
-                    find = false;
+                    playerfind = false;
                     return;
                 }
 
-                // 원래 위치로 돌아가기
                 Vector2 dirToStart = startPos - (Vector2)transform.position;
                 if (dirToStart.magnitude < 0.05f)
                 {
                     rb.velocity = Vector2.zero;
                     transform.position = startPos; // 위치 정확히 맞춤
-                    find = false;
+                    playerfind = false;
                 }
                 else
                 {
@@ -185,14 +238,31 @@ public class Enemy_Grim : MonoBehaviour
             {
                 // 플레이어 추적
                 Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
-                //Vector2 avoidDir = ObstacleAvoidance();
-                //rb.velocity = avoidDir * speed;
                 rb.velocity = dirToPlayer * speed;
-
-
             }
         }
     }
+
+    List<Vector2> GetEvadeDirections(Vector2 currentDir)
+    {
+        List<Vector2> result = new List<Vector2>();
+
+        // 현재 방향의 반시계 방향과 시계 방향 회전 벡터를 우선 순위로 둠
+        Vector2 leftTurn = new Vector2(-currentDir.y, currentDir.x).normalized;
+        Vector2 rightTurn = new Vector2(currentDir.y, -currentDir.x).normalized;
+
+        // 대각선으로 약간 비튼 방향 추가
+        result.Add((currentDir + leftTurn).normalized);
+        result.Add((currentDir + rightTurn).normalized);
+
+        // 마지막 수단: 완전 반대
+        result.Add(-currentDir);
+
+        return result;
+    }
+
+
+
 
     void MovetoApple()
     {
@@ -214,8 +284,6 @@ public class Enemy_Grim : MonoBehaviour
             appledistance = Vector2.Distance(transform.position, applePos);
 
             Vector2 dirToApple = (applePos - (Vector2)transform.position).normalized;
-            //Vector2 avoidDir = ObstacleAvoidance();
-            //rb.velocity = avoidDir * speed;
             rb.velocity = dirToApple * speed;
 
             if (appledistance > applemissDistance)
@@ -276,7 +344,7 @@ public class Enemy_Grim : MonoBehaviour
         newPos = GetRandomPositionAwayFromPlayer(15f, 20f);
         transform.position = newPos;
         startPos = newPos;
-        find = false;
+        playerfind = false;
         col.enabled = true;
         isAttacking = false;
         isReturning = false;
@@ -287,7 +355,7 @@ public class Enemy_Grim : MonoBehaviour
         col.enabled = true;
         isReturning = false;
         isEating = false;
-        find = true;
+        playerfind = true;
     }
     private void SetAnimation(string anim)
     {
@@ -352,16 +420,6 @@ public class Enemy_Grim : MonoBehaviour
             }
 
             rb.velocity = rayDirection * speed;
-
-            //originalDirection = rayDirection;
-        }
-        else
-        {
-            if (originalDirection != Vector2.zero)
-            {
-                rb.velocity = originalDirection * speed;  // 원래 방향으로 이동
-                Debug.Log("벽이 감지되지 않음, 원래 방향으로 전환");
-            }
         }
 
         // 레이 시각화 (디버그용)
