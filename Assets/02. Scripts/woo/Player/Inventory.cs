@@ -11,14 +11,14 @@ public class Inventory : MonoBehaviour
     [SerializeField] private bool isFull;
 
     [Header ("UI")]
-    [SerializeField] private Transform inventory;           // 여기에 아이템 UI 추가
+    [SerializeField] private Transform inventory;
     [SerializeField] private GameObject appleItemUI_Prefab;
     [SerializeField] private GameObject brightItemUI_Prefab;
     [SerializeField] private GameObject hourglassItemUI_Prefab;
 
     public bool IsInventoryFull() { return isFull; }
 
-    /// 아이템 추가
+    /// Add Item
     public void AddItem(string itemName)
     {
         if (items.Count < inventorySize)
@@ -49,7 +49,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    /// Remove Item (1,2,3)
+    /// Remove Item (사용한 아이템)
     public void RemoveItem(int index)
     {
         int listIndex = index - 1;
@@ -61,26 +61,27 @@ public class Inventory : MonoBehaviour
         SortingInventory();
     }
 
-    /// index의 아이템 이름 return (1,2,3)
+    /// Item name Getter
     public string GetIndexItemName(int index)
     {
-        if (index >= 0 && index <= items.Count)
+        int listIndex = index - 1;
+        if (listIndex >= 0 && listIndex < items.Count)
         {
-            return items[index-1];
+            return items[listIndex];
         }
-        return "";
+        return null;
     }
 
-    /// 인벤토리 정렬
+    /// Inventory Sort
     public void SortingInventory()
     {
-        // 현재 UI 전부 제거
+        // 전부 제거
         foreach (Transform child in inventory)
         {
             Destroy(child.gameObject);
         }
 
-        // UI 다시 정렬
+        // 다시 정렬
         foreach (string itemName in items)
         {
             GameObject itemUI = null;

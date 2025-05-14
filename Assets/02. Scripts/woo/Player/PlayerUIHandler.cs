@@ -21,12 +21,6 @@ public class PlayerUIHandler : MonoBehaviour
         }
     }
 
-    /// 씬을 이동하면서 그 씬에 배치된 UI를 찾아야함
-    void FindSetUI()
-    {
-        Hdu_Image = GameObject.Find("HDU_Image").GetComponent<Image>();
-    }
-
     // Update HP UI
     public void UpdateHpUI(int curHp)
     {
