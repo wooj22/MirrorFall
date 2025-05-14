@@ -283,10 +283,11 @@ public class Dwarf : MonoBehaviour
     {
         transform.position = startPos;
 
-        playerfind = false;
         col.enabled = true;
         isReturning = false;
         isAttacking = false;
+        playerfind = false;
+        goback = false;
     }
 
     private void ReGoing()
@@ -294,6 +295,7 @@ public class Dwarf : MonoBehaviour
         col.enabled = true;
         isReturning = false;
         isEating = false;
+        playerfind = false;
         goback = true;
     }
 
