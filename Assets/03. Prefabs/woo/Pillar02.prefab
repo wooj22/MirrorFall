@@ -161,8 +161,8 @@ GameObject:
   - component: {fileID: 758813429472432784}
   - component: {fileID: 7447360302315197450}
   - component: {fileID: 9002775204705061827}
-  - component: {fileID: 7241417705086963999}
   - component: {fileID: 9144332424714844319}
+  - component: {fileID: 2059342372664759054}
   m_Layer: 0
   m_Name: Pillar02
   m_TagString: Untagged
@@ -331,7 +331,22 @@ EdgeCollider2D:
   m_AdjacentEndPoint: {x: 0, y: 0}
   m_UseAdjacentStartPoint: 0
   m_UseAdjacentEndPoint: 0
---- !u!114 &7241417705086963999
+--- !u!114 &9144332424714844319
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4397051235519962223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e438863cc47d3d64b8bde3a4a0649f63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0.2
+  targetAlpha: 0.1
+  top: {fileID: 758813429472432784}
+--- !u!114 &2059342372664759054
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -351,28 +366,13 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -0.31932914, y: -1.8, z: 0}
-  - {x: -0.31179774, y: -1.3, z: 0}
-  - {x: 0.15, y: -1.3, z: 0}
-  - {x: 0.15, y: -1.8, z: 0}
-  m_ShapePathHash: 1969791629
+  - {x: -0.22585464, y: -0.56174684, z: 0}
+  - {x: -0.22585452, y: -0.17949939, z: 0}
+  - {x: 0.22585464, y: -0.16773355, z: 0}
+  - {x: 0.22585464, y: -0.5735127, z: 0}
+  m_ShapePathHash: -1413801467
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45218
+  m_InstanceId: -50072
   m_LocalBounds:
-    m_Center: {x: -0.08466457, y: -1.55, z: 0}
-    m_Extent: {x: 0.23466457, y: 0.25, z: 0}
---- !u!114 &9144332424714844319
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4397051235519962223}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e438863cc47d3d64b8bde3a4a0649f63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeDuration: 0.2
-  targetAlpha: 0.1
-  top: {fileID: 758813429472432784}
+    m_Center: {x: 0, y: -0.3706231, z: 0}
+    m_Extent: {x: 0.22585464, y: 0.20288956, z: 0}
