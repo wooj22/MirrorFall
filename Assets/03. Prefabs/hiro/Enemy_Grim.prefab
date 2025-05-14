@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 7573325865339373338}
   - component: {fileID: 3325930351249124799}
   - component: {fileID: 5370269463350273474}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Enemy_Grim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
