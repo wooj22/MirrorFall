@@ -131,57 +131,8 @@ public class PlayerController : MonoBehaviour
             MoveInputUpdate();
             WayUpdate();
 
-            // Item PickUp
-            if (isInteractionKey && curFiledItem != null)
-            {
-                PickUpItem(curFiledItem); 
-            }
-
-            // Item 사용 -> 스킬
-            if (Input.GetKeyDown(KeyCode.Alpha1))
-            {
-                string itemName = inventory.GetIndexItemName(1);
-                if (itemName == null)
-                {
-                    Debug.Log("1번 슬롯에 아이템이 없습니다");
-                    return;
-                }
-                SkillInvocation(itemName);
-                inventory.RemoveItem(1);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha2))
-            {
-                string itemName = inventory.GetIndexItemName(2);
-                if (itemName == null)
-                {
-                    Debug.Log("1번 슬롯에 아이템이 없습니다");
-                    return;
-                }
-                SkillInvocation(itemName);
-                inventory.RemoveItem(2);
-            }
-
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                string itemName = inventory.GetIndexItemName(3);
-                if (itemName == null)
-                {
-                    Debug.Log("1번 슬롯에 아이템이 없습니다");
-                    return;
-                }
-                SkillInvocation(itemName);
-                inventory.RemoveItem(3);
-            }
-
-            // Test (아이템 스킬 사용)     // TODO :: 인벤토리 연계
-            //if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
-            //if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
-            //if (Input.GetKeyDown(KeyCode.Alpha3))
-            //{
-            //    HourGlassSkill();
-            //    Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
-            //}
+            ItemInputCheak();
+            SkillInputCheak();
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -284,6 +235,15 @@ public class PlayerController : MonoBehaviour
 
 
     /*----------------- Item Interation ------------------------*/
+    /// Item Input Cheak
+    public void ItemInputCheak()
+    {
+        // Item PickUp
+        if (isInteractionKey && curFiledItem != null)
+        {
+            PickUpItem(curFiledItem);
+        }
+    }
 
 
     // Pick Up Filed Item
@@ -305,6 +265,47 @@ public class PlayerController : MonoBehaviour
 
 
     /*------------------------- Skill -------------------------------*/
+    /// Skill Input Cheak
+    public void SkillInputCheak()
+    {
+        // Item 사용 -> 스킬
+        if (isItem1Key)
+        {
+            string itemName = inventory.GetIndexItemName(1);
+            if (itemName == null)
+            {
+                Debug.Log("1번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(1);
+        }
+
+        if (isItem2Key)
+        {
+            string itemName = inventory.GetIndexItemName(2);
+            if (itemName == null)
+            {
+                Debug.Log("2번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(2);
+        }
+
+        if (isItem3Key)
+        {
+            string itemName = inventory.GetIndexItemName(3);
+            if (itemName == null)
+            {
+                Debug.Log("3번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(3);
+        }
+    }
+
     /// Skill 발동
     private void SkillInvocation(string skill)
     {
@@ -413,6 +414,7 @@ public class PlayerController : MonoBehaviour
         sr.color = color;
         invisibleCo = null;
     }
+
 
     /*------------------------- Event -------------------------------*/
     /// Hit
