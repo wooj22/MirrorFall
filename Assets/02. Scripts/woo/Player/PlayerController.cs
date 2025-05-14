@@ -137,14 +137,51 @@ public class PlayerController : MonoBehaviour
                 PickUpItem(curFiledItem); 
             }
 
-            // Test (아이템 스킬 사용)     // TODO :: 인벤토리 연계
-            if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
+            // Item 사용 -> 스킬
+            if (Input.GetKeyDown(KeyCode.Alpha1))
+            {
+                string itemName = inventory.GetIndexItemName(1);
+                if (itemName == null)
+                {
+                    Debug.Log("1번 슬롯에 아이템이 없습니다");
+                    return;
+                }
+                SkillInvocation(itemName);
+                inventory.RemoveItem(1);
+            }
+
+            if (Input.GetKeyDown(KeyCode.Alpha2))
+            {
+                string itemName = inventory.GetIndexItemName(2);
+                if (itemName == null)
+                {
+                    Debug.Log("1번 슬롯에 아이템이 없습니다");
+                    return;
+                }
+                SkillInvocation(itemName);
+                inventory.RemoveItem(2);
+            }
+
             if (Input.GetKeyDown(KeyCode.Alpha3))
             {
-                HourGlassSkill();
-                Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
+                string itemName = inventory.GetIndexItemName(3);
+                if (itemName == null)
+                {
+                    Debug.Log("1번 슬롯에 아이템이 없습니다");
+                    return;
+                }
+                SkillInvocation(itemName);
+                inventory.RemoveItem(3);
             }
+
+            // Test (아이템 스킬 사용)     // TODO :: 인벤토리 연계
+            //if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
+            //if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
+            //if (Input.GetKeyDown(KeyCode.Alpha3))
+            //{
+            //    HourGlassSkill();
+            //    Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
+            //}
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -247,6 +284,8 @@ public class PlayerController : MonoBehaviour
 
 
     /*----------------- Item Interation ------------------------*/
+
+
     // Pick Up Filed Item
     private void PickUpItem(FiledItem item)
     {
@@ -266,6 +305,26 @@ public class PlayerController : MonoBehaviour
 
 
     /*------------------------- Skill -------------------------------*/
+    /// Skill 발동
+    private void SkillInvocation(string skill)
+    {
+        switch (skill)
+        {
+            case "Apple_Item":
+                ChangeState(PlayerState.Thrrow);
+                break;
+            case "Bright_Item":
+                BrightSkill();
+                break;
+            case "Hourglass_Item":
+                HourGlassSkill();
+                Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
+                break;
+            default:
+                break;
+        }
+    }
+
     /// 1. Apple Thrrow 유인 (state)
     public void AppleThrrow()
     {

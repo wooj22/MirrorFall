@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
@@ -10,7 +11,7 @@ public class Inventory : MonoBehaviour
     [SerializeField] private bool isFull;
 
     [Header ("UI")]
-    [SerializeField] private Transform inventory;           // 여기에 아이템 추가
+    [SerializeField] private Transform inventory;           // 여기에 아이템 UI 추가
     [SerializeField] private GameObject appleItemUI_Prefab;
     [SerializeField] private GameObject brightItemUI_Prefab;
     [SerializeField] private GameObject hourglassItemUI_Prefab;
@@ -20,30 +21,24 @@ public class Inventory : MonoBehaviour
     /// 아이템 추가
     public void AddItem(string itemName)
     {
-        if (isFull) return;
-
         if (items.Count < inventorySize)
         {
             items.Add(itemName);
 
             GameObject itemUI = null;
-            Debug.Log(itemName);
             switch (itemName)
             {
                 case "Apple_Item":
                     itemUI = Instantiate(appleItemUI_Prefab);
                     itemUI.transform.SetParent(inventory);
-                    Debug.Log("Apple_Item UI 추가");
                     break;
                 case "Bright_Item":
                     itemUI = Instantiate(brightItemUI_Prefab);
                     itemUI.transform.SetParent(inventory);
-                    Debug.Log("Bright_Item UI 추가");
                     break;
                 case "Hourglass_Item":
                     itemUI = Instantiate(hourglassItemUI_Prefab);
                     itemUI.transform.SetParent(inventory);
-                    Debug.Log("Hourglass_Item UI 추가");
                     break;
                 default:
                     break;
@@ -54,7 +49,29 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    // 인벤토리 정렬
+    /// Remove Item (1,2,3)
+    public void RemoveItem(int index)
+    {
+        int listIndex = index - 1;
+        if (listIndex < 0 || listIndex >= items.Count)
+            return;
+
+        items.RemoveAt(listIndex);
+        isFull = items.Count >= inventorySize;
+        SortingInventory();
+    }
+
+    /// index의 아이템 이름 return (1,2,3)
+    public string GetIndexItemName(int index)
+    {
+        if (index >= 0 && index <= items.Count)
+        {
+            return items[index-1];
+        }
+        return "";
+    }
+
+    /// 인벤토리 정렬
     public void SortingInventory()
     {
         // 현재 UI 전부 제거
