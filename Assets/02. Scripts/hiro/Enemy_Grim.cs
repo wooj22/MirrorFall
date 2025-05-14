@@ -10,8 +10,6 @@ public class Enemy_Grim : MonoBehaviour
 {
     // ai
     public string anim_cur = "Idle";
-    public float moveDistanceX = 3f;     // 왔다갔다할 거리
-    public float moveDistanceY = 3f;
     public float speed = 2f;            // 이동 속도
     public float findDistance = 5f;
     public float missDistance = 7f;
@@ -75,6 +73,7 @@ public class Enemy_Grim : MonoBehaviour
     void Update()
     {
         //Debug.Log(playerdistance);
+
         RaycastCheck();
         PlayerCheck();
         AppleCheck();
@@ -138,10 +137,10 @@ public class Enemy_Grim : MonoBehaviour
 
     private Vector2[] diagonalDirs = new Vector2[]
     {
-        new Vector2(1f, 0.5f).normalized, 
-        new Vector2(-1f, 0.5f).normalized,  
-        new Vector2(-1f, -0.5f).normalized, 
-        new Vector2(1f, -0.5f).normalized 
+        new Vector2(1f, 0.5f).normalized,   // 오른쪽 위
+        new Vector2(-1f, 0.5f).normalized,  // 왼쪽 위
+        new Vector2(-1f, -0.5f).normalized, // 왼쪽 아래
+        new Vector2(1f, -0.5f).normalized   // 오른쪽 아래
     };
 
     void NormalMove()
@@ -180,19 +179,49 @@ public class Enemy_Grim : MonoBehaviour
 
                 if (hit.collider != null)
                 {
-                    // 벽을 만났을 때 회피
+
+                    // 방향 기반 우선순위 회피 방향 리스트 만들기
+                    List<Vector2> preferredDirs = new List<Vector2>();
+
+                    // 현재 방향이 왼쪽 아래일 때 (-1, -0.5f)
+                    if (Approximately(dirToNext, new Vector2(-1f, -0.5f)))
+                    {
+                        preferredDirs.Add(new Vector2(-1f, 0.5f).normalized); // 왼쪽 위
+                        preferredDirs.Add(new Vector2(1f, -0.5f).normalized); // 오른쪽 아래
+                    }
+                    else
+                    {
+                        // 기본 회피 방향
+                        preferredDirs.AddRange(diagonalDirs);
+                    }
+
+                    // 회피 방향 검사
+                    foreach (var dir in preferredDirs)
+                    {
+                        RaycastHit2D check = Physics2D.Raycast(transform.position, dir, rayDistance, wallLayer);
+                        if (check.collider == null)
+                        {
+                            avoidDir = dir;
+                            isAvoiding = true;
+                            avoidCooldown = avoidDuration;
+                            rb.velocity = avoidDir * speed;
+                            return;
+                        }
+                    }
+
+                    // 그 외의 경우는 기존 회피 로직 수행
                     foreach (var dir in diagonalDirs)
                     {
                         RaycastHit2D check = Physics2D.Raycast(transform.position, dir, rayDistance, wallLayer);
                         if (check.collider == null)
                         {
-                            // 벽이 없다면 회피 시작
                             avoidDir = dir;
                             isAvoiding = true;
-                            avoidCooldown = avoidDuration; // 쿨다운 시간 설정
+                            avoidCooldown = avoidDuration;
                             rb.velocity = avoidDir * speed;
-                            return; // 회피 중에는 이동 안 함
+                            return;
                         }
+
                     }
 
                     rb.velocity = Vector2.zero; // 벽이 있는데 회피할 방향이 없으면 멈춤
@@ -243,26 +272,10 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    List<Vector2> GetEvadeDirections(Vector2 currentDir)
+    private bool Approximately(Vector2 a, Vector2 b, float threshold = 0.1f)
     {
-        List<Vector2> result = new List<Vector2>();
-
-        // 현재 방향의 반시계 방향과 시계 방향 회전 벡터를 우선 순위로 둠
-        Vector2 leftTurn = new Vector2(-currentDir.y, currentDir.x).normalized;
-        Vector2 rightTurn = new Vector2(currentDir.y, -currentDir.x).normalized;
-
-        // 대각선으로 약간 비튼 방향 추가
-        result.Add((currentDir + leftTurn).normalized);
-        result.Add((currentDir + rightTurn).normalized);
-
-        // 마지막 수단: 완전 반대
-        result.Add(-currentDir);
-
-        return result;
+        return Vector2.Distance(a.normalized, b.normalized) < threshold;
     }
-
-
-
 
     void MovetoApple()
     {
@@ -292,6 +305,7 @@ public class Enemy_Grim : MonoBehaviour
             }
         }
     }
+
 
     void Playani()
     {
@@ -404,9 +418,6 @@ public class Enemy_Grim : MonoBehaviour
         // 레이가 벽에 충돌했는지 체크
         if (hit.collider != null)
         {
-            // 벽과 충돌했을 때
-            Debug.Log("벽을 감지함: " + hit.collider.name);
-
             // 현재 벽을 감지한 방향에서 회전
             if (velocity.x >= 0)
             {
