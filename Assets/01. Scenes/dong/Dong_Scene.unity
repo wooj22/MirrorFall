@@ -476,7 +476,6 @@ MonoBehaviour:
   applemissDistance: 15
   attackDistance: 1
   eatDistance: 1
-  startPos: {x: 0, y: 0}
   patrolPoints:
   - {fileID: 1238237497}
   - {fileID: 481071740}
@@ -564,7 +563,7 @@ Transform:
   m_GameObject: {fileID: 723892268}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 5.94, y: -2.63, z: 0}
   m_LocalScale: {x: 2, y: 2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -791,11 +790,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 6.5017586
+      value: 16.76
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -4.7540326
+      value: -10.97
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.z

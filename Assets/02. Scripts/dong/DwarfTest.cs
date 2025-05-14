@@ -118,7 +118,7 @@ public class DwarfTest : MonoBehaviour
         if (!playerfind && !goback)
         {
             // 플레이어 근처로 오면 추적 시작
-            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide)
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide &&PlayerInSight())
             {
                 playerfind = true;
             }
@@ -322,6 +322,15 @@ public class DwarfTest : MonoBehaviour
         goback = true;
     }
 
+    private bool PlayerInSight()
+    {
+        if (Player == null) return false;
+        Vector2 toPlayer = (PlayerPos - (Vector2)transform.position).normalized;
+        Vector2 forward = rb.velocity.normalized;
+        float angle = Vector2.Angle(forward, toPlayer);
+        return angle < 60f;
+    }
+
     private void SetAnimation(string anim)
     {
         if (anim_cur == anim) return;
@@ -338,6 +347,24 @@ public class DwarfTest : MonoBehaviour
         Gizmos.DrawWireSphere(transform.position, applefindDistance);
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, findDistance);
+        // 120도 시야각 시각화 (±60도)
+        Gizmos.color = Color.yellow;
+
+        Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
+        if (forward == Vector2.zero) forward = Vector2.right; // 디폴트 방향
+
+        float halfAngle = 60f;
+
+        // 시야각 끝 방향 계산
+        Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;
+        Vector2 rightDir = Quaternion.Euler(0, 0, halfAngle) * forward;
+
+        // 시야각 라인 길이 (findDistance만큼)
+        float length = findDistance;
+
+        // 시야각 라인 그리기
+        Gizmos.DrawRay(transform.position, leftDir * length);
+        Gizmos.DrawRay(transform.position, rightDir * length);
     }
 #endif
 
