@@ -400,7 +400,7 @@ public class PlayerController : MonoBehaviour
         // item interation
         if (collision.gameObject.CompareTag("Item"))
         {
-            PlayerUIHandler.Instance.InteractionUIOn("ащ╠Б [F]");
+            collision.gameObject.GetComponent<FiledItem>().InterationUIOn();
         }
     }
 
@@ -415,7 +415,7 @@ public class PlayerController : MonoBehaviour
         // item interation
         if (collision.gameObject.CompareTag("Item"))
         {
-            PlayerUIHandler.Instance.InterationUIOff();
+            collision.gameObject.GetComponent<FiledItem>().InterationUIOff();
         }
     }
 
