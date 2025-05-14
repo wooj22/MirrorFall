@@ -68,12 +68,16 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (체크용으로 인스펙터 잠깐 빼둠)
     [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (체크용으로 인스펙터 잠깐 빼둠)
 
+    // item interation
+    private FiledItem curFiledItem = null;
+
     // Components
     [HideInInspector] public SpriteRenderer sr;
     [HideInInspector] public Rigidbody2D rb;
     [HideInInspector] public Animator ani;
     [HideInInspector] public FlashLight flashLight;
     [HideInInspector] public LineRenderer lineRenderer;
+    [HideInInspector] public Inventory inventory;
 
     [Header("Player Key Input Flags")]
     [HideInInspector] public bool isMoveLKey;
@@ -113,6 +117,7 @@ public class PlayerController : MonoBehaviour
         sr = GetComponent<SpriteRenderer>();
         flashLight = GetComponent<FlashLight>();
         lineRenderer = GetComponent<LineRenderer>();
+        inventory = GetComponent<Inventory>();
 
         // player init
         PlayerInit();
@@ -126,18 +131,12 @@ public class PlayerController : MonoBehaviour
             MoveInputUpdate();
             WayUpdate();
 
+            ItemInputCheak();
+            SkillInputCheak();
+
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
             if (Input.GetKeyDown(KeyCode.L)) Hit("L");
-
-            // Test (아이템 사용)
-            if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
-            if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
-            if (Input.GetKeyDown(KeyCode.Alpha3))
-            {
-                HourGlassSkill();
-                Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
-            }
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -235,7 +234,98 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /*----------------- Item Interation ------------------------*/
+    /// Item Input Cheak
+    public void ItemInputCheak()
+    {
+        // Item PickUp
+        if (isInteractionKey && curFiledItem != null)
+        {
+            PickUpItem(curFiledItem);
+        }
+    }
+
+
+    // Pick Up Filed Item
+    private void PickUpItem(FiledItem item)
+    {
+        if (inventory.IsInventoryFull())
+        {
+            Debug.Log("인벤토리가 꽉 찼습니다.");
+            return;
+        }
+        else
+        {
+            inventory.AddItem(item.name);
+            curFiledItem = null;
+            item.InterationUIOff();
+            Destroy(item.gameObject);
+        }  
+    }
+
+
     /*------------------------- Skill -------------------------------*/
+    /// Skill Input Cheak
+    public void SkillInputCheak()
+    {
+        // Item 사용 -> 스킬
+        if (isItem1Key)
+        {
+            string itemName = inventory.GetIndexItemName(1);
+            if (itemName == null)
+            {
+                Debug.Log("1번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(1);
+        }
+
+        if (isItem2Key)
+        {
+            string itemName = inventory.GetIndexItemName(2);
+            if (itemName == null)
+            {
+                Debug.Log("2번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(2);
+        }
+
+        if (isItem3Key)
+        {
+            string itemName = inventory.GetIndexItemName(3);
+            if (itemName == null)
+            {
+                Debug.Log("3번 슬롯에 아이템이 없습니다");
+                return;
+            }
+            SkillInvocation(itemName);
+            inventory.RemoveItem(3);
+        }
+    }
+
+    /// Skill 발동
+    private void SkillInvocation(string skill)
+    {
+        switch (skill)
+        {
+            case "Apple_Item":
+                ChangeState(PlayerState.Thrrow);
+                break;
+            case "Bright_Item":
+                BrightSkill();
+                break;
+            case "Hourglass_Item":
+                HourGlassSkill();
+                Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
+                break;
+            default:
+                break;
+        }
+    }
+
     /// 1. Apple Thrrow 유인 (state)
     public void AppleThrrow()
     {
@@ -398,9 +488,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // item interation
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
-            PlayerUIHandler.Instance.InteractionUIOn("줍기 [F]");
+            curFiledItem = collision.GetComponent<FiledItem>();
+            curFiledItem.InterationUIOn();
         }
     }
 
@@ -413,9 +504,13 @@ public class PlayerController : MonoBehaviour
         }
 
         // item interation
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
-            PlayerUIHandler.Instance.InterationUIOff();
+            if (curFiledItem != null)
+            {
+                curFiledItem.InterationUIOff();
+                curFiledItem = null;
+            }
         }
     }
 
