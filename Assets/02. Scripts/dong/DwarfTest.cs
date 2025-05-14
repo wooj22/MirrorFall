@@ -33,6 +33,7 @@ public class DwarfTest : MonoBehaviour
 
     public List<Transform> patrolPoints; //순찰 좌표리스트
     private int currentPointIndex=0; //좌표리스트 인덱스
+    float detectTimer = 0f;//감지시간
 
     void Start()
     {
@@ -120,10 +121,20 @@ public class DwarfTest : MonoBehaviour
             // 플레이어 근처로 오면 추적 시작
             if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide &&PlayerInSight())
             {
-                playerfind = true;
+                detectTimer += Time.deltaTime;
+                if (detectTimer >= 1.0f)
+                {
+                    playerfind = true;
+                    detectTimer = 0f;
+                }
+                else
+                {
+                    rb.velocity = Vector2.zero;
+                }
             }
             else
             {
+                detectTimer = 0f;
                 if (patrolPoints.Count == 0) return;
                 Vector2 NextPos = patrolPoints[currentPointIndex].position;
                 Vector2 dirToNext = (NextPos - (Vector2)transform.position).normalized;
@@ -220,54 +231,33 @@ public class DwarfTest : MonoBehaviour
     }
     void Playani()
     {
-        if (rb.velocity.x == 0 && rb.velocity.y == 0 && isAttacking)
+        Vector2 vel = rb.velocity;
+
+        // 공격 중일 때
+        if (vel == Vector2.zero && isAttacking)
         {
-            if (transform.position.x <= PlayerPos.x && transform.position.y <= PlayerPos.y)
-            {
-                SetAnimation("Attack");
-                spr.flipX = false;
-            }
-            else if (transform.position.x <= PlayerPos.x && transform.position.y > PlayerPos.y)
-            {
-                SetAnimation("Attack1");
-                spr.flipX = false;
-            }
-            else if (transform.position.x > PlayerPos.x && transform.position.y <= PlayerPos.y)
-            {
-                SetAnimation("Attack");
-                spr.flipX = true;
-            }
-            else if (transform.position.x > PlayerPos.x && transform.position.y > PlayerPos.y)
-            {
-                SetAnimation("Attack1");
-                spr.flipX = true;
-            }
+            bool isRight = transform.position.x <= PlayerPos.x;
+            bool isUp = transform.position.y <= PlayerPos.y;
+
+            SetAnimation(isUp ? "Attack" : "Attack1");
+            spr.flipX = !isRight;
+            return;
         }
-        else if (rb.velocity.x == 0 && rb.velocity.y == 0)
+
+        // 대기 상태
+        if (vel == Vector2.zero)
         {
             SetAnimation("Idle");
             spr.flipX = false;
+            return;
         }
-        else if (rb.velocity.x >= 0 && rb.velocity.y >= 0)
-        {
-            SetAnimation("Walk1");
-            spr.flipX = false;
-        }
-        else if (rb.velocity.x >= 0 && rb.velocity.y < 0)
-        {
-            SetAnimation("Walk");
-            spr.flipX = false;
-        }
-        else if (rb.velocity.x < 0 && rb.velocity.y >= 0)
-        {
-            SetAnimation("Walk1");
-            spr.flipX = true;
-        }
-        else if (rb.velocity.x < 0 && rb.velocity.y < 0)
-        {
-            SetAnimation("Walk");
-            spr.flipX = true;
-        }
+
+        // 이동 중
+        bool movingRight = vel.x >= 0;
+        bool movingUp = vel.y >= 0;
+
+        SetAnimation(movingUp ? "Walk1" : "Walk");
+        spr.flipX = !movingRight;
     }
     void Attack()
     {
@@ -328,7 +318,7 @@ public class DwarfTest : MonoBehaviour
         Vector2 toPlayer = (PlayerPos - (Vector2)transform.position).normalized;
         Vector2 forward = rb.velocity.normalized;
         float angle = Vector2.Angle(forward, toPlayer);
-        return angle < 60f;
+        return angle < 55f;
     }
 
     private void SetAnimation(string anim)
@@ -353,7 +343,7 @@ public class DwarfTest : MonoBehaviour
         Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
         if (forward == Vector2.zero) forward = Vector2.right; // 디폴트 방향
 
-        float halfAngle = 60f;
+        float halfAngle = 55f;
 
         // 시야각 끝 방향 계산
         Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;
