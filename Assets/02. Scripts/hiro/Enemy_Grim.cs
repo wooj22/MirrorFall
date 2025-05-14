@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
@@ -22,7 +23,11 @@ public class Enemy_Grim : MonoBehaviour
     private int upSorting = 150;
     private int downSorting = 50;
 
-    public LayerMask obstacleLayer;
+    // raycast
+    public float rayDistance = 1f; // 레이의 최대 거리
+    public LayerMask wallLayer;
+    private Vector2 rayDirection;
+    private Vector2 originalDirection; // 원래 가던 방향을 저장
 
     // map
     public float minX = -10f;
@@ -63,7 +68,7 @@ public class Enemy_Grim : MonoBehaviour
     void Update()
     {
         //Debug.Log(playerdistance);
-
+        RaycastCheck();
         PlayerCheck();
         AppleCheck();
         Playani();
@@ -133,6 +138,7 @@ public class Enemy_Grim : MonoBehaviour
 
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
 
+
         if (!find)
         {
             // 플레이어 근처로 오면 추적 시작
@@ -179,19 +185,10 @@ public class Enemy_Grim : MonoBehaviour
             {
                 // 플레이어 추적
                 Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
-                float rayDistance = playerdistance;
+                //Vector2 avoidDir = ObstacleAvoidance();
+                //rb.velocity = avoidDir * speed;
+                rb.velocity = dirToPlayer * speed;
 
-                RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToPlayer, rayDistance, obstacleLayer);
-                if (hit.collider == null)
-                {
-                    rb.velocity = dirToPlayer * speed;
-                }
-                else
-                {
-                    Vector2 hitNormal = hit.normal;
-                    Vector2 evadeDirection = Vector2.Perpendicular(hitNormal);
-                    rb.velocity = evadeDirection * speed;
-                }
 
             }
         }
@@ -217,6 +214,8 @@ public class Enemy_Grim : MonoBehaviour
             appledistance = Vector2.Distance(transform.position, applePos);
 
             Vector2 dirToApple = (applePos - (Vector2)transform.position).normalized;
+            //Vector2 avoidDir = ObstacleAvoidance();
+            //rb.velocity = avoidDir * speed;
             rb.velocity = dirToApple * speed;
 
             if (appledistance > applemissDistance)
@@ -228,11 +227,11 @@ public class Enemy_Grim : MonoBehaviour
 
     void Playani()
     {
-        Vector2 velocicy = rb.velocity;
-        spr.sortingOrder = velocicy.y <= 0 ? downSorting : upSorting;
+        Vector2 velocity = rb.velocity;
+        spr.sortingOrder = velocity.y <= 0 ? downSorting : upSorting;
 
-        spr.flipX = velocicy.x < 0;
-        SetAnimation(velocicy.y >= 0 ? "RightTop" : "RightBot"); 
+        spr.flipX = velocity.x < 0;
+        SetAnimation(velocity.y >= 0 ? "RightTop" : "RightBot");
     }
 
     void Attack()
@@ -319,6 +318,54 @@ public class Enemy_Grim : MonoBehaviour
         while (Vector2.Distance(randomPos, player.transform.position) < minDistance);
 
         return randomPos;
+    }
+
+    private void RaycastCheck()
+    {
+        Vector2 rayStart = transform.position;
+
+        Vector2 velocity = rb.velocity;
+
+        Vector2 rayDirection = new Vector2(
+            velocity.x >= 0 ? 1f : -1f,
+            velocity.y >= 0 ? 0.5f : -0.5f
+        ).normalized;
+
+        RaycastHit2D hit = Physics2D.Raycast(rayStart, rayDirection, rayDistance, wallLayer);
+
+        // 레이가 벽에 충돌했는지 체크
+        if (hit.collider != null)
+        {
+            // 벽과 충돌했을 때
+            Debug.Log("벽을 감지함: " + hit.collider.name);
+
+            // 현재 벽을 감지한 방향에서 회전
+            if (velocity.x >= 0)
+            {
+                // 왼쪽으로 회전
+                rayDirection = new Vector2(-1, velocity.y >= 0 ? 0.5f : -0.5f).normalized;
+            }
+            else
+            {
+                // 오른쪽으로 회전
+                rayDirection = new Vector2(1, velocity.y >= 0 ? 0.5f : -0.5f).normalized;
+            }
+
+            rb.velocity = rayDirection * speed;
+
+            //originalDirection = rayDirection;
+        }
+        else
+        {
+            if (originalDirection != Vector2.zero)
+            {
+                rb.velocity = originalDirection * speed;  // 원래 방향으로 이동
+                Debug.Log("벽이 감지되지 않음, 원래 방향으로 전환");
+            }
+        }
+
+        // 레이 시각화 (디버그용)
+        Debug.DrawRay(rayStart, rayDirection * rayDistance, Color.red);
     }
 
 #if UNITY_EDITOR
