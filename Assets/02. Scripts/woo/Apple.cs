@@ -15,7 +15,7 @@ public class Apple : MonoBehaviour
     private void Start()
     {
         previousPosition = transform.position;
-        Destroy(this.gameObject, 12f);  // 12초 후 자가 소멸
+        Destroy(this.gameObject, 12f);              // 12초 후 자가 소멸
     }
 
     private void Update()
@@ -30,7 +30,6 @@ public class Apple : MonoBehaviour
             if (distanceMoved < stopThreshold * stopThreshold)
             {
                 isGround = true;
-                Debug.Log("🍎 사과 멈춤! (isGround = true)");
             }
 
             previousPosition = transform.position;
