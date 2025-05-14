@@ -260,17 +260,10 @@ public class PlayerController : MonoBehaviour
     {
         if (isInteractionKey && curWarpMirror != null)
         {
-            WarpMirror();
+            string warpSceneName = curWarpMirror.WarpGetNextScene();
+            if (warpSceneName == null) return;
+            else WarpMirrorSkill(warpSceneName);
         }
-    }
-
-    /// Mirror에 저장되어있는 워프씬 판별 => 그씬의 거울 앞으로 이동
-    private void WarpMirror()
-    {
-        string warpSceneName = curWarpMirror.nextSeneName;
-        SceneSwitch.Instance.SceneSwithcing(warpSceneName);
-
-        // TODO :: 해당 씬의 거울 앞으로 이동
     }
 
     /// Item Input Cheak
@@ -365,7 +358,7 @@ public class PlayerController : MonoBehaviour
     }
 
     /// 1. Apple Thrrow 유인 (state)
-    public void AppleThrrow()
+    public void AppleThrrowSkill()
     {
         Debug.Log("사과 던짐");
         Vector2 start = appleSpawnPoint.position;
@@ -422,7 +415,16 @@ public class PlayerController : MonoBehaviour
         isHourglass = false;
     }
 
-    /// Hide 투명화 (state)
+    /// 4. 거울 워프 스킬
+    private void WarpMirrorSkill(string warpSceneName)
+    {
+        SceneSwitch.Instance.SceneSwithcing(warpSceneName);
+        curWarpMirror = null;
+
+        // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@
+    }
+
+    /// 5. Hide 투명화 (state)
     public void HideInvisible(float targetAlpha)
     {
         // 중복 실행 방지
@@ -570,6 +572,7 @@ public class PlayerController : MonoBehaviour
         {
             curDoor = collision.GetComponent<Door>();
             curDoor.InterationUIOff();
+            curDoor = null;
         }
 
         // warp mirror interation
@@ -577,6 +580,7 @@ public class PlayerController : MonoBehaviour
         {
             curWarpMirror = collision.GetComponent<WarpMirror>();
             curWarpMirror.InterationUIOff();
+            curWarpMirror = null;
         }
     }
 

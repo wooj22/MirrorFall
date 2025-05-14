@@ -20,6 +20,13 @@ public class SceneSwitch : MonoBehaviour
 
     public void SceneSwithcing(string sceneName)
     {
+        if (string.IsNullOrEmpty(sceneName))
+        {
+            Debug.LogError("Scene name is null or empty!");
+            Debug.Log(sceneName);
+            return;
+        }
+
         SceneManager.LoadScene(sceneName);
     }
 
