@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEditorInternal;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class Enemy_Grim : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class Enemy_Grim : MonoBehaviour
     public Vector2 startPos;
     private int upSorting = 150;
     private int downSorting = 50;
+
+    public LayerMask obstacleLayer;
 
     // map
     public float minX = -10f;
@@ -176,7 +179,20 @@ public class Enemy_Grim : MonoBehaviour
             {
                 // 플레이어 추적
                 Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToPlayer * speed;
+                float rayDistance = playerdistance;
+
+                RaycastHit2D hit = Physics2D.Raycast(transform.position, dirToPlayer, rayDistance, obstacleLayer);
+                if (hit.collider == null)
+                {
+                    rb.velocity = dirToPlayer * speed;
+                }
+                else
+                {
+                    Vector2 hitNormal = hit.normal;
+                    Vector2 evadeDirection = Vector2.Perpendicular(hitNormal);
+                    rb.velocity = evadeDirection * speed;
+                }
+
             }
         }
     }
