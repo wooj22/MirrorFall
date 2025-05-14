@@ -57,7 +57,7 @@ public class Thrrow : BaseState
                 player.ani.enabled = true;
                 player.ani.Play("Throw");
 
-                player.AppleThrrow();
+                player.AppleThrrowSkill();
                 player.isThrrow = false;
             }
         }

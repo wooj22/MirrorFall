@@ -27,8 +27,8 @@ public class Die : BaseState
         player.rb.velocity = Vector2.zero;
 
         // TODO :: Die 연출 및 로직 추가 (지금은 애니메이션 재생 후 destory
-        AnimatorStateInfo stateInfo = player.ani.GetCurrentAnimatorStateInfo(0);
-        Destroy(player.gameObject, stateInfo.length + 2);
+        //AnimatorStateInfo stateInfo = player.ani.GetCurrentAnimatorStateInfo(0);
+        //Destroy(player.gameObject, stateInfo.length + 2);
     }
 
     /// Change State
