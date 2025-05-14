@@ -9,6 +9,7 @@ TagManager:
   - Apple
   - Item
   - Door
+  - WarpMirror
   layers:
   - Default
   - TransparentFX

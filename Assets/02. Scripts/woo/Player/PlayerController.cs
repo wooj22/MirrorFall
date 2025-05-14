@@ -71,6 +71,7 @@ public class PlayerController : MonoBehaviour
     // interation
     private FiledItem curFiledItem = null;
     private Door curDoor = null;
+    private WarpMirror curWarpMirror = null;    
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -135,6 +136,7 @@ public class PlayerController : MonoBehaviour
             ItemInputCheak();
             SkillInputCheak();
             DoorInputCheak();
+            WarpMirrorInputCheak();
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -236,9 +238,9 @@ public class PlayerController : MonoBehaviour
             wayState = PlayerWayState.RightDown;
     }
 
-    /*----------------- Door Interation ------------------------*/
-    // DoorInputCheak
-    public void DoorInputCheak()
+    /*----------------- Interation ------------------------*/
+    /// Door Input Cheak
+    private void DoorInputCheak()
     {
         if (isInteractionKey && curDoor != null)
         {
@@ -246,16 +248,33 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-    // 문 열고 씬 이동
-    public void DoorInteraction()
+    /// 문 열고 씬 이동
+    private void DoorInteraction()
     {
         curDoor.DoorOpen();
         curDoor = null;
     }
 
-    /*----------------- Item Interation ------------------------*/
+    /// Warp Mirror Input Cheak
+    private void WarpMirrorInputCheak()
+    {
+        if (isInteractionKey && curWarpMirror != null)
+        {
+            WarpMirror();
+        }
+    }
+
+    /// Mirror에 저장되어있는 워프씬 판별 => 그씬의 거울 앞으로 이동
+    private void WarpMirror()
+    {
+        string warpSceneName = curWarpMirror.nextSeneName;
+        SceneSwitch.Instance.SceneSwithcing(warpSceneName);
+
+        // TODO :: 해당 씬의 거울 앞으로 이동
+    }
+
     /// Item Input Cheak
-    public void ItemInputCheak()
+    private void ItemInputCheak()
     {
         // Item PickUp
         if (isInteractionKey && curFiledItem != null)
@@ -519,6 +538,13 @@ public class PlayerController : MonoBehaviour
             curDoor = collision.GetComponent<Door>();
             curDoor.InterationUIOn();
         }
+
+        // warp mirror interation
+        if (collision.CompareTag("WarpMirror"))
+        {
+            curWarpMirror = collision.GetComponent<WarpMirror>();
+            curWarpMirror.InterationUIOn();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -544,6 +570,13 @@ public class PlayerController : MonoBehaviour
         {
             curDoor = collision.GetComponent<Door>();
             curDoor.InterationUIOff();
+        }
+
+        // warp mirror interation
+        if (collision.CompareTag("WarpMirror"))
+        {
+            curWarpMirror = collision.GetComponent<WarpMirror>();
+            curWarpMirror.InterationUIOff();
         }
     }
 
