@@ -14,6 +14,7 @@ public class Hit : BaseState
         Debug.Log("Hit Enter");
 
         // falg
+        player.ani.enabled = true;
         player.isHit = true;
 
         // 라이트 연출
