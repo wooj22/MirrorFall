@@ -7,6 +7,7 @@ public class PlayerUIHandler : MonoBehaviour
 {
     [SerializeField] private Image Hdu_Image;
     [SerializeField] Sprite[] HduSpriteArr = new Sprite[3];
+    [SerializeField] private Text interation_Text;
 
     public static PlayerUIHandler Instance { get; private set; }
     private void Awake()
@@ -28,8 +29,20 @@ public class PlayerUIHandler : MonoBehaviour
     }
 
     // Update HP UI
-    public void UpdateHduUI(int curHp)
+    public void UpdateHpUI(int curHp)
     {
         Hdu_Image.sprite = HduSpriteArr[curHp];
+    }
+
+    // Interaction UI
+    public void InteractionUIOn(string text)
+    {
+        interation_Text.text = text;
+    }
+
+    // Interaction UI
+    public void InterationUIOff()
+    {
+        interation_Text.text = "";
     }
 }

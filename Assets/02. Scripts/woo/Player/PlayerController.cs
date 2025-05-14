@@ -200,7 +200,7 @@ public class PlayerController : MonoBehaviour
         originColor = sr.color;
 
         // UI
-        PlayerUIHandler.Instance.UpdateHduUI(curHp);
+        PlayerUIHandler.Instance.UpdateHpUI(curHp);
 
         // player state init
         ChangeState(PlayerState.Idle);
@@ -350,7 +350,7 @@ public class PlayerController : MonoBehaviour
             if (!isHit)
             {
                 curHp --;
-                PlayerUIHandler.Instance.UpdateHduUI(curHp);
+                PlayerUIHandler.Instance.UpdateHpUI(curHp);
 
                 if (curHp <= 0)
                 {
@@ -396,6 +396,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("WallHideZone")){
             isInHideZone = true;
         }
+
+        // item interation
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            PlayerUIHandler.Instance.InteractionUIOn("ащ╠Б [F]");
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -404,6 +410,12 @@ public class PlayerController : MonoBehaviour
         if (collision.gameObject.CompareTag("WallHideZone"))
         {
             isInHideZone = false;
+        }
+
+        // item interation
+        if (collision.gameObject.CompareTag("Item"))
+        {
+            PlayerUIHandler.Instance.InterationUIOff();
         }
     }
 
