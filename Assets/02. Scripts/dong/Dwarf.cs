@@ -15,7 +15,8 @@ public class Dwarf : MonoBehaviour
     public float attackDistance = 1f;
     public float eatDistance = 1f;
     public Vector2 startPos;
-    bool find = false;
+    bool playerfind = false;
+    bool goback = false;
     bool applefind = false;
     bool isReturning = false;
     bool isAttacking = false;
@@ -27,7 +28,6 @@ public class Dwarf : MonoBehaviour
     Animator ani;
     SpriteRenderer spr;
     GameObject Player;
-    GameObject[] Apples;
     GameObject nearestApple;
     Vector2 PlayerPos;
     Vector2 ApplePos;
@@ -69,19 +69,30 @@ public class Dwarf : MonoBehaviour
     }
     void AppleCheck()
     {
-        Apples = GameObject.FindGameObjectsWithTag("Finish");
-        if (Apples.Length > 0)
+        GameObject[] allApples = GameObject.FindGameObjectsWithTag("Apple");
+        List<GameObject> validApples = new List<GameObject>();
+
+        foreach (GameObject apple in allApples)
+        {
+            Apple appleScript = apple.GetComponent<Apple>();
+            if (appleScript != null && appleScript.isGround)
+            {
+                validApples.Add(apple);
+            }
+        }
+
+        if (validApples.Count > 0)
         {
             float minDistance = float.MaxValue;
             GameObject closest = null;
 
-            foreach (GameObject Apple in Apples)
+            foreach (GameObject apple in validApples)
             {
-                float dist = Vector2.Distance(transform.position, Apple.transform.position);
+                float dist = Vector2.Distance(transform.position, apple.transform.position);
                 if (dist < minDistance)
                 {
                     minDistance = dist;
-                    closest = Apple;
+                    closest = apple;
                 }
             }
 
@@ -101,14 +112,15 @@ public class Dwarf : MonoBehaviour
     }
     void NormalMove()
     {
+        bool isPlayerHiding = Player.GetComponent<PlayerController>().isHide;
         if (isReturning) return;
         if (applefind) return;
-        if (!find)
+        if (!playerfind&&!goback)
         {
             // 플레이어 근처로 오면 추적 시작
-            if (playerdistance < findDistance)
+            if (playerdistance < findDistance&&!isPlayerHiding)
             {
-                find = true;
+                playerfind = true;
             }
             else
             {
@@ -121,28 +133,37 @@ public class Dwarf : MonoBehaviour
                 rb.velocity = dir * speed;
             }
         }
-        else
+        else if(playerfind&&!goback)
         {
             if (playerdistance > missDistance)
             {
-                // 원래 위치로 돌아가기
-                Vector2 dirToStart = startPos - (Vector2)transform.position;
-                if (dirToStart.magnitude < 0.05f)
-                {
-                    rb.velocity = Vector2.zero;
-                    transform.position = startPos; // 위치 정확히 맞춤
-                    find = false;
-                }
-                else
-                {
-                    rb.velocity = dirToStart.normalized * speed;
-                }
+                goback = true;
+                playerfind = false;
             }
             else
             {
                 // 플레이어 추적
                 Vector2 dirToPlayer = (PlayerPos - (Vector2)transform.position).normalized;
                 rb.velocity = dirToPlayer * speed;
+            }
+        }
+        else if (!playerfind && goback)
+        {
+            Vector2 dirToStart = startPos - (Vector2)transform.position;
+            if (playerdistance < findDistance&&!isPlayerHiding)
+            {
+                playerfind = true;
+                goback = false;
+            }
+            if (dirToStart.magnitude < 0.05f)
+            {
+                rb.velocity = Vector2.zero;
+                transform.position = startPos; // 위치 정확히 맞춤
+                goback = false;
+            }
+            else
+            {
+                rb.velocity = dirToStart.normalized * speed;
             }
         }
     }
@@ -262,7 +283,7 @@ public class Dwarf : MonoBehaviour
     {
         transform.position = startPos;
 
-        find = false;
+        playerfind = false;
         col.enabled = true;
         isReturning = false;
         isAttacking = false;
@@ -273,7 +294,7 @@ public class Dwarf : MonoBehaviour
         col.enabled = true;
         isReturning = false;
         isEating = false;
-        find = true;
+        goback = true;
     }
 
     private void SetAnimation(string anim)
