@@ -11,6 +11,7 @@ public class Walk : BaseState
         Debug.Log("Walk Enter");
 
         // animation
+        player.ani.enabled = true;
         player.ani.Play("Walk");
     }
 

@@ -11,6 +11,7 @@ public class Idle : BaseState
         Debug.Log("Idle Enter");
 
         // animation
+        player.ani.enabled = true;
         player.ani.Play("Idle");
 
         // filp, las Dir X
