@@ -8,8 +8,8 @@ public class PlayerController : MonoBehaviour
     [Header("[State]")]
     [SerializeField] public PlayerState state; 
     [SerializeField] public PlayerWayState wayState;    
-    public BaseState curState;                    // state class
-    public BaseState[] stateArr;                  // state class array
+    [HideInInspector] public BaseState curState;               // state class
+    [HideInInspector] public BaseState[] stateArr;             // state class array
     public enum PlayerState       // state class array ¡¢±Ÿ, ∞¸∏ÆøÎ enum
     {
         Idle, Walk, Hide, Thrrow, Hit, Die
@@ -68,8 +68,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
     [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (√º≈©øÎ¿∏∑Œ ¿ŒΩ∫∆Â≈Õ ¿·±Ò ª©µ“)
 
-    // item interation
+    // interation
     private FiledItem curFiledItem = null;
+    private Door curDoor = null;
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -133,6 +134,7 @@ public class PlayerController : MonoBehaviour
 
             ItemInputCheak();
             SkillInputCheak();
+            DoorInputCheak();
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -143,6 +145,7 @@ public class PlayerController : MonoBehaviour
             curState?.UpdateLigic();
         }
     }
+
 
     /// FSM Setting
     private void AddFSM()
@@ -233,6 +236,22 @@ public class PlayerController : MonoBehaviour
             wayState = PlayerWayState.RightDown;
     }
 
+    /*----------------- Door Interation ------------------------*/
+    // DoorInputCheak
+    public void DoorInputCheak()
+    {
+        if (isInteractionKey && curDoor != null)
+        {
+            DoorInteraction();
+        }
+    }
+
+    // πÆ ø≠∞Ì æ¿ ¿Ãµø
+    public void DoorInteraction()
+    {
+        curDoor.DoorOpen();
+        curDoor = null;
+    }
 
     /*----------------- Item Interation ------------------------*/
     /// Item Input Cheak
@@ -493,6 +512,13 @@ public class PlayerController : MonoBehaviour
             curFiledItem = collision.GetComponent<FiledItem>();
             curFiledItem.InterationUIOn();
         }
+
+        // door interation
+        if (collision.CompareTag("Door"))
+        {
+            curDoor = collision.GetComponent<Door>();
+            curDoor.InterationUIOn();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -511,6 +537,13 @@ public class PlayerController : MonoBehaviour
                 curFiledItem.InterationUIOff();
                 curFiledItem = null;
             }
+        }
+
+        // door interation
+        if (collision.CompareTag("Door"))
+        {
+            curDoor = collision.GetComponent<Door>();
+            curDoor.InterationUIOff();
         }
     }
 
