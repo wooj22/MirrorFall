@@ -368,13 +368,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 548506526}
   serializedVersion: 2
-  m_LocalRotation: {x: -0, y: -0, z: 0.23850384, w: 0.9711416}
-  m_LocalPosition: {x: -0.1, y: -4.59, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0.23185046, w: 0.97275144}
+  m_LocalPosition: {x: 6.21, y: 1.12, z: 0}
   m_LocalScale: {x: 5.595, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 27.597}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -26.812}
 --- !u!61 &548506529
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -591,11 +591,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -4.67
+      value: 11.71
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.32
+      value: -1.72
       objectReference: {fileID: 0}
     - target: {fileID: 3259930336176531700, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1139,11 +1139,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1187480906193047761, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -5.32
+      value: -2.7
       objectReference: {fileID: 0}
     - target: {fileID: 1187480906193047761, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -6.56
+      value: -2.17
       objectReference: {fileID: 0}
     - target: {fileID: 1187480906193047761, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1176,6 +1176,14 @@ PrefabInstance:
     - target: {fileID: 1187480906193047761, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: rayDistance
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: wallLayer.m_Bits
+      value: 64
       objectReference: {fileID: 0}
     - target: {fileID: 6478174189263777540, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_Name
