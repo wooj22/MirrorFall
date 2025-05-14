@@ -418,7 +418,8 @@ public class PlayerController : MonoBehaviour
     /// 4. 거울 워프 스킬
     private void WarpMirrorSkill(string warpSceneName)
     {
-        SceneSwitch.Instance.SceneSwithcing(warpSceneName);
+        //SceneSwitch.Instance.SceneSwithcing(warpSceneName);
+        FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;
 
         // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@

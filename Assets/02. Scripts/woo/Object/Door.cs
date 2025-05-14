@@ -13,6 +13,7 @@ public class Door : MonoBehaviour
     // nextSeneName으로 이동
     public void DoorOpen()
     {
-        SceneSwitch.Instance.SceneSwithcing(nextSeneName);
+        //SceneSwitch.Instance.SceneSwithcing(nextSeneName);
+        FadeManager.Instance.FadeOutSceneChange(nextSeneName);
     }
 }
