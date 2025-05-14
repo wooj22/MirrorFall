@@ -111,13 +111,12 @@ public class DwarfwithRay : MonoBehaviour
     }
     void NormalMove()
     {
-        bool isPlayerHiding = Player.GetComponent<PlayerController>().isHide;
         if (isReturning) return;
         if (applefind) return;
         if (!playerfind && !goback)
         {
             // 플레이어 근처로 오면 추적 시작
-            if (playerdistance < findDistance && !isPlayerHiding)
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide)
             {
                 playerfind = true;
             }
@@ -149,7 +148,7 @@ public class DwarfwithRay : MonoBehaviour
         else if (!playerfind && goback)
         {
             Vector2 dirToStart = startPos - (Vector2)transform.position;
-            if (playerdistance < findDistance && !isPlayerHiding)
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide)
             {
                 playerfind = true;
                 goback = false;
@@ -247,7 +246,7 @@ public class DwarfwithRay : MonoBehaviour
     }
     void Attack()
     {
-        if (playerdistance <= attackDistance && !isAttacking && !isReturning)
+        if (playerdistance <= attackDistance && !isAttacking && !isReturning && playerfind)
         {
             // attack
             Player.GetComponent<PlayerController>().Hit("L");
@@ -282,10 +281,11 @@ public class DwarfwithRay : MonoBehaviour
     {
         transform.position = startPos;
 
-        playerfind = false;
         col.enabled = true;
         isReturning = false;
         isAttacking = false;
+        playerfind = false;
+        goback = false;
     }
 
     private void ReGoing()
@@ -293,6 +293,7 @@ public class DwarfwithRay : MonoBehaviour
         col.enabled = true;
         isReturning = false;
         isEating = false;
+        playerfind = false;
         goback = true;
     }
 
