@@ -194,7 +194,7 @@ GameObject:
   - component: {fileID: 8549746893867401490}
   - component: {fileID: 2847032574648519300}
   m_Layer: 0
-  m_Name: Hourgalss_Item
+  m_Name: Hourglass_Item
   m_TagString: Item
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

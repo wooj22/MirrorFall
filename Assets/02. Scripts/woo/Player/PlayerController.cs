@@ -250,7 +250,6 @@ public class PlayerController : MonoBehaviour
     // Pick Up Filed Item
     private void PickUpItem(FiledItem item)
     {
-        // ¿Œ∫•≈‰∏Æ ≤À √°¥¬¡ˆ ∞ÀªÁ
         if (inventory.IsInventoryFull())
         {
             Debug.Log("¿Œ∫•≈‰∏Æ∞° ≤À √°Ω¿¥œ¥Ÿ.");
@@ -260,8 +259,6 @@ public class PlayerController : MonoBehaviour
         {
             inventory.AddItem(item.name);
             curFiledItem = null;
-            Debug.Log(item.name + "»πµÊ");
-
             item.InterationUIOff();
             Destroy(item.gameObject);
         }  
