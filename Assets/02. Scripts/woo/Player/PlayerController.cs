@@ -68,6 +68,9 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (체크용으로 인스펙터 잠깐 빼둠)
     [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (체크용으로 인스펙터 잠깐 빼둠)
 
+    // item interation
+    private FiledItem curFiledItem = null;
+
     // Components
     [HideInInspector] public SpriteRenderer sr;
     [HideInInspector] public Rigidbody2D rb;
@@ -126,11 +129,14 @@ public class PlayerController : MonoBehaviour
             MoveInputUpdate();
             WayUpdate();
 
-            // Test (Attack)
-            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            // Item PickUp
+            if (isInteractionKey && curFiledItem != null)
+            {
+                PickUpItem(curFiledItem);
+                curFiledItem = null;
+            }
 
-            // Test (아이템 사용)
+            // Test (아이템 스킬 사용)     // TODO :: 인벤토리 연계
             if(Input.GetKeyDown(KeyCode.Alpha1)) ChangeState(PlayerState.Thrrow);
             if (Input.GetKeyDown(KeyCode.Alpha2)) BrightSkill();
             if (Input.GetKeyDown(KeyCode.Alpha3))
@@ -138,6 +144,10 @@ public class PlayerController : MonoBehaviour
                 HourGlassSkill();
                 Invoke(nameof(ReturnHourGalss), hourglassDurationTime);
             }
+
+            // Test (Attack)
+            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -235,6 +245,17 @@ public class PlayerController : MonoBehaviour
     }
 
 
+    /*----------------- Item Interation ------------------------*/
+    private void PickUpItem(FiledItem item)
+    {
+        // 인벤토리 등에 아이템 추가 로직 넣기 (TODO)
+        Debug.Log($"{item.name} 획득");
+
+        item.InterationUIOff();       // UI 꺼주고
+        Destroy(item.gameObject);     // 아이템 제거
+    }
+
+
     /*------------------------- Skill -------------------------------*/
     /// 1. Apple Thrrow 유인 (state)
     public void AppleThrrow()
@@ -325,7 +346,6 @@ public class PlayerController : MonoBehaviour
         invisibleCo = null;
     }
 
-
     /*------------------------- Event -------------------------------*/
     /// Hit
     public void Hit(string aiTag)
@@ -398,9 +418,10 @@ public class PlayerController : MonoBehaviour
         }
 
         // item interation
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
-            collision.gameObject.GetComponent<FiledItem>().InterationUIOn();
+            curFiledItem = collision.GetComponent<FiledItem>();
+            curFiledItem.InterationUIOn();
         }
     }
 
@@ -413,9 +434,13 @@ public class PlayerController : MonoBehaviour
         }
 
         // item interation
-        if (collision.gameObject.CompareTag("Item"))
+        if (collision.CompareTag("Item"))
         {
-            collision.gameObject.GetComponent<FiledItem>().InterationUIOff();
+            if (curFiledItem != null)
+            {
+                curFiledItem.InterationUIOff();
+                curFiledItem = null;
+            }
         }
     }
 
