@@ -187,8 +187,8 @@ MonoBehaviour:
   moveDistanceX: 5
   moveDistanceY: 5
   speed: 2
-  findDistance: 8
-  missDistance: 10
+  findDistance: 6
+  missDistance: 8
   applefindDistance: 10
   applemissDistance: 15
   attackDistance: 1.3
