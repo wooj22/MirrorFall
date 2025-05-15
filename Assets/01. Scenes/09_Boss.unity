@@ -364,9 +364,9 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 528962215}
-        m_TargetAssemblyTypeName: SceneSwitch, Assembly-CSharp
-        m_MethodName: SceneSwithcing
+      - m_Target: {fileID: 528962218}
+        m_TargetAssemblyTypeName: FadeManager, Assembly-CSharp
+        m_MethodName: FadeOutSceneChange
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -510,7 +510,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f49ed06dd85b8f740be5380922b03174, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isBossEndTime: 0
 --- !u!4 &369165339
 Transform:
   m_ObjectHideFlags: 0
@@ -947,7 +946,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cc7d951dbfcf3b348bfce6133e833d2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  BossSceneTimeLimit: 30
+  BossSceneTimeLimit: 5
   timerUI: {fileID: 1006337257}
   retryPannel: {fileID: 484310358}
 --- !u!1 &533078763
@@ -1978,11 +1977,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -0.04
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1.42
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.z
@@ -2442,10 +2441,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player_Test
       objectReference: {fileID: 0}
-    - target: {fileID: 7868016681953158331, guid: 0d0563417c45f7048ae4dce880ff7b09, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2565,16 +2560,16 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 528962219}
-        m_TargetAssemblyTypeName: BossSceneManager, Assembly-CSharp
-        m_MethodName: BossRetry
-        m_Mode: 1
+      - m_Target: {fileID: 528962218}
+        m_TargetAssemblyTypeName: FadeManager, Assembly-CSharp
+        m_MethodName: FadeOutSceneChange
+        m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
-          m_StringArgument: 
+          m_StringArgument: 09_Boss
           m_BoolArgument: 0
         m_CallState: 2
 --- !u!114 &1525847421
