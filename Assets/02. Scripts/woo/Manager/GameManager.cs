@@ -6,7 +6,6 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     private PlayerController player;
-    private bool isBossEndTime;
 
     private HashSet<int> collectedMirror = new HashSet<int>();  // mirror piece collected data
     private List<string> savedInventoryItems = null;    // inventory save data
@@ -50,24 +49,19 @@ public class GameManager : MonoBehaviour
         GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
     }
 
-    public void BossTimeEnd()
-    { 
-        isBossEndTime = true;
-        player.isDie = true;
-        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
-    }
-
     public void BossRetry()
     {
         Debug.Log("보스전 Retry");
         FadeManager.Instance.FadeOutSceneChange(SceneSwitch.Instance.GetCurrentScene());
+        
         StartCoroutine(BossRetryCo());
     }
 
     IEnumerator BossRetryCo()
     {
-        yield return new WaitForSeconds(2f);        // 임시임
+        yield return new WaitForSeconds(1.2f);        // 임시임
         player.InitPlayer_ToBossScene();
+        Debug.Log("Init Timing cheak");
     }
 
 

@@ -203,7 +203,7 @@ public class PlayerController : MonoBehaviour
         isItem3Key = Input.GetKeyDown(Item3Key);
     }
 
-    /// Plater Init (Boss)
+    /// Plater Init
     public void PlayerInit()
     {
         // player stat init
@@ -238,10 +238,14 @@ public class PlayerController : MonoBehaviour
     /// ## TODO :: 보스전 Retry를 위한 로직 ##
     public void InitPlayer_ToBossScene()
     {
+        isDie = false;
+        ChangeState(PlayerState.Idle);
+
         curHp = saveBossHp;
         flashLight.SetCurIndex(saveBossAngleIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
-        ChangeState(PlayerState.Idle);
+
+        PlayerUIHandler.Instance.UpdateHpUI(curHp);
         Debug.Log("InitPlayer_ToBossScene");
     }
 
