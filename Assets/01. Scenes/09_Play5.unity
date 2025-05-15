@@ -918,11 +918,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4222709527774219600, guid: a9b3c2f0a2b02c644a97a84b1654000f, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.81352043
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4222709527774219600, guid: a9b3c2f0a2b02c644a97a84b1654000f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.2686615
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4222709527774219600, guid: a9b3c2f0a2b02c644a97a84b1654000f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1140,7 +1140,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Play  5 Scene (\uC774\uC0C1\uD55C \uBC29)"
+  m_Text: "\uAE38\uC774 \uBB54\uAC00 \uC774\uC0C1\uD558\uB2E4..."
 --- !u!222 &1147865938
 CanvasRenderer:
   m_ObjectHideFlags: 0
