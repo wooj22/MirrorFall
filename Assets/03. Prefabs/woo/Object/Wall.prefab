@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6015338586576223449}
   - component: {fileID: 4081713413763606482}
   - component: {fileID: 5987735661625376466}
+  - component: {fileID: 2916104607780771143}
   m_Layer: 0
   m_Name: Wall
   m_TagString: Untagged
@@ -236,3 +237,33 @@ MonoBehaviour:
   fadeDuration: 0.2
   targetAlpha: 0.1
   top: {fileID: 3917224978518341887}
+--- !u!114 &2916104607780771143
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6501550410706160096}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -1.8846579, y: -1.2016461, z: 0}
+  - {x: -1.6167789, y: -1.0752683, z: 0}
+  - {x: 0.1958332, y: -2.1098375, z: 0}
+  - {x: -0.0019931793, y: -2.2785988, z: 0}
+  m_ShapePathHash: 2016455145
+  m_Mesh: {fileID: 0}
+  m_InstanceId: -41964
+  m_LocalBounds:
+    m_Center: {x: -0.8444123, y: -1.6769335, z: 0}
+    m_Extent: {x: 1.0402455, y: 0.60166526, z: 0}
