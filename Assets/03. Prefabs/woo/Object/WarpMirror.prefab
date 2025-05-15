@@ -246,7 +246,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 43f00e830596f22498f7d9251e50186c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  warpCoolTime: 60
+  warpCoolTime: 5
   warpTimmer: 0
   isWarpReady: 0
   nextSeneName: 05_Play1

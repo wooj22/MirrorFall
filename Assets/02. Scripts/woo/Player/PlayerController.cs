@@ -265,7 +265,13 @@ public class PlayerController : MonoBehaviour
     /// Door Interation - Scene Change
     private void DoorInteraction(string sceneName)
     {
-        if (curPieceCount >= 4) FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        // 거울조각 4개일때 5번방, 5번방이면 무조건 보스방
+        if (curPieceCount == 4)
+        {
+            if(SceneSwitch.Instance.GetCurrentScene() == "09_Play5")
+                FadeManager.Instance.FadeOutSceneChange("10_Boss");
+            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        }
         else FadeManager.Instance.FadeOutSceneChange(sceneName);
         curDoor = null;
     }
@@ -464,7 +470,12 @@ public class PlayerController : MonoBehaviour
     private void WarpMirrorSkill(string warpSceneName)
     {
         // 거울조각을 4개 모았다면 5번방으로, 아니라면 next 방으로
-        if (curPieceCount >= 4) FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        if (curPieceCount == 4)
+        {
+            if (SceneSwitch.Instance.GetCurrentScene() == "09_Play5")   // 5번방이면 무조건 보스방
+                FadeManager.Instance.FadeOutSceneChange("10_Boss");
+            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        }
         else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;
 
