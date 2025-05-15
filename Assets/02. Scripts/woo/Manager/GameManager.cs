@@ -25,7 +25,7 @@ public class GameManager : MonoBehaviour
 
     private void Start()
     {
-        _player = GameObject.FindWithTag("Palyer").GetComponent<PlayerController>();
+        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     /// 거울조각 수집
@@ -43,13 +43,13 @@ public class GameManager : MonoBehaviour
     /*--------------- Boss ----------------*/
     public void BossPlayerDie()
     {
-        GameObject.Find("SceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
+        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
     }
 
     public void BossTimeEnd() 
     { 
         isBossEndTime = true;
         _player.isDie = true;
-        GameObject.Find("SceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
+        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
     }
 }
