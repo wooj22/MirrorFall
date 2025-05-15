@@ -160,7 +160,6 @@ public class PlayerController : MonoBehaviour
         }
     }
 
-
     /// FSM Setting
     private void AddFSM()
     {
@@ -199,7 +198,7 @@ public class PlayerController : MonoBehaviour
         isItem3Key = Input.GetKeyDown(Item3Key);
     }
 
-    /// Plater Init
+    /// Plater Init (Boss)
     public void PlayerInit()
     {
         // player stat init
@@ -220,6 +219,17 @@ public class PlayerController : MonoBehaviour
 
         // player state init
         ChangeState(PlayerState.Idle);
+    }
+
+    /// ## TODO :: 보스전 Retry를 위한 로직 ##
+    public void SavePlayerData()
+    {
+        // hp
+    }
+
+    public void BossSceneInit()
+    {
+
     }
 
     /// Player Move Input
