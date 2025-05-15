@@ -33,7 +33,8 @@ public class DwarfTest : MonoBehaviour
 
     public List<Transform> patrolPoints; //순찰 좌표리스트
     private int currentPointIndex=0; //좌표리스트 인덱스
-    float detectTimer = 0f;//감지시간
+    public GameObject alldirPoints;
+    private List<Transform> dirPoints = new List<Transform>();
 
     void Start()
     {
@@ -42,6 +43,13 @@ public class DwarfTest : MonoBehaviour
         ani = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        if (alldirPoints != null)
+        {
+            foreach (Transform child in alldirPoints.transform)
+            {
+                dirPoints.Add(child);
+            }
+        }
     }
 
     void Update()
@@ -121,24 +129,35 @@ public class DwarfTest : MonoBehaviour
             // 플레이어 근처로 오면 추적 시작
             if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide &&PlayerInSight())
             {
-                detectTimer += Time.deltaTime;
-                if (detectTimer >= 1.0f)
-                {
-                    playerfind = true;
-                    detectTimer = 0f;
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero;
-                }
+                playerfind = true;
             }
             else
             {
-                detectTimer = 0f;
                 if (patrolPoints.Count == 0) return;
                 Vector2 NextPos = patrolPoints[currentPointIndex].position;
-                Vector2 dirToNext = (NextPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToNext * speed;
+                if (IsPathClear(transform.position, NextPos))
+                {
+                    // 경로가 막히지 않았으면 직진
+                    Vector2 dirToNext = (NextPos - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToNext * speed;
+                }
+                else
+                {
+                    // 막혀 있다면 우회할 수 있는 가장 가까운 포인트 탐색
+                    Transform bypassPointToNe = FindClosestBypassPoint(transform.position, NextPos);
+
+                    if (bypassPointToNe != null)
+                    {
+                        Vector2 bypassPosToNe = bypassPointToNe.position;
+                        Vector2 dirToBypassToNe = (bypassPosToNe - (Vector2)transform.position).normalized;
+                        rb.velocity = dirToBypassToNe * speed;
+                    }
+                    else
+                    {
+                        // 우회 포인트 없으면 대기
+                        rb.velocity = Vector2.zero;
+                    }
+                }
 
                 // 거리가 충분히 가까워졌으면 다음 지점으로
                 if (Vector2.Distance(transform.position, NextPos) < 0.2f)
@@ -165,13 +184,38 @@ public class DwarfTest : MonoBehaviour
             }
             else
             {
-                // 플레이어 추적
-                Vector2 dirToPlayer = (PlayerPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToPlayer * speed;
+                if (IsPathClear(transform.position, PlayerPos))
+                {
+                    // 경로가 막히지 않았으면 직진
+                    Vector2 dirToPlayer = (PlayerPos - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToPlayer * speed;
+                }
+                else
+                {
+                    // 막혀 있다면 우회할 수 있는 가장 가까운 포인트 탐색
+                    Transform bypassPointToPr = FindClosestBypassPoint(transform.position, PlayerPos);
+
+                    if (bypassPointToPr != null)
+                    {
+                        Vector2 bypassPosToPr = bypassPointToPr.position;
+                        Vector2 dirToBypassToPr = (bypassPosToPr - (Vector2)transform.position).normalized;
+                        rb.velocity = dirToBypassToPr * speed;
+                    }
+                    else
+                    {
+                        // 우회할 포인트조차 없다면 대기
+                        rb.velocity = Vector2.zero;
+                    }
+                }
             }
         }
         else if (!playerfind && goback)
         {
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight())
+            {
+                playerfind = true;
+                goback = false;
+            }
             if (patrolPoints.Count == 0) return;
 
             // 가장 가까운 순찰 지점 찾기
@@ -190,8 +234,29 @@ public class DwarfTest : MonoBehaviour
 
             // 해당 지점으로 이동
             Vector2 restartPos = patrolPoints[closestIndex].position;
-            Vector2 dirToPatrol = (restartPos - (Vector2)transform.position).normalized;
-            rb.velocity = dirToPatrol * speed;
+            if (IsPathClear(transform.position, restartPos))
+            {
+                // 경로가 막히지 않았으면 직진
+                Vector2 dirToPatrol = (restartPos - (Vector2)transform.position).normalized;
+                rb.velocity = dirToPatrol * speed;
+            }
+            else
+            {
+                // 막혀 있다면 우회할 수 있는 가장 가까운 포인트 탐색
+                Transform bypassPointToPt = FindClosestBypassPoint(transform.position, restartPos);
+
+                if (bypassPointToPt != null)
+                {
+                    Vector2 bypassPosToPt = bypassPointToPt.position;
+                    Vector2 dirToBypassToPt = (bypassPosToPt - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToBypassToPt * speed;
+                }
+                else
+                {
+                    // 우회 포인트 없으면 대기
+                    rb.velocity = Vector2.zero;
+                }
+            }
 
             // 도착하면 순찰 재시작
             if (Vector2.Distance(transform.position, restartPos) < 0.2f)
@@ -217,11 +282,29 @@ public class DwarfTest : MonoBehaviour
 
         if (applefind)
         {
-            ApplePos = nearestApple.transform.position;
-            appledistance = Vector2.Distance(transform.position, ApplePos);
+            if (IsPathClear(transform.position, ApplePos))
+            {
+                // 경로가 막히지 않았으면 직진
+                Vector2 dirToApple = (ApplePos - (Vector2)transform.position).normalized;
+                rb.velocity = dirToApple * speed;
+            }
+            else
+            {
+                // 막혀 있다면 우회할 수 있는 가장 가까운 포인트 탐색
+                Transform bypassPointToAp = FindClosestBypassPoint(transform.position, ApplePos);
 
-            Vector2 dirToApple = (ApplePos - (Vector2)transform.position).normalized;
-            rb.velocity = dirToApple * speed;
+                if (bypassPointToAp != null)
+                {
+                    Vector2 bypassPosToAp = bypassPointToAp.position;
+                    Vector2 dirToBypassToAp = (bypassPosToAp - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToBypassToAp * speed;
+                }
+                else
+                {
+                    // 우회할 포인트조차 없다면 대기
+                    rb.velocity = Vector2.zero;
+                }
+            }
 
             if (appledistance > applemissDistance)
             {
@@ -319,6 +402,36 @@ public class DwarfTest : MonoBehaviour
         Vector2 forward = rb.velocity.normalized;
         float angle = Vector2.Angle(forward, toPlayer);
         return angle < 55f;
+    }
+
+    private bool IsPathClear(Vector2 from, Vector2 to)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(from, (to - from).normalized, Vector2.Distance(from, to), LayerMask.GetMask("Wall"));
+        return hit.collider == null;
+    }
+
+    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
+    {
+        Transform bestPoint = null;
+        float minDistanceToTarget = float.MaxValue;
+
+        foreach (var point in dirPoints)
+        {
+            if (point == null) continue;
+
+            if (IsPathClear(from, point.position))
+            {
+                float distToTarget = Vector2.Distance(point.position, to);
+
+                if (distToTarget < minDistanceToTarget)
+                {
+                    minDistanceToTarget = distToTarget;
+                    bestPoint = point;
+                }
+            }
+        }
+
+        return bestPoint;
     }
 
     private void SetAnimation(string anim)
