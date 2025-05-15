@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.2
-  targetAlpha: 0.1
+  targetAlpha: 0.3
   top: {fileID: 3917224978518341887}
 --- !u!114 &2916104607780771143
 MonoBehaviour:
@@ -257,13 +257,13 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -1.8846579, y: -1.2016461, z: 0}
-  - {x: -1.6167789, y: -1.0752683, z: 0}
-  - {x: 0.1958332, y: -2.1098375, z: 0}
-  - {x: -0.0019931793, y: -2.2785988, z: 0}
-  m_ShapePathHash: 2016455145
+  - {x: -1.8099003, y: -1.1747334, z: 0}
+  - {x: -1.6586432, y: -1.0902197, z: 0}
+  - {x: 0.15994978, y: -2.1188087, z: 0}
+  - {x: 0.027909756, y: -2.239725, z: 0}
+  m_ShapePathHash: -508306967
   m_Mesh: {fileID: 0}
-  m_InstanceId: -41964
+  m_InstanceId: 78598
   m_LocalBounds:
-    m_Center: {x: -0.8444123, y: -1.6769335, z: 0}
-    m_Extent: {x: 1.0402455, y: 0.60166526, z: 0}
+    m_Center: {x: -0.82497525, y: -1.6649724, z: 0}
+    m_Extent: {x: 0.98492503, y: 0.5747527, z: 0}
