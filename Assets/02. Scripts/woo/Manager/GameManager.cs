@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator BossRetryCo()
     {
-        yield return new WaitForSeconds(1f);
+        yield return new WaitForSeconds(2f);        // ¿”Ω√¿”
         player.InitPlayer_ToBossScene();
     }
 
