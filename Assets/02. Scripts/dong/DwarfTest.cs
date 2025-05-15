@@ -6,7 +6,6 @@ using UnityEngine.AI;
 public class DwarfTest : MonoBehaviour
 {
     public string anim_cur = "Idle";
-    public float moveDistance = 3f;     // 왔다갔다할 거리
     public float speed = 2f;            // 이동 속도
     public float findDistance = 5f;
     public float missDistance = 7f;
@@ -413,8 +412,34 @@ public class DwarfTest : MonoBehaviour
 
     private bool IsPathClear(Vector2 from, Vector2 to)
     {
-        RaycastHit2D hit = Physics2D.Raycast(from, (to - from).normalized, Vector2.Distance(from, to), LayerMask.GetMask("Wall"));
-        return hit.collider == null;
+        BoxCollider2D box = col as BoxCollider2D;
+        if (box == null) return false;
+
+        Vector2 direction = (to - from).normalized;
+        float distance = Vector2.Distance(from, to);
+
+        Vector2 size = box.size * box.transform.lossyScale;
+        Vector2[] offsets = new Vector2[]
+        {
+        new Vector2(-size.x / 2f, -size.y / 2f),
+        new Vector2(-size.x / 2f, size.y / 2f),
+        new Vector2(size.x / 2f, -size.y / 2f),
+        new Vector2(size.x / 2f, size.y / 2f),
+        };
+
+        Vector2 boxCenter = (Vector2)box.transform.TransformPoint(box.offset);
+
+        foreach (Vector2 offset in offsets)
+        {
+            Vector2 rayOrigin = boxCenter + offset;
+            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, distance, LayerMask.GetMask("Wall"));
+            Debug.DrawRay(rayOrigin, direction * distance, Color.red, 0.1f);
+
+            if (hit.collider != null)
+                return false;
+        }
+
+        return true;
     }
 
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
@@ -475,6 +500,25 @@ public class DwarfTest : MonoBehaviour
         // 시야각 라인 그리기
         Gizmos.DrawRay(transform.position, leftDir * length);
         Gizmos.DrawRay(transform.position, rightDir * length);
+        if (col is BoxCollider2D box)
+        {
+            Vector2 size = box.size * box.transform.lossyScale;
+            Vector2 boxCenter = (Vector2)box.transform.position + box.offset;
+
+            Vector2[] corners = new Vector2[]
+            {
+            boxCenter + new Vector2(-size.x / 2f, -size.y / 2f),
+            boxCenter + new Vector2(-size.x / 2f, size.y / 2f),
+            boxCenter + new Vector2(size.x / 2f, -size.y / 2f),
+            boxCenter + new Vector2(size.x / 2f, size.y / 2f)
+            };
+
+            Gizmos.color = Color.cyan;
+            foreach (var corner in corners)
+            {
+                Gizmos.DrawSphere(corner, 0.05f); // 꼭짓점 위치에 작은 구체 표시
+            }
+        }
     }
 #endif
 
