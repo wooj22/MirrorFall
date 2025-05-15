@@ -256,14 +256,17 @@ public class PlayerController : MonoBehaviour
     {
         if (isInteractionKey && curDoor != null)
         {
-            DoorInteraction();
+            string nextSceneName = curDoor.DoorGetNextScene();
+            if (nextSceneName == null) Debug.Log("문에 씬 이름 안넣었다 우정아");
+            else DoorInteraction(nextSceneName);
         }
     }
 
-    /// 문 열고 씬 이동
-    private void DoorInteraction()
+    /// Door Interation - Scene Change
+    private void DoorInteraction(string sceneName)
     {
-        curDoor.DoorOpen();
+        if (curPieceCount >= 4) FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        else FadeManager.Instance.FadeOutSceneChange(sceneName);
         curDoor = null;
     }
 
@@ -322,7 +325,7 @@ public class PlayerController : MonoBehaviour
         int pieceNum = curMirrorPiece.GetPieceNum();
         switch (pieceNum)
         {
-            case 1: piece1 = true; curPieceCount++;  break;
+            case 1: piece1 = true; curPieceCount++; break;
             case 2: piece2 = true; curPieceCount++; break;
             case 3: piece3 = true; curPieceCount++; break;
             case 4: piece4 = true; curPieceCount++; break;
@@ -458,8 +461,9 @@ public class PlayerController : MonoBehaviour
     /// 4. 거울 워프 스킬
     private void WarpMirrorSkill(string warpSceneName)
     {
-        //SceneSwitch.Instance.SceneSwithcing(warpSceneName);
-        FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        // 거울조각을 4개 모았다면 5번방으로, 아니라면 next 방으로
+        if (curPieceCount >= 4) FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;
 
         // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@
