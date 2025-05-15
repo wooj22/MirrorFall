@@ -37,6 +37,7 @@ public class Wall : MonoBehaviour
                 StopCoroutine(curCo);
 
             curCo = StartCoroutine(FadeToAlpha(originalAlpha));
+            Debug.Log("플레이어가 나감");
         }
     }
 

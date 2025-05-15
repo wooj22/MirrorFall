@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("[State]")]
+    [Header("State")]
     [SerializeField] public PlayerState state; 
     [SerializeField] public PlayerWayState wayState;    
     [HideInInspector] public BaseState curState;               // state class
@@ -18,10 +18,28 @@ public class PlayerController : MonoBehaviour
     public enum PlayerWayState { LeftUp, LeftDown, RightUp, RightDown }   // animation 방향 처리 state
 
     [Header("Player Stat")]
-    public int curHp;
-    public int initHp;
-    public float curSpeed;
-    public float initSpeed;
+    [SerializeField] public int curHp;
+    [SerializeField] private int initHp;
+    [SerializeField] public float curSpeed;
+    [SerializeField] private float initSpeed;
+
+    [Header("Mirror Piece Collection")]
+    [SerializeField] private int curPieceCount;
+    [SerializeField] private bool piece1;
+    [SerializeField] private bool piece2;
+    [SerializeField] private bool piece3;
+    [SerializeField] private bool piece4;
+    [SerializeField] private bool piece5;
+
+    [Header("Player State Flags")]
+    public bool isDie;
+    public bool isHit;
+    public bool isAddiction;
+    public bool isInHideZone;
+    public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
+    public bool isBright;
+    public bool isHourglass;
+    public bool isThrrow;
 
     [Header("Hit Data")]
     public float hitDurationTime;                       // 그림힐데 AI Hit 유지시간
@@ -52,16 +70,6 @@ public class PlayerController : MonoBehaviour
     public float speedUpRate;
     public float hourglassDurationTime;
 
-    [Header("Player State Flags")]
-    public bool isDie;
-    public bool isHit;
-    public bool isAddiction;
-    public bool isInHideZone;
-    public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
-    public bool isBright;
-    public bool isHourglass;
-    public bool isThrrow;
-
     // controll
     [HideInInspector] public float moveX;
     [HideInInspector] public float moveY;
@@ -72,6 +80,7 @@ public class PlayerController : MonoBehaviour
     private FiledItem curFiledItem = null;
     private Door curDoor = null;
     private WarpMirror curWarpMirror = null;    
+    private MirrorPiece curMirrorPiece = null;
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -129,18 +138,21 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDie)
         {
+            // player default update
             KeyInputUpdate();
             MoveInputUpdate();
             WayUpdate();
 
+            // interation & pickup
             ItemInputCheak();
             SkillInputCheak();
             DoorInputCheak();
             WarpMirrorInputCheak();
+            MirrorPieceInputCheak();
 
             // Test (Attack)
-            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            //if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            //if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -244,14 +256,23 @@ public class PlayerController : MonoBehaviour
     {
         if (isInteractionKey && curDoor != null)
         {
-            DoorInteraction();
+            string nextSceneName = curDoor.DoorGetNextScene();
+            if (nextSceneName == null) Debug.Log("문에 씬 이름 안넣었다 우정아");
+            else DoorInteraction(nextSceneName);
         }
     }
 
-    /// 문 열고 씬 이동
-    private void DoorInteraction()
+    /// Door Interation - Scene Change
+    private void DoorInteraction(string sceneName)
     {
-        curDoor.DoorOpen();
+        // 거울조각 4개일때 5번방, 5번방이면 무조건 보스방
+        if (curPieceCount == 4)
+        {
+            if(SceneSwitch.Instance.GetCurrentScene() == "09_Play5")
+                FadeManager.Instance.FadeOutSceneChange("10_Boss");
+            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        }
+        else FadeManager.Instance.FadeOutSceneChange(sceneName);
         curDoor = null;
     }
 
@@ -266,6 +287,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*----------------- Pick Up ------------------------*/
     /// Item Input Cheak
     private void ItemInputCheak()
     {
@@ -277,7 +299,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Pick Up Filed Item
+    /// Pick Up Filed Item
     private void PickUpItem(FiledItem item)
     {
         if (inventory.IsInventoryFull())
@@ -289,11 +311,40 @@ public class PlayerController : MonoBehaviour
         {
             inventory.AddItem(item.name);
             curFiledItem = null;
-            item.InterationUIOff();
+            item.InteractionUIOff();
             Destroy(item.gameObject);
         }  
     }
 
+    /// Mirror Piece Input Cheak
+    private void MirrorPieceInputCheak()
+    {
+        if(isInteractionKey && curMirrorPiece != null)
+        {
+            PickUpMirrorPiece(curMirrorPiece);
+        }
+    }
+
+    /// Pick Up Mirror Piece
+    private void PickUpMirrorPiece(MirrorPiece piece)
+    {
+        int pieceNum = curMirrorPiece.GetPieceNum();
+        switch (pieceNum)
+        {
+            case 1: piece1 = true; curPieceCount++; break;
+            case 2: piece2 = true; curPieceCount++; break;
+            case 3: piece3 = true; curPieceCount++; break;
+            case 4: piece4 = true; curPieceCount++; break;
+            case 5: piece5 = true; curPieceCount++; break;
+            default: break;
+        }
+
+        GameManager.Instance.CollectPiece(pieceNum);    // game data
+
+        curMirrorPiece = null;
+        piece.InteratcionUIOff();
+        Destroy(piece.gameObject);
+    }
 
     /*------------------------- Skill -------------------------------*/
     /// Skill Input Cheak
@@ -418,8 +469,14 @@ public class PlayerController : MonoBehaviour
     /// 4. 거울 워프 스킬
     private void WarpMirrorSkill(string warpSceneName)
     {
-        //SceneSwitch.Instance.SceneSwithcing(warpSceneName);
-        FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        // 거울조각을 4개 모았다면 5번방으로, 아니라면 next 방으로
+        if (curPieceCount == 4)
+        {
+            if (SceneSwitch.Instance.GetCurrentScene() == "09_Play5")   // 5번방이면 무조건 보스방
+                FadeManager.Instance.FadeOutSceneChange("10_Boss");
+            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+        }
+        else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;
 
         // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@
@@ -532,7 +589,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Item"))
         {
             curFiledItem = collision.GetComponent<FiledItem>();
-            curFiledItem.InterationUIOn();
+            curFiledItem.InteractionUIOn();
         }
 
         // door interation
@@ -547,6 +604,13 @@ public class PlayerController : MonoBehaviour
         {
             curWarpMirror = collision.GetComponent<WarpMirror>();
             curWarpMirror.InterationUIOn();
+        }
+
+        // mirror piece interation
+        if (collision.CompareTag("MirrorPiece"))
+        {
+            curMirrorPiece = collision.GetComponent<MirrorPiece>();
+            curMirrorPiece.InteractionUIOn();
         }
     }
 
@@ -563,7 +627,7 @@ public class PlayerController : MonoBehaviour
         {
             if (curFiledItem != null)
             {
-                curFiledItem.InterationUIOff();
+                curFiledItem.InteractionUIOff();
                 curFiledItem = null;
             }
         }
@@ -571,17 +635,31 @@ public class PlayerController : MonoBehaviour
         // door interation
         if (collision.CompareTag("Door"))
         {
-            curDoor = collision.GetComponent<Door>();
-            curDoor.InterationUIOff();
-            curDoor = null;
+            if (curDoor != null)
+            {
+                curDoor.InterationUIOff();
+                curDoor = null;
+            }
         }
 
         // warp mirror interation
         if (collision.CompareTag("WarpMirror"))
         {
-            curWarpMirror = collision.GetComponent<WarpMirror>();
-            curWarpMirror.InterationUIOff();
-            curWarpMirror = null;
+            if (curWarpMirror != null)
+            {
+                curWarpMirror.InterationUIOff();
+                curWarpMirror = null;
+            }
+        }
+
+        // mirror piece interation
+        if (collision.CompareTag("MirrorPiece"))
+        {
+            if (curMirrorPiece != null)
+            {
+                curMirrorPiece.InteratcionUIOff();
+                curMirrorPiece = null;
+            }
         }
     }
 

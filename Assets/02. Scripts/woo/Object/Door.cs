@@ -10,10 +10,5 @@ public class Door : MonoBehaviour
     public void InterationUIOn() { uiCanvas.SetActive(true); }
     public void InterationUIOff() { uiCanvas.SetActive(false); }
 
-    // nextSeneName으로 이동
-    public void DoorOpen()
-    {
-        //SceneSwitch.Instance.SceneSwithcing(nextSeneName);
-        FadeManager.Instance.FadeOutSceneChange(nextSeneName);
-    }
+    public string DoorGetNextScene() { return nextSeneName; }
 }
