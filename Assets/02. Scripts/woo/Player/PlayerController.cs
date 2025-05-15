@@ -72,6 +72,7 @@ public class PlayerController : MonoBehaviour
     private FiledItem curFiledItem = null;
     private Door curDoor = null;
     private WarpMirror curWarpMirror = null;    
+    private MirrorPiece curMirrorPiece = null;
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -129,18 +130,21 @@ public class PlayerController : MonoBehaviour
     {
         if (!isDie)
         {
+            // player default update
             KeyInputUpdate();
             MoveInputUpdate();
             WayUpdate();
 
+            // interation & pickup
             ItemInputCheak();
             SkillInputCheak();
             DoorInputCheak();
             WarpMirrorInputCheak();
+            MirrorPieceInputCheak();
 
             // Test (Attack)
-            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            //if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            //if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -266,6 +270,7 @@ public class PlayerController : MonoBehaviour
         }
     }
 
+    /*----------------- Pick Up ------------------------*/
     /// Item Input Cheak
     private void ItemInputCheak()
     {
@@ -277,7 +282,7 @@ public class PlayerController : MonoBehaviour
     }
 
 
-    // Pick Up Filed Item
+    /// Pick Up Filed Item
     private void PickUpItem(FiledItem item)
     {
         if (inventory.IsInventoryFull())
@@ -289,11 +294,27 @@ public class PlayerController : MonoBehaviour
         {
             inventory.AddItem(item.name);
             curFiledItem = null;
-            item.InterationUIOff();
+            item.InteractionUIOff();
             Destroy(item.gameObject);
         }  
     }
 
+    /// Mirror Piece Input Cheak
+    private void MirrorPieceInputCheak()
+    {
+        if(isInteractionKey && curMirrorPiece != null)
+        {
+            PickUpMirrorPiece(curMirrorPiece);
+        }
+    }
+
+    /// Pick Up Mirror Piece
+    private void PickUpMirrorPiece(MirrorPiece piece)
+    {
+        curMirrorPiece = null;
+        piece.InteratcionUIOff();
+        Destroy(piece.gameObject);
+    }
 
     /*------------------------- Skill -------------------------------*/
     /// Skill Input Cheak
@@ -532,7 +553,7 @@ public class PlayerController : MonoBehaviour
         if (collision.CompareTag("Item"))
         {
             curFiledItem = collision.GetComponent<FiledItem>();
-            curFiledItem.InterationUIOn();
+            curFiledItem.InteractionUIOn();
         }
 
         // door interation
@@ -547,6 +568,13 @@ public class PlayerController : MonoBehaviour
         {
             curWarpMirror = collision.GetComponent<WarpMirror>();
             curWarpMirror.InterationUIOn();
+        }
+
+        // mirror piece interation
+        if (collision.CompareTag("MirrorPiece"))
+        {
+            curMirrorPiece = collision.GetComponent<MirrorPiece>();
+            curMirrorPiece.InteractionUIOn();
         }
     }
 
@@ -563,7 +591,7 @@ public class PlayerController : MonoBehaviour
         {
             if (curFiledItem != null)
             {
-                curFiledItem.InterationUIOff();
+                curFiledItem.InteractionUIOff();
                 curFiledItem = null;
             }
         }
@@ -571,17 +599,31 @@ public class PlayerController : MonoBehaviour
         // door interation
         if (collision.CompareTag("Door"))
         {
-            curDoor = collision.GetComponent<Door>();
-            curDoor.InterationUIOff();
-            curDoor = null;
+            if (curDoor != null)
+            {
+                curDoor.InterationUIOff();
+                curDoor = null;
+            }
         }
 
         // warp mirror interation
         if (collision.CompareTag("WarpMirror"))
         {
-            curWarpMirror = collision.GetComponent<WarpMirror>();
-            curWarpMirror.InterationUIOff();
-            curWarpMirror = null;
+            if (curWarpMirror != null)
+            {
+                curWarpMirror.InterationUIOff();
+                curWarpMirror = null;
+            }
+        }
+
+        // mirror piece interation
+        if (collision.CompareTag("MirrorPiece"))
+        {
+            if (curMirrorPiece != null)
+            {
+                curMirrorPiece.InteratcionUIOff();
+                curMirrorPiece = null;
+            }
         }
     }
 

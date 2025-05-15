@@ -10,6 +10,7 @@ TagManager:
   - Item
   - Door
   - WarpMirror
+  - MirrorPiece
   layers:
   - Default
   - TransparentFX
