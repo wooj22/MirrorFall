@@ -30,8 +30,8 @@ public class DwarfTest : MonoBehaviour
     GameObject nearestApple;
     Vector2 PlayerPos;
     Vector2 ApplePos;
-
-    public List<Transform> patrolPoints; //¼øÂû ÁÂÇ¥¸®½ºÆ®
+    public GameObject allpatrolPoints;
+    private List<Transform> patrolPoints = new List<Transform>(); //¼øÂû ÁÂÇ¥¸®½ºÆ®
     private int currentPointIndex=0; //ÁÂÇ¥¸®½ºÆ® ÀÎµ¦½º
     public GameObject alldirPoints;
     private List<Transform> dirPoints = new List<Transform>();
@@ -43,6 +43,13 @@ public class DwarfTest : MonoBehaviour
         ani = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         Player = GameObject.FindGameObjectWithTag("Player");
+        if (allpatrolPoints != null)
+        {
+            foreach (Transform child in allpatrolPoints.transform)
+            {
+                patrolPoints.Add(child);
+            }
+        }
         if (alldirPoints != null)
         {
             foreach (Transform child in alldirPoints.transform)
@@ -127,7 +134,7 @@ public class DwarfTest : MonoBehaviour
         if (!playerfind && !goback)
         {
             // ÇÃ·¹ÀÌ¾î ±ÙÃ³·Î ¿À¸é ÃßÀû ½ÃÀÛ
-            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide &&PlayerInSight())
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide &&PlayerInSight()&&IsPathClear(transform.position,PlayerPos))
             {
                 playerfind = true;
             }
@@ -211,7 +218,7 @@ public class DwarfTest : MonoBehaviour
         }
         else if (!playerfind && goback)
         {
-            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight())
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))
             {
                 playerfind = true;
                 goback = false;
