@@ -1353,8 +1353,6 @@ MonoBehaviour:
   initHp: 3
   curSpeed: 3
   initSpeed: 3
-  warpMirrorCoolTime: 60
-  warpMirrorTimer: 60
   hitDurationTime: 1
   addictionDurationTime: 3
   speedDownRate: 0.5
