@@ -151,15 +151,14 @@ public class PlayerController : MonoBehaviour
             MirrorPieceInputCheak();
 
             // Test (Attack)
-            //if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            //if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
             curState?.UpdateLigic();
         }
     }
-
 
     /// FSM Setting
     private void AddFSM()
@@ -199,7 +198,7 @@ public class PlayerController : MonoBehaviour
         isItem3Key = Input.GetKeyDown(Item3Key);
     }
 
-    /// Plater Init
+    /// Plater Init (Boss)
     public void PlayerInit()
     {
         // player stat init
@@ -220,6 +219,17 @@ public class PlayerController : MonoBehaviour
 
         // player state init
         ChangeState(PlayerState.Idle);
+    }
+
+    /// ## TODO :: 보스전 Retry를 위한 로직 ##
+    public void SavePlayerData()
+    {
+        // hp
+    }
+
+    public void BossSceneInit()
+    {
+
     }
 
     /// Player Move Input
@@ -265,12 +275,11 @@ public class PlayerController : MonoBehaviour
     /// Door Interation - Scene Change
     private void DoorInteraction(string sceneName)
     {
-        // 거울조각 4개일때 5번방, 5번방이면 무조건 보스방
         if (curPieceCount == 4)
         {
-            if(SceneSwitch.Instance.GetCurrentScene() == "09_Play5")
-                FadeManager.Instance.FadeOutSceneChange("10_Boss");
-            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+            if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+                FadeManager.Instance.FadeOutSceneChange("10_GameClear");
+            else FadeManager.Instance.FadeOutSceneChange("09_Boss");
         }
         else FadeManager.Instance.FadeOutSceneChange(sceneName);
         curDoor = null;
@@ -335,7 +344,13 @@ public class PlayerController : MonoBehaviour
             case 2: piece2 = true; curPieceCount++; break;
             case 3: piece3 = true; curPieceCount++; break;
             case 4: piece4 = true; curPieceCount++; break;
-            case 5: piece5 = true; curPieceCount++; break;
+            case 5:
+                {
+                    piece5 = true; 
+                    curPieceCount++; 
+                    // 보스방 AI, 이동경로 생성 트리거 
+                    break;
+                }
             default: break;
         }
 
@@ -469,12 +484,11 @@ public class PlayerController : MonoBehaviour
     /// 4. 거울 워프 스킬
     private void WarpMirrorSkill(string warpSceneName)
     {
-        // 거울조각을 4개 모았다면 5번방으로, 아니라면 next 방으로
         if (curPieceCount == 4)
         {
-            if (SceneSwitch.Instance.GetCurrentScene() == "09_Play5")   // 5번방이면 무조건 보스방
-                FadeManager.Instance.FadeOutSceneChange("10_Boss");
-            else FadeManager.Instance.FadeOutSceneChange("09_Play5");
+            if (SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+                FadeManager.Instance.FadeOutSceneChange("10_GameClear");
+            else FadeManager.Instance.FadeOutSceneChange("09_Boss");
         }
         else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;
@@ -572,7 +586,10 @@ public class PlayerController : MonoBehaviour
     /// TODO :: Die 로직 처리
     public void Die()
     {
-        
+        if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+        {
+            GameManager.Instance.BossPlayerDie();
+        }
     }
 
     

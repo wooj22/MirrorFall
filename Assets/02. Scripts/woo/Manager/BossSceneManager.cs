@@ -8,6 +8,7 @@ public class BossSceneManager : MonoBehaviour
     [SerializeField] private int BossSceneTimeLimit;
     private int currentTime;
     [SerializeField] private Text timerUI;
+    [SerializeField] private GameObject retryPannel;
 
     private void Start()
     {
@@ -24,10 +25,19 @@ public class BossSceneManager : MonoBehaviour
         }
 
         currentTime = 0;
+        GameManager.Instance.BossTimeEnd();
     }
 
     private void UpdateTimeUI()
     {
         timerUI.text = "거울속에 같히기까지  " + (BossSceneTimeLimit-currentTime);
     }
+
+    public void BossRetry()
+    {
+        FadeManager.Instance.FadeOutSceneChange(SceneSwitch.Instance.GetCurrentScene());
+    }
+
+    public void RetryPannelOn() { retryPannel.gameObject.SetActive(true); }
+    public void RetryPannelOff() { retryPannel.gameObject.SetActive(false); }
 }
