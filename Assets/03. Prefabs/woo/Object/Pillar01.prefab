@@ -105,7 +105,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.01, y: 1.2, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.3, y: 1.3, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 5131142366834449820}
@@ -191,7 +191,7 @@ MonoBehaviour:
   - {x: 0.15, y: -1.8, z: 0}
   m_ShapePathHash: 1969791629
   m_Mesh: {fileID: 0}
-  m_InstanceId: 45794
+  m_InstanceId: 78500
   m_LocalBounds:
     m_Center: {x: -0.08466457, y: -1.55, z: 0}
     m_Extent: {x: 0.23466457, y: 0.25, z: 0}
@@ -449,5 +449,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.2
-  targetAlpha: 0.1
+  targetAlpha: 0.3
   top: {fileID: 8927553294849689987}
