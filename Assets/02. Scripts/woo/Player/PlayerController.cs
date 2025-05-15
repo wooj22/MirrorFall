@@ -5,7 +5,7 @@ using UnityEngine.Rendering.Universal;
 
 public class PlayerController : MonoBehaviour
 {
-    [Header("[State]")]
+    [Header("State")]
     [SerializeField] public PlayerState state; 
     [SerializeField] public PlayerWayState wayState;    
     [HideInInspector] public BaseState curState;               // state class
@@ -18,10 +18,28 @@ public class PlayerController : MonoBehaviour
     public enum PlayerWayState { LeftUp, LeftDown, RightUp, RightDown }   // animation 방향 처리 state
 
     [Header("Player Stat")]
-    public int curHp;
-    public int initHp;
-    public float curSpeed;
-    public float initSpeed;
+    [SerializeField] public int curHp;
+    [SerializeField] private int initHp;
+    [SerializeField] public float curSpeed;
+    [SerializeField] private float initSpeed;
+
+    [Header("Mirror Piece Collection")]
+    [SerializeField] private int curPieceCount;
+    [SerializeField] private bool piece1;
+    [SerializeField] private bool piece2;
+    [SerializeField] private bool piece3;
+    [SerializeField] private bool piece4;
+    [SerializeField] private bool piece5;
+
+    [Header("Player State Flags")]
+    public bool isDie;
+    public bool isHit;
+    public bool isAddiction;
+    public bool isInHideZone;
+    public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
+    public bool isBright;
+    public bool isHourglass;
+    public bool isThrrow;
 
     [Header("Hit Data")]
     public float hitDurationTime;                       // 그림힐데 AI Hit 유지시간
@@ -51,16 +69,6 @@ public class PlayerController : MonoBehaviour
     [Header("Hourglass Data")]
     public float speedUpRate;
     public float hourglassDurationTime;
-
-    [Header("Player State Flags")]
-    public bool isDie;
-    public bool isHit;
-    public bool isAddiction;
-    public bool isInHideZone;
-    public bool isHide;                               // ### AI 분들 이거 get해서 쓰세여
-    public bool isBright;
-    public bool isHourglass;
-    public bool isThrrow;
 
     // controll
     [HideInInspector] public float moveX;
@@ -311,6 +319,17 @@ public class PlayerController : MonoBehaviour
     /// Pick Up Mirror Piece
     private void PickUpMirrorPiece(MirrorPiece piece)
     {
+        int pieceNum = curMirrorPiece.GetPieceNum();
+        switch (pieceNum)
+        {
+            case 1: piece1 = true; curPieceCount++;  break;
+            case 2: piece2 = true; curPieceCount++; break;
+            case 3: piece3 = true; curPieceCount++; break;
+            case 4: piece4 = true; curPieceCount++; break;
+            case 5: piece5 = true; curPieceCount++; break;
+            default: break;
+        }
+
         curMirrorPiece = null;
         piece.InteratcionUIOff();
         Destroy(piece.gameObject);

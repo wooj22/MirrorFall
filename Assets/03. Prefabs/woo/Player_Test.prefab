@@ -1353,8 +1353,16 @@ MonoBehaviour:
   initHp: 3
   curSpeed: 3
   initSpeed: 3
-  hitDurationTime: 1
-  addictionDurationTime: 3
+  isDie: 0
+  isHit: 0
+  isAddiction: 0
+  isInHideZone: 0
+  isHide: 0
+  isBright: 0
+  isHourglass: 0
+  isThrrow: 0
+  hitDurationTime: 1.5
+  addictionDurationTime: 2
   speedDownRate: 0.5
   addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
   invisibleDuration: 0.2
@@ -1370,14 +1378,6 @@ MonoBehaviour:
   brightDurationTime: 5
   speedUpRate: 1.5
   hourglassDurationTime: 5
-  isDie: 0
-  isHit: 0
-  isAddiction: 0
-  isInHideZone: 0
-  isHide: 0
-  isBright: 0
-  isHourglass: 0
-  isThrrow: 0
   moveX: 0
   moveY: 0
   lastDirX: 1

@@ -9,4 +9,5 @@ public class MirrorPiece : MonoBehaviour
 
     public void InteractionUIOn() { uiCanvas.SetActive(true); }
     public void InteratcionUIOff() { uiCanvas.SetActive(false); }
+    public int GetPieceNum() { return pieceNum; }
 }
