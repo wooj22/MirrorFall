@@ -284,9 +284,7 @@ public class Enemy_Grim : MonoBehaviour
     private void ResetToStart()
     {
         newPos = GetRandomPositionAwayFromPlayer(15f, 20f);
-
-        SetNearestPatrolPoint();
-
+        transform.position = newPos;
         playerfind = false;
         col.enabled = true;
         isAttacking = false;
