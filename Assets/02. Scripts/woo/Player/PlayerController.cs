@@ -333,6 +333,8 @@ public class PlayerController : MonoBehaviour
             default: break;
         }
 
+        GameManager.Instance.CollectPiece(pieceNum);    // game data
+
         curMirrorPiece = null;
         piece.InteratcionUIOff();
         Destroy(piece.gameObject);
