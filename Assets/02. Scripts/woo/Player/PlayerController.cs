@@ -151,8 +151,8 @@ public class PlayerController : MonoBehaviour
             MirrorPieceInputCheak();
 
             // Test (Attack)
-            //if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            //if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
@@ -334,7 +334,13 @@ public class PlayerController : MonoBehaviour
             case 2: piece2 = true; curPieceCount++; break;
             case 3: piece3 = true; curPieceCount++; break;
             case 4: piece4 = true; curPieceCount++; break;
-            case 5: piece5 = true; curPieceCount++; break;
+            case 5:
+                {
+                    piece5 = true; 
+                    curPieceCount++; 
+                    // 보스방 AI, 이동경로 생성 트리거 
+                    break;
+                }
             default: break;
         }
 
@@ -570,7 +576,10 @@ public class PlayerController : MonoBehaviour
     /// TODO :: Die 로직 처리
     public void Die()
     {
-        
+        if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+        {
+            GameManager.Instance.BossPlayerDie();
+        }
     }
 
     

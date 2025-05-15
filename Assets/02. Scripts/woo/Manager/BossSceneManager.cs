@@ -24,6 +24,7 @@ public class BossSceneManager : MonoBehaviour
         }
 
         currentTime = 0;
+        GameManager.Instance.BossTimeEnd();
     }
 
     private void UpdateTimeUI()
