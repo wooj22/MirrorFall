@@ -8,7 +8,7 @@ using UnityEngine.EventSystems;
 
 public class Enemy_Grim : MonoBehaviour
 {
-    // ai
+    // AI
     public string anim_cur = "Idle";
     public float speed = 2f;            // 이동 속도
     public float findDistance = 5f;
@@ -21,14 +21,12 @@ public class Enemy_Grim : MonoBehaviour
     private int upSorting = 150;
     private int downSorting = 50;
 
-    public List<Transform> patrolPoints;
+    // AI 이동
+    public GameObject allPatrolPoints;
+    public GameObject allBypassPoints;
+    private List<Transform> patrolPoints = new List<Transform>();
+    private List<Transform> bypassPoints = new List<Transform>();
     private int currentPointIndex = 0;
-
-    // map
-    public float minX = -10f;
-    public float maxX = 10f;
-    public float minY = -5f;
-    public float maxY = 5f;
 
     private bool playerfind = false;
     private bool applefind = false;
@@ -37,6 +35,7 @@ public class Enemy_Grim : MonoBehaviour
     private bool isEating = false;
     private float playerdistance;
     private float appledistance;
+
     private Rigidbody2D rb;
     private Collider2D col;
     private Animator ani;
@@ -45,9 +44,15 @@ public class Enemy_Grim : MonoBehaviour
     private GameObject player;
     private GameObject[] Apples;
     private GameObject nearestApple;
+
     private Vector2 playerPos;
     private Vector2 applePos;
-    private Vector2 newPos;
+
+    // map
+    public float minX = -10f;
+    public float maxX = 10f;
+    public float minY = -5f;
+    public float maxY = 5f;
 
     void Start()
     {
@@ -58,6 +63,22 @@ public class Enemy_Grim : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         playerSpr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+
+        if (allPatrolPoints != null)
+        {
+            foreach (Transform child in allPatrolPoints.transform)
+            {
+                patrolPoints.Add(child);
+            }    
+        }
+
+        if (allBypassPoints != null)
+        {
+            foreach (Transform child in allBypassPoints.transform)
+            {
+                bypassPoints.Add(child);
+            }
+        }
     }
 
     void Update()
@@ -77,6 +98,8 @@ public class Enemy_Grim : MonoBehaviour
         }
 
     }
+    
+    // 플레이어 탐색
     void PlayerCheck()
     {
         if (player != null)
@@ -87,6 +110,7 @@ public class Enemy_Grim : MonoBehaviour
         playerdistance = Vector2.Distance(transform.position, playerPos);
     }
 
+    // 사과 탐색
     void AppleCheck()
     {
         Apples = GameObject.FindGameObjectsWithTag("Apple");
@@ -121,7 +145,8 @@ public class Enemy_Grim : MonoBehaviour
             appledistance = float.MaxValue;
         }
     }
-
+    
+    // 적 AI 기본 이동
     void NormalMove()
     {
         if (isReturning || applefind || isAttacking) return;
@@ -130,22 +155,46 @@ public class Enemy_Grim : MonoBehaviour
 
         if (!playerfind)
         {
-            if (playerdistance < findDistance && !isPlayerHidden)
+            if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClear(transform.position, playerPos))
             {
                 playerfind = true;
             }
             else
             {
                 if (patrolPoints.Count == 0) return;
-
                 Vector2 nextPos = patrolPoints[currentPointIndex].position;
-                Vector2 dirToNext = (nextPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToNext * speed;
+                if (IsPathClear(transform.position, nextPos))
+                {
+                    Vector2 dirToNext = (nextPos - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToNext * speed;
+                }
+                else
+                {
+                    Transform bypassNext = FindClosestBypassPoint(transform.position, nextPos);
+
+                    if (bypassNext != null)
+                    {
+                        Vector2 bypassPos = bypassNext.position;
+                        Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
+                        rb.velocity = dirToBypassNext * speed;
+                    }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                    }    
+                }
 
                 // 순찰 지점 갱신
                 if (Vector2.Distance(transform.position, nextPos) < 0.2f)
                 {
                     currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
+
+                    int attempts = 0;
+                    while (patrolPoints[currentPointIndex] == null && attempts < patrolPoints.Count)
+                    {
+                        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
+                        attempts++;
+                    }
                 }
             }
         }
@@ -179,13 +228,33 @@ public class Enemy_Grim : MonoBehaviour
             }
             else
             {
-                // 플레이어 추적
-                Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToPlayer * speed;
+                if (IsPathClear(transform.position, playerPos))
+                {
+                    // 플레이어 추적
+                    Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToPlayer * speed;
+                }
+                else
+                {
+                    Transform bypassNext = FindClosestBypassPoint(transform.position, playerPos);
+                    
+                    if (bypassNext != null)
+                    {
+                        Vector2 bypassPos = bypassNext.position;
+                        Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
+                        rb.velocity = dirToBypassNext * speed;
+                    }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                    }
+
+                } 
             }
         }
     }
 
+    // 플레이어와 멀어지면 가장 가까운 페트롤포인트로 이동
     void SetNearestPatrolPoint()
     {
         float minDist = float.MaxValue;
@@ -202,10 +271,31 @@ public class Enemy_Grim : MonoBehaviour
         }
 
         currentPointIndex = nearestIndex;
+
+        if (IsPathClear(transform.position, playerPos))
+        {
+            // 플레이어 추적
+            Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
+            rb.velocity = dirToPlayer * speed;
+        }
+        else
+        {
+            Transform bypassNext = FindClosestBypassPoint(transform.position, playerPos);
+
+            if (bypassNext != null)
+            {
+                Vector2 bypassPos = bypassNext.position;
+                Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
+                rb.velocity = dirToBypassNext * speed;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
+        }
     }
 
-
-
+    // 사과로 이동
     void MovetoApple()
     {
         if (isReturning) return;
@@ -222,11 +312,26 @@ public class Enemy_Grim : MonoBehaviour
 
         if (applefind)
         {
-            applePos = nearestApple.transform.position;
-            appledistance = Vector2.Distance(transform.position, applePos);
+            if (IsPathClear(transform.position, applePos))
+            {
+                Vector2 dirToApole = (applePos - (Vector2)transform.position).normalized;
+                rb.velocity = dirToApole * speed;
+            }
+            else
+            {
+                Transform bypassNext = FindClosestBypassPoint(transform.position, applePos);
 
-            Vector2 dirToApple = (applePos - (Vector2)transform.position).normalized;
-            rb.velocity = dirToApple * speed;
+                if (bypassNext != null)
+                {
+                    Vector2 bypassPos = bypassNext.position;
+                    Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToBypassNext * speed;
+                }
+                else
+                {
+                    rb.velocity = Vector2.zero;
+                }
+            }
 
             if (appledistance > applemissDistance)
             {
@@ -235,6 +340,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
+    // 플레이 애니메이션
     void Playani()
     {
         Vector2 velocity = rb.velocity;
@@ -244,6 +350,7 @@ public class Enemy_Grim : MonoBehaviour
         SetAnimation(velocity.y >= 0 ? "RightTop" : "RightBot");
     }
 
+    // 공격
     void Attack()
     {
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
@@ -262,6 +369,7 @@ public class Enemy_Grim : MonoBehaviour
 
     }
 
+    // 사과를 먹게 됨
     void Eating()
     {
         if (appledistance <= eatDistance && !isEating && !isReturning)
@@ -281,9 +389,10 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
+    // 리셋
     private void ResetToStart()
     {
-        newPos = GetRandomPositionAwayFromPlayer(15f, 20f);
+        Vector2 newPos = GetRandomPositionAwayFromPlayer(15f, 20f);
         transform.position = newPos;
         playerfind = false;
         col.enabled = true;
@@ -291,6 +400,7 @@ public class Enemy_Grim : MonoBehaviour
         isReturning = false;
     }
 
+    // 사과를 먹게 되면 다시 플레이어를 탐색 시작
     private void ReGoing()
     {
         col.enabled = true;
@@ -298,6 +408,50 @@ public class Enemy_Grim : MonoBehaviour
         isEating = false;
         playerfind = true;
     }
+
+    // 플레이어를 감지하는 시야
+    private bool PlayerInSight()
+    {
+        if (player == null) return false;
+        Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
+        Vector2 forward = rb.velocity.normalized;
+        float angle = Vector2.Angle(forward, toPlayer);
+        return angle < 55f;
+    }
+
+    // 레이캐스트, 적이랑 다음 이동할 위치 사이를 확인
+    private bool IsPathClear(Vector2 from, Vector2 to)
+    {
+        RaycastHit2D hit = Physics2D.Raycast(from, (to - from).normalized, Vector2.Distance(from, to), LayerMask.GetMask("Wall"));
+        return hit.collider == null;
+    }
+
+    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
+    {
+        Transform bestPoint = null;
+        float minDistanceToTarget = float.MaxValue;
+
+        foreach (var point in bypassPoints)
+        {
+            if (point == null) continue;
+
+            if (IsPathClear(from, point.position))
+            {
+                float distToTarget = Vector2.Distance(point.position, to);
+
+                if (distToTarget < minDistanceToTarget)
+                {
+                    minDistanceToTarget = distToTarget;
+                    bestPoint = point;
+                }
+            }
+        }
+
+        return bestPoint;
+    }
+
+
+    // 애니메이션 재생
     private void SetAnimation(string anim)
     {
         if (anim_cur == anim) return;
@@ -305,6 +459,7 @@ public class Enemy_Grim : MonoBehaviour
         ani.Play(anim);
     }
 
+    // 맵을 기준으로 랜덤 좌표로 이동
     Vector2 GetRandomPositionAwayFromPlayer(float minDistance, float maxDistance)
     {
         Vector2 randomPos;
@@ -329,6 +484,7 @@ public class Enemy_Grim : MonoBehaviour
         return randomPos;
     }
 
+    // 기즈모 추가
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
@@ -338,6 +494,25 @@ public class Enemy_Grim : MonoBehaviour
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, findDistance);
+
+        // 120도 시야각 시각화 (±60도)
+        Gizmos.color = Color.yellow;
+
+        Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
+        if (forward == Vector2.zero) forward = Vector2.right; // 디폴트 방향
+
+        float halfAngle = 55f;
+
+        // 시야각 끝 방향 계산
+        Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;
+        Vector2 rightDir = Quaternion.Euler(0, 0, halfAngle) * forward;
+
+        // 시야각 라인 길이 (findDistance만큼)
+        float length = findDistance;
+
+        // 시야각 라인 그리기
+        Gizmos.DrawRay(transform.position, leftDir * length);
+        Gizmos.DrawRay(transform.position, rightDir * length);
     }
 #endif
 

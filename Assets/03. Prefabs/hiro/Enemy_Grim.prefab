@@ -184,8 +184,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim_cur: Idle
-  moveDistanceX: 5
-  moveDistanceY: 5
   speed: 2
   findDistance: 6
   missDistance: 8
@@ -194,9 +192,8 @@ MonoBehaviour:
   attackDistance: 1.3
   eatDistance: 2
   startPos: {x: 0, y: 0}
-  obstacleLayer:
-    serializedVersion: 2
-    m_Bits: 64
+  allPatrolPoints: {fileID: 0}
+  allBypassPoints: {fileID: 0}
   minX: -10
   maxX: 10
   minY: -10
