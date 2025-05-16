@@ -1918,10 +1918,6 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: rayDistance
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: allBypassPoints
       value: 
       objectReference: {fileID: 1330964625}
@@ -1929,50 +1925,6 @@ PrefabInstance:
       propertyPath: allPatrolPoints
       value: 
       objectReference: {fileID: 1986279697}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: wallLayer.m_Bits
-      value: 64
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.size
-      value: 9
-      objectReference: {fileID: 0}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[0]
-      value: 
-      objectReference: {fileID: 1915757516}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[1]
-      value: 
-      objectReference: {fileID: 731290074}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[2]
-      value: 
-      objectReference: {fileID: 860410393}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[3]
-      value: 
-      objectReference: {fileID: 1156173326}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[4]
-      value: 
-      objectReference: {fileID: 703962381}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[5]
-      value: 
-      objectReference: {fileID: 61746597}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[6]
-      value: 
-      objectReference: {fileID: 298261859}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[7]
-      value: 
-      objectReference: {fileID: 175703215}
-    - target: {fileID: 5370269463350273474, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
-      propertyPath: patrolPoints.Array.data[8]
-      value: 
-      objectReference: {fileID: 1207804317}
     - target: {fileID: 6478174189263777540, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_Name
       value: Enemy_Grim
