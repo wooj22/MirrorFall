@@ -27,7 +27,11 @@ public class Thrrow : BaseState
         if (!player.isThrrow)
         {
             // 현재 애니메이션이 끝났을때 전환
-            player.ChangeState(PlayerState.Idle);
+            AnimatorStateInfo stateInfo = player.ani.GetCurrentAnimatorStateInfo(0);
+            if (stateInfo.IsName("Throw") && stateInfo.normalizedTime >= 1f)
+            {
+                player.ChangeState(PlayerState.Idle);
+            }
         }
     }
 
@@ -54,7 +58,16 @@ public class Thrrow : BaseState
             // 좌클릭으로 Apple 던지기
             if (Input.GetMouseButtonDown(0))
             {
+                // 다음 애니메이션에도 방향이 적용되도록
+                int testLastDirX = dir.x>=0 ? 1 : -1;
+                int testLastDirY = dir.y >= 0 ? 1 : -1;
+
+                player.lastDirX = testLastDirX;
+                player.lastDirY = testLastDirY;     
+
+                // 던지기 애니메이션
                 player.ani.enabled = true;
+                player.ani.SetFloat("Vertical", player.lastDirY);
                 player.ani.Play("Throw");
 
                 player.AppleThrrowSkill();
