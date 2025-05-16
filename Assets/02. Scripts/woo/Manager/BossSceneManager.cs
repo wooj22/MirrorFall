@@ -27,7 +27,7 @@ public class BossSceneManager : MonoBehaviour
         }
 
         currentTime = 0;
-        RetryPannelOn();
+        GameManager.Instance.BossTimeEndDie();      // time end
     }
 
     private void UpdateTimeUI()

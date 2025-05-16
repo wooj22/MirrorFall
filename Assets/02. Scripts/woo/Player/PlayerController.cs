@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
+using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -614,6 +615,10 @@ public class PlayerController : MonoBehaviour
         if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
             GameManager.Instance.BossPlayerDie();
+        }
+        else
+        {
+            FadeManager.Instance.FadeOutSceneChange("11_GameOver");
         }
     }
 
