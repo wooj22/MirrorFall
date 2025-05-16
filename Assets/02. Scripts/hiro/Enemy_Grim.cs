@@ -435,7 +435,7 @@ public class Enemy_Grim : MonoBehaviour
 
     //    Vector2 dir = (to - center).normalized;
     //    float dist = Vector2.Distance(center, to);
-    //    float offset = 0.2f;
+    //    float offset = 0.1f;
 
     //    foreach (Vector2 start in startPoints)
     //    {
@@ -486,7 +486,7 @@ public class Enemy_Grim : MonoBehaviour
         {
             if (point == null) continue;
 
-            if (IsPathClearBox(from, point.position))
+            if (IsPathClearBox(from, point.position) && IsPathClearBox(point.position, to))
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
