@@ -431,13 +431,11 @@ public class Enemy_Grim : MonoBehaviour
         startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
         startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
 
-        Vector2 dir = (to - startPoints[0]).normalized;
+        Vector2 dir = (to - center).normalized;
+        float dist = Vector2.Distance(center, to);
 
         foreach (Vector2 start in startPoints)
         {
-            float dist = Vector2.Distance(start, to);
-
-            // 실제 레이캐스트
             RaycastHit2D hit = Physics2D.Raycast(start, dir, dist, LayerMask.GetMask("Wall"));
             Debug.DrawRay(start, dir * dist, Color.red); // 디버깅용
 
