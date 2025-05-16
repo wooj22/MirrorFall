@@ -2149,6 +2149,22 @@ PrefabInstance:
       propertyPath: allPatrolPoints
       value: 
       objectReference: {fileID: 1986279697}
+    - target: {fileID: 6232103257339094752, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5263f3f3f28567441b90a13e5029cb87, type: 3}
+    - target: {fileID: 6232103257339094752, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: m_Color.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232103257339094752, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: m_Color.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6232103257339094752, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
+      propertyPath: m_Color.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6478174189263777540, guid: bdef18f1b0478724e901b98a71e81874, type: 3}
       propertyPath: m_Name
       value: Enemy_Grim
