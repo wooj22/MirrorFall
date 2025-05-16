@@ -484,13 +484,23 @@ public class Enemy_Grim : MonoBehaviour
 
         foreach (var point in bypassPoints)
         {
-            if (point == null) continue;
+            if (point == null || !IsPathClearBox(from, point.position)) continue;
 
-            if (IsPathClearBox(from, point.position) && IsPathClearBox(point.position, to))
+            bool hasClearPathToTarget = !Physics2D.Raycast(
+                point.position,
+                (to - (Vector2)point.position).normalized,
+                Vector2.Distance(point.position, to),
+                LayerMask.GetMask("Wall")
+            );
+
+            // 첫 번째 패스: 타겟까지 길이 뚫려있는 우회 포인트
+            // 두 번째 패스: 그냥 가까운 우회 포인트
+            if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
-                if (distToTarget < minDistanceToTarget)
+                if (distToTarget < minDistanceToTarget &&
+                    (hasClearPathToTarget || bestPoint == null))
                 {
                     minDistanceToTarget = distToTarget;
                     bestPoint = point;

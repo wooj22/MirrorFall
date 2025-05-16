@@ -154,7 +154,7 @@ MonoBehaviour:
   missDistance: 8
   applefindDistance: 10
   applemissDistance: 15
-  attackDistance: 1.3
+  attackDistance: 0.7
   eatDistance: 2
   startPos: {x: 0, y: 0}
   allPatrolPoints: {fileID: 0}
