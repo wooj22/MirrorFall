@@ -367,7 +367,8 @@ public class Dwarf : MonoBehaviour
         {
             if (point == null) continue;
 
-            if (IsPathClear(from, point.position) && IsPathClear(point.position, to))
+            if (IsPathClear(from, point.position) &&
+                !Physics2D.Raycast(point.position, (to - (Vector2)point.position).normalized, Vector2.Distance(point.position, to), LayerMask.GetMask("Wall")))
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
