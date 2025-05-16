@@ -332,7 +332,9 @@ public class Dwarf : MonoBehaviour
         Vector2 direction = (to - from).normalized;
         float distance = Vector2.Distance(from, to);
         Debug.DrawLine(from, to, Color.magenta, 0.1f);
-        Vector2 size = box.size * box.transform.lossyScale;
+        float expandRate = 0.1f;                  //콜라이더와 비율 상 0.1차이
+        Vector2 scaledSize = box.size * box.transform.lossyScale;
+        Vector2 size = scaledSize * (1f + expandRate);
         Vector2[] offsets = new Vector2[]
         {
         new Vector2(-size.x / 2f, -size.y / 2f),
