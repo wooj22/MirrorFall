@@ -7,33 +7,33 @@ public class Dwarf : MonoBehaviour
 {
     public string anim_cur = "Idle";
     public float speed = 2f;            // 이동 속도
-    public float findDistance = 5f;
-    public float missDistance = 7f;
-    public float applefindDistance = 10f;
-    public float applemissDistance = 15f;
-    public float attackDistance = 1f;
-    public float eatDistance = 1f;
-    bool playerfind = false;
-    bool goback = false;
-    bool applefind = false;
-    bool isReturning = false;
-    bool isAttacking = false;
-    bool isEating = false;
-    float playerdistance;
-    float appledistance;
+    public float findDistance = 5f;     //플레이어 감지 범위
+    public float missDistance = 7f;      //플레이어 추척 실패 거리
+    public float applefindDistance = 10f;     //사과 감지 범위
+    public float applemissDistance = 15f;     //사과 추적 실패 거리
+    public float attackDistance = 1f;    //공격 범위
+    public float eatDistance = 1f;      //사과 섭취 범위
+    bool playerfind = false;     //플레이어 추적 상태 확인
+    bool goback = false;      //복귀 중 상태 확인
+    bool applefind = false;     //사과 추적 상태 확인
+    bool notmove = false;     //이동코드 제한
+    bool isAttacking = false;    //공격 중 확인
+    bool isEating = false;     //섭취 중 확인
+    float playerdistance;     //플레이어와의 거리
+    float appledistance;     //사과와의 거리
     Rigidbody2D rb;
     Collider2D col;
     Animator ani;
     SpriteRenderer spr;
     GameObject Player;
-    GameObject nearestApple;
+    GameObject nearestApple;    //가장 가까운 사과
     Vector2 PlayerPos;
     Vector2 ApplePos;
-    public GameObject allpatrolPoints;
+    public GameObject allpatrolPoints;     //순찰 좌표 부모오브젝트
     private List<Transform> patrolPoints = new List<Transform>(); //순찰 좌표리스트
     private int currentPointIndex = 0; //좌표리스트 인덱스
-    public GameObject alldirPoints;
-    private List<Transform> dirPoints = new List<Transform>();
+    public GameObject alldirPoints;     //경로 좌표 부모오브젝트
+    private List<Transform> dirPoints = new List<Transform>(); //경로 좌표 리스트
 
     void Start()
     {
@@ -60,17 +60,17 @@ public class Dwarf : MonoBehaviour
 
     void Update()
     {
-        PlayerCheck();
-        AppleCheck();
-        Playani();
-        MovetoApple();
-        NormalMove();
-        if (!isReturning && !isAttacking)
-            Attack();
-        if (!isReturning && !isEating)
-            Eating();
+        PlayerCheck();     //플레이어 오브젝트 확인
+        AppleCheck();     //사과 오브젝트 확인
+        Playani();     //애니메이션 재생
+        MovetoApple();     //사과추적이동
+        NormalMove();     //통상상태 이동(플레이어 추적 포함)
+        if (!notmove && !isAttacking)
+            Attack();     //공격 중
+        if (!notmove && !isEating)
+            Eating();     //사과 섭취 중
     }
-    void PlayerCheck()
+    void PlayerCheck()     //플레이어 오브젝트 확인
     {
         if (Player != null)
         {
@@ -83,7 +83,7 @@ public class Dwarf : MonoBehaviour
             playerdistance = float.MaxValue;
         }
     }
-    void AppleCheck()
+    void AppleCheck()     //사과 오브젝트 확인
     {
         GameObject[] allApples = GameObject.FindGameObjectsWithTag("Apple");
         List<GameObject> validApples = new List<GameObject>();
@@ -91,13 +91,13 @@ public class Dwarf : MonoBehaviour
         foreach (GameObject apple in allApples)
         {
             Apple appleScript = apple.GetComponent<Apple>();
-            if (appleScript != null && appleScript.isGround)
+            if (appleScript != null && appleScript.isGround)   //땅에 떨어진 사과만 감지
             {
                 validApples.Add(apple);
             }
         }
 
-        if (validApples.Count > 0)
+        if (validApples.Count > 0)   //가장 가까운 사과를 nearest Apple로 지정
         {
             float minDistance = float.MaxValue;
             GameObject closest = null;
@@ -126,11 +126,11 @@ public class Dwarf : MonoBehaviour
             appledistance = float.MaxValue;
         }
     }
-    void NormalMove()
+    void NormalMove()     //통상상태 이동(플레이어 추적 포함)
     {
-        if (isReturning) return;
+        if (notmove) return;
         if (applefind) return;
-        if (!playerfind && !goback)
+        if (!playerfind && !goback)     //플레이어 감지X, 복귀 중X
         {
             // 플레이어 근처로 오면 추적 시작
             if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))
@@ -159,7 +159,7 @@ public class Dwarf : MonoBehaviour
                 }
             }
         }
-        else if (playerfind && !goback)
+        else if (playerfind && !goback)     //플레이어 감지O, 복귀 중X
         {
             if (playerdistance > missDistance)
             {
@@ -171,7 +171,7 @@ public class Dwarf : MonoBehaviour
                 MoveToTarget(PlayerPos);
             }
         }
-        else if (!playerfind && goback)
+        else if (!playerfind && goback)     //플레이어 감지X, 복귀 중O
         {
             if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))
             {
@@ -206,9 +206,9 @@ public class Dwarf : MonoBehaviour
             }
         }
     }
-    void MovetoApple()
+    void MovetoApple()     //사과추적이동
     {
-        if (isReturning) return;
+        if (notmove) return;
         if (nearestApple == null)
         {
             applefind = false;
@@ -230,7 +230,7 @@ public class Dwarf : MonoBehaviour
             }
         }
     }
-    void Playani()
+    void Playani()     //애니메이션 재생
     {
         Vector2 vel = rb.velocity;
 
@@ -260,27 +260,27 @@ public class Dwarf : MonoBehaviour
         SetAnimation(movingUp ? "Walk1" : "Walk");
         spr.flipX = !movingRight;
     }
-    void Attack()
+    void Attack()     //공격 중
     {
-        if (playerdistance <= attackDistance && !isAttacking && !isReturning && playerfind)
+        if (playerdistance <= attackDistance && !isAttacking && !notmove && playerfind)
         {
             // attack
             Player.GetComponent<PlayerController>().Hit("L");
 
             rb.velocity = Vector2.zero;
             col.enabled = false;
-            isReturning = true;
+            notmove = true;
             isAttacking = true;
             Invoke(nameof(ResetToStart), 0.5f);
         }
     }
-    void Eating()
+    void Eating()     //사과 섭취 중
     {
-        if (appledistance <= eatDistance && !isEating && !isReturning)
+        if (appledistance <= eatDistance && !isEating && !notmove)
         {
             rb.velocity = Vector2.zero;
             col.enabled = false;
-            isReturning = true;
+            notmove = true;
             isEating = true;
             if (nearestApple != null)
             {
@@ -293,27 +293,27 @@ public class Dwarf : MonoBehaviour
         }
     }
 
-    private void ResetToStart()
+    private void ResetToStart()     //공격 후 0번 순찰 좌표로 순간이동
     {
         transform.position = patrolPoints[0].position;
         currentPointIndex = 0;
         col.enabled = true;
-        isReturning = false;
+        notmove = false;
         isAttacking = false;
         playerfind = false;
         goback = false;
     }
 
-    private void ReGoing()
+    private void ReGoing()     //사과 섭취 후 복귀상태로 전환
     {
         col.enabled = true;
-        isReturning = false;
+        notmove = false;
         isEating = false;
         playerfind = false;
         goback = true;
     }
 
-    private bool PlayerInSight()
+    private bool PlayerInSight()     //플레이어 감지 범위 110도로 제한
     {
         if (Player == null) return false;
         Vector2 toPlayer = (PlayerPos - (Vector2)transform.position).normalized;
@@ -324,7 +324,7 @@ public class Dwarf : MonoBehaviour
         return angle < 55f;
     }
 
-    private bool IsPathClear(Vector2 from, Vector2 to)
+    private bool IsPathClear(Vector2 from, Vector2 to)     //경로 상 벽 오브젝트 확인
     {
         BoxCollider2D box = col as BoxCollider2D;
         if (box == null) return false;
@@ -356,7 +356,7 @@ public class Dwarf : MonoBehaviour
         return true;
     }
 
-    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
+    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)     //이동 가능한 순찰 좌표 확인
     {
         Transform bestPoint = null;
         float minDistanceToTarget = float.MaxValue;
@@ -379,7 +379,7 @@ public class Dwarf : MonoBehaviour
 
         return bestPoint;
     }
-    private void MoveToTarget(Vector2 targetPos)
+    private void MoveToTarget(Vector2 targetPos)    //목표 타겟으로 이동
     {
         if (IsPathClear(transform.position, targetPos))
         {
