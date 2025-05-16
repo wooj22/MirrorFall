@@ -462,13 +462,14 @@ public class PlayerController : MonoBehaviour
         float time = 0f;
 
         GameObject apple = Instantiate(applePrefab, start, Quaternion.identity);
+        Apple appleController = apple.GetComponent<Apple>();
 
-        while (time < duration)
+        while (time < duration && !appleController.isGround)
         {
             float t = time / duration;
 
             Vector2 pos = Vector2.Lerp(start, end, t);
-            pos.y += 4 * height * t * (1 - t); // 포물선 공식과 동일
+            pos.y += 4 * height * t * (1 - t);        // 포물선 공식
 
             apple.transform.position = pos;
 
@@ -476,7 +477,7 @@ public class PlayerController : MonoBehaviour
             yield return null;
         }
 
-        apple.transform.position = end;
+        //apple.transform.position = end;
     }
 
     /// 2. Bright Skill 밝기
