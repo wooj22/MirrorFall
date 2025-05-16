@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5306427161371854241}
-  - component: {fileID: 4364934527236578875}
+  - component: {fileID: 943550029793586298}
   m_Layer: 6
   m_Name: WallFull_Trigger
   m_TagString: Wall
@@ -32,8 +32,8 @@ Transform:
   m_Children: []
   m_Father: {fileID: 1578162522526296823}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!61 &4364934527236578875
-BoxCollider2D:
+--- !u!60 &943550029793586298
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -74,9 +74,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 0.5, y: 4}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: 0.2621436, y: 0.8653148}
+      - {x: 0.6497815, y: 1.2837585}
+      - {x: 0.6326476, y: 1.5698683}
+      - {x: 0.65728766, y: 1.6787184}
+      - {x: 0.035902172, y: 2.0154848}
+      - {x: -0.6659987, y: 1.6456074}
+      - {x: -0.6615707, y: 1.5544568}
+      - {x: -0.69271034, y: 1.2762802}
+      - {x: -0.2819203, y: 0.86688536}
+      - {x: -0.3266316, y: -1.6174029}
+      - {x: -0.40842986, y: -1.7589415}
+      - {x: -0.015592763, y: -1.9832351}
+      - {x: 0.38185626, y: -1.7788699}
+      - {x: 0.30670118, y: -1.6174028}
+  m_UseDelaunayMesh: 0
 --- !u!1 &5619333406371267792
 GameObject:
   m_ObjectHideFlags: 0
@@ -154,7 +168,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 5f4655e2a8e40794d853de456c7f58e2, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4a05bf4e0d206f94dbb41451fff5014f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -191,7 +205,7 @@ MonoBehaviour:
   - {x: 0.15, y: -1.8, z: 0}
   m_ShapePathHash: 1969791629
   m_Mesh: {fileID: 0}
-  m_InstanceId: 78500
+  m_InstanceId: -44644
   m_LocalBounds:
     m_Center: {x: -0.08466457, y: -1.55, z: 0}
     m_Extent: {x: 0.23466457, y: 0.25, z: 0}
