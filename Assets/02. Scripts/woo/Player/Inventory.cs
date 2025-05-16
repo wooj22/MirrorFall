@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using static UnityEditor.Progress;
 
 public class Inventory : MonoBehaviour
 {
@@ -99,5 +98,23 @@ public class Inventory : MonoBehaviour
                     break;
             }
         }
+    }
+
+    /// 인벤토리 데이터 retrun (보스전 진입 데이터 save)
+    public List<string> GetInventoryData()
+    {
+        return new List<string>(items);
+    }
+
+    public void SetInventoryDate(List<string> initItems)
+    {
+        items.Clear();
+        items.AddRange(initItems);
+
+        // isFull 상태 갱신
+        isFull = items.Count >= inventorySize;
+
+        // UI 재정렬
+        SortingInventory();
     }
 }
