@@ -54,36 +54,32 @@ public class GameManager : MonoBehaviour
         Debug.Log("보스전 Retry");
         FadeManager.Instance.FadeOutSceneChange(SceneSwitch.Instance.GetCurrentScene());
         
-        StartCoroutine(BossRetryCo());
+        //StartCoroutine(BossRetryCo());
     }
 
-    IEnumerator BossRetryCo()
+    //IEnumerator BossRetryCo()
+    //{
+    //    yield return new WaitForSeconds(1.2f);        // 임시임
+    //    player.InitPlayer_ToBossScene();
+    //    Debug.Log("Init Timing cheak");
+    //}
+
+    // 보스씬이 리로드되었을 때 플레리어 Init
+    void OnEnable()
     {
-        yield return new WaitForSeconds(1.2f);        // 임시임
-        player.InitPlayer_ToBossScene();
-        Debug.Log("Init Timing cheak");
+        SceneManager.sceneLoaded += OnSceneLoaded;
     }
 
+    void OnDisable()
+    {
+        SceneManager.sceneLoaded -= OnSceneLoaded;
+    }
 
-    /*--------------- Delete ----------------*/
-    // 씬 이동시 삭제 필요 (지금은 리로드때문에 삭제 안함 일단)
-    //void OnEnable()
-    //{
-    //    SceneManager.sceneUnloaded += OnSceneUnloaded;
-    //}
-
-    //void OnDisable()
-    //{
-    //    SceneManager.sceneUnloaded -= OnSceneUnloaded;
-    //}
-
-    //private void OnSceneUnloaded(Scene scene)
-    //{
-    //    if (scene.name == "09_Boss")
-    //    {
-    //        Destroy(player.gameObject);
-    //        Destroy(this.gameObject);
-    //        Debug.Log("09_Boss 씬 언로드, 플레이어와 게임매니저 파괴");
-    //    }
-    //}
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if (scene.name == "09_Boss")
+        {
+            player.InitPlayer_ToBossScene();
+        }
+    }
 }
