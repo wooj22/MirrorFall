@@ -367,7 +367,7 @@ public class Dwarf : MonoBehaviour
         {
             if (point == null) continue;
 
-            if (IsPathClear(from, point.position))
+            if (IsPathClear(from, point.position) && IsPathClear(point.position, to))
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
