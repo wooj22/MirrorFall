@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -416,35 +418,63 @@ public class Enemy_Grim : MonoBehaviour
     }
 
     // 레이캐스트, 적이랑 다음 이동할 위치 사이를 확인
+    //private bool IsPathClearBox(Vector2 from, Vector2 to)
+    //{
+    //    // 콜라이더 정보
+    //    BoxCollider2D box = GetComponent<BoxCollider2D>();
+    //    Bounds bounds = box.bounds;
+    //    Vector2 center = bounds.center;
+
+    //    // 꼭짓점들 (왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래)
+    //    Vector2[] startPoints = new Vector2[5];
+    //    startPoints[0] = bounds.center; // 중앙
+    //    startPoints[1] = new Vector2(bounds.min.x, bounds.max.y); // 왼쪽 위
+    //    startPoints[2] = new Vector2(bounds.max.x, bounds.max.y); // 오른쪽 위
+    //    startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
+    //    startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
+
+    //    Vector2 dir = (to - center).normalized;
+    //    float dist = Vector2.Distance(center, to);
+    //    float offset = 0.2f;
+
+    //    foreach (Vector2 start in startPoints)
+    //    {
+    //        Vector2 offsetStart = start + dir * offset;
+
+    //        RaycastHit2D hit = Physics2D.Raycast(offsetStart, dir, dist, LayerMask.GetMask("Wall"));
+    //        Debug.DrawRay(offsetStart, dir * dist, Color.red); // 디버깅용
+
+    //        if (hit.collider != null)
+    //            return false; // 하나라도 막히면 false
+    //    }
+
+    //    return true;
+    //}
+
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
-        // 콜라이더 정보
         BoxCollider2D box = GetComponent<BoxCollider2D>();
-        Bounds bounds = box.bounds;
-        Vector2 center = bounds.center;
+        Vector2 center = box.bounds.center;
+        float raySize = 1.1f;
 
-        // 꼭짓점들 (왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래)
-        Vector2[] startPoints = new Vector2[5];
-        startPoints[0] = bounds.center; // 중앙
-        startPoints[1] = new Vector2(bounds.min.x, bounds.max.y); // 왼쪽 위
-        startPoints[2] = new Vector2(bounds.max.x, bounds.max.y); // 오른쪽 위
-        startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
-        startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
 
-        Vector2 dir = (to - center).normalized;
-        float dist = Vector2.Distance(center, to);
+        // 월드 스케일 반영한 실제 크기 계산
+        Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
 
-        foreach (Vector2 start in startPoints)
-        {
-            RaycastHit2D hit = Physics2D.Raycast(start, dir, dist, LayerMask.GetMask("Wall"));
-            Debug.DrawRay(start, dir * dist, Color.red); // 디버깅용
+        // BoxCast의 중심 위치를 콜라이더 중심으로 맞춤
+        // (from과 center가 다르면 center를 기준으로 하는 게 맞음)
+        Vector2 castOrigin = center;
 
-            if (hit.collider != null)
-                return false; // 하나라도 막히면 false
-        }
+        RaycastHit2D hit = Physics2D.BoxCast(
+            castOrigin, worldSize, 0f, dir, dist, LayerMask.GetMask("Wall"));
 
-        return true;
+        Debug.DrawRay(castOrigin, dir * dist, Color.yellow);
+
+        return hit.collider == null;
     }
+
 
     // 가장 가까운 우회위치 탐색
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
