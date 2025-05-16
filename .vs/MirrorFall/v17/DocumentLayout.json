@@ -1,0 +1,134 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\woo\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\player\\playercontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|c:\\users\\user\\documents\\github\\mirrorfall\\assets\\02. scripts\\woo\\manager\\pausemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\manager\\pausemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\woo\\manager\\bossscenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\manager\\bossscenemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\woo\\manager\\fademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\manager\\fademanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\sceneswitch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\sceneswitch.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\woo\\player\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\player\\inventory.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\assets\\02. scripts\\woo\\player\\flashlight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{621DB89D-8587-D322-DFEA-FCA0D221DEC0}|Assembly-CSharp.csproj|solutionrelative:assets\\02. scripts\\woo\\player\\flashlight.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 226,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "PauseManager.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\PauseManager.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Manager\\PauseManager.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\PauseManager.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Manager\\PauseManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAbAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T12:45:09.386Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "PlayerController.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\PlayerController.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Player\\PlayerController.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\PlayerController.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Player\\PlayerController.cs",
+              "ViewState": "AgIAAMkAAAAAAAAAAAA9wOUAAAAfAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T11:24:19.864Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "SceneSwitch.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\SceneSwitch.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\SceneSwitch.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\SceneSwitch.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\SceneSwitch.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAgAAAAYAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T12:36:18.108Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "FadeManager.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\FadeManager.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Manager\\FadeManager.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\FadeManager.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Manager\\FadeManager.cs",
+              "ViewState": "AgIAABIAAAAAAAAAAAAYwDUAAAAgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T12:28:47.721Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "BossSceneManager.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\BossSceneManager.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Manager\\BossSceneManager.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Manager\\BossSceneManager.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Manager\\BossSceneManager.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAlAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T11:25:03.107Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Inventory.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\Inventory.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Player\\Inventory.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\Inventory.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Player\\Inventory.cs",
+              "ViewState": "AgIAAEcAAAAAAAAAAAAAAGoAAAAFAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T12:15:29.858Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "FlashLight.cs",
+              "DocumentMoniker": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\FlashLight.cs",
+              "RelativeDocumentMoniker": "Assets\\02. Scripts\\woo\\Player\\FlashLight.cs",
+              "ToolTip": "C:\\Users\\User\\Documents\\GitHub\\MirrorFall\\Assets\\02. Scripts\\woo\\Player\\FlashLight.cs",
+              "RelativeToolTip": "Assets\\02. Scripts\\woo\\Player\\FlashLight.cs",
+              "ViewState": "AgIAAA4AAAAAAAAAAAAAwDkAAABHAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-15T11:55:16.09Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
