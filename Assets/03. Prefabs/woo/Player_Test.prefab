@@ -529,7 +529,7 @@ MonoBehaviour:
   m_NormalMapQuality: 2
   m_UseNormalMap: 0
   m_ShadowIntensityEnabled: 1
-  m_ShadowIntensity: 0.803
+  m_ShadowIntensity: 0.986
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
@@ -1384,6 +1384,9 @@ MonoBehaviour:
   brightDurationTime: 5
   speedUpRate: 1.5
   hourglassDurationTime: 5
+  saveBossHp: 0
+  saveBossAngleIndex: 0
+  saveBossInventoryItems: []
   moveX: 0
   moveY: 0
   lastDirX: 1
