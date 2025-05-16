@@ -48,7 +48,6 @@ public class FadeManager : MonoBehaviour
     private IEnumerator FadeOutSceneSwitch(string scenename)
     {
         fadeImage.gameObject.SetActive(true);
-        Time.timeScale = 1;
 
         float fadeCount = 0;
         while (fadeCount < 1.0f)

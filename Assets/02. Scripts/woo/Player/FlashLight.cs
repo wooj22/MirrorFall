@@ -54,9 +54,6 @@ public class FlashLight : MonoBehaviour
         }
     }
 
-    public int GetCurIndex() { return curIndex; }
-    public void SetCurIndex(int index) {  curIndex = index; }   // 보스전용
-
     /// Flash Light Rotation
     public void RotationFlashLight()
     {

@@ -70,11 +70,6 @@ public class PlayerController : MonoBehaviour
     public float speedUpRate;
     public float hourglassDurationTime;
 
-    [Header("Boss Scene Save Data")]
-    [SerializeField] private int saveBossHp;
-    [SerializeField] private int saveBossAngleIndex;
-    [SerializeField] private List<string> saveBossInventoryItems;
-
     // controll
     [HideInInspector] public float moveX;
     [HideInInspector] public float moveY;
@@ -203,7 +198,7 @@ public class PlayerController : MonoBehaviour
         isItem3Key = Input.GetKeyDown(Item3Key);
     }
 
-    /// Plater Init
+    /// Plater Init (Boss)
     public void PlayerInit()
     {
         // player stat init
@@ -226,27 +221,15 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Idle);
     }
 
-    /// ## 보스전 Retry를 위한 로직 ##
-    public void SavePlayerData_ToBossScene()
+    /// ## TODO :: 보스전 Retry를 위한 로직 ##
+    public void SavePlayerData()
     {
-        saveBossHp = 1;
-        saveBossAngleIndex = flashLight.GetCurIndex();
-        saveBossInventoryItems = inventory.GetInventoryData();
-        Debug.Log("SavePlayerData_ToBossScene");
+        // hp
     }
 
-    /// ## TODO :: 보스전 Retry를 위한 로직 ##
-    public void InitPlayer_ToBossScene()
+    public void BossSceneInit()
     {
-        isDie = false;
-        ChangeState(PlayerState.Idle);
 
-        curHp = saveBossHp;
-        flashLight.SetCurIndex(saveBossAngleIndex);
-        inventory.SetInventoryDate(saveBossInventoryItems);
-
-        PlayerUIHandler.Instance.UpdateHpUI(curHp);
-        Debug.Log("InitPlayer_ToBossScene");
     }
 
     /// Player Move Input
@@ -296,11 +279,7 @@ public class PlayerController : MonoBehaviour
         {
             if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
                 FadeManager.Instance.FadeOutSceneChange("10_GameClear");
-            else
-            {
-                SavePlayerData_ToBossScene();       // 보스씬 진입 data save
-                FadeManager.Instance.FadeOutSceneChange("09_Boss");
-            }
+            else FadeManager.Instance.FadeOutSceneChange("09_Boss");
         }
         else FadeManager.Instance.FadeOutSceneChange(sceneName);
         curDoor = null;
@@ -477,6 +456,8 @@ public class PlayerController : MonoBehaviour
         }
 
         apple.transform.position = end;
+
+        // 여기서 충돌 처리나 터지는 효과 등 추가 가능
     }
 
     /// 2. Bright Skill 밝기
@@ -507,11 +488,7 @@ public class PlayerController : MonoBehaviour
         {
             if (SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
                 FadeManager.Instance.FadeOutSceneChange("10_GameClear");
-            else
-            {
-                SavePlayerData_ToBossScene();       // 보스씬 진입 data save
-                FadeManager.Instance.FadeOutSceneChange("09_Boss");
-            }
+            else FadeManager.Instance.FadeOutSceneChange("09_Boss");
         }
         else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         curWarpMirror = null;

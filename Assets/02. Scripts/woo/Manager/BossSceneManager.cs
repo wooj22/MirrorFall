@@ -12,9 +12,7 @@ public class BossSceneManager : MonoBehaviour
 
     private void Start()
     {
-        Time.timeScale = 1;
         StartCoroutine(Boss());
-        retryPannel.SetActive(false);
     }
 
     private IEnumerator Boss()
@@ -27,7 +25,7 @@ public class BossSceneManager : MonoBehaviour
         }
 
         currentTime = 0;
-        RetryPannelOn();
+        GameManager.Instance.BossTimeEnd();
     }
 
     private void UpdateTimeUI()
@@ -35,19 +33,11 @@ public class BossSceneManager : MonoBehaviour
         timerUI.text = "거울속에 같히기까지  " + (BossSceneTimeLimit-currentTime);
     }
 
-    public void OnClickBossRetry()
+    public void BossRetry()
     {
-        GameManager.Instance.BossRetry();
+        FadeManager.Instance.FadeOutSceneChange(SceneSwitch.Instance.GetCurrentScene());
     }
 
-    public void RetryPannelOn() 
-    { 
-        retryPannel.gameObject.SetActive(true);
-        Time.timeScale = 0;
-    }
-    public void RetryPannelOff() 
-    { 
-        retryPannel.gameObject.SetActive(false);
-        Time.timeScale = 1;
-    }
+    public void RetryPannelOn() { retryPannel.gameObject.SetActive(true); }
+    public void RetryPannelOff() { retryPannel.gameObject.SetActive(false); }
 }
