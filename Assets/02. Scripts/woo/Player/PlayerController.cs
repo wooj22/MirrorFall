@@ -610,6 +610,7 @@ public class PlayerController : MonoBehaviour
     /// TODO :: Die 로직 처리
     public void Die()
     {
+        // 보스전 죽는 1번 트리거
         if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
             GameManager.Instance.BossPlayerDie();
