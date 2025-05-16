@@ -94,7 +94,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2977620812634680695}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
   m_Name: 
@@ -107,16 +107,16 @@ MonoBehaviour:
   m_SelfShadows: 0
   m_ApplyToSortingLayers: 00000000
   m_ShapePath:
-  - {x: -3.1774025, y: -3.751848, z: 0}
+  - {x: -3.3691025, y: -3.6191318, z: 0}
   - {x: -3.5, y: -3.519003, z: 0}
   - {x: 2.978878, y: -0.5659957, z: 0}
-  - {x: 3.3759232, y: -0.6995797, z: 0}
-  m_ShapePathHash: 1619844833
+  - {x: 3.154728, y: -0.5816102, z: 0}
+  m_ShapePathHash: 309085009
   m_Mesh: {fileID: 0}
-  m_InstanceId: -60180
+  m_InstanceId: 162830
   m_LocalBounds:
-    m_Center: {x: -0.06203842, y: -2.1589217, z: 0}
-    m_Extent: {x: 3.4379616, y: 1.5929261, z: 0}
+    m_Center: {x: -0.17263603, y: -2.0925636, z: 0}
+    m_Extent: {x: 3.327364, y: 1.526568, z: 0}
 --- !u!1 &3095123412087192332
 GameObject:
   m_ObjectHideFlags: 0
