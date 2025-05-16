@@ -1,5 +1,8 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
+using Unity.VisualScripting;
+using UnityEditorInternal;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
@@ -152,7 +155,7 @@ public class Enemy_Grim : MonoBehaviour
 
         if (!playerfind)
         {
-            if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
+            if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClear(transform.position, playerPos))
             {
                 playerfind = true;
             }
@@ -160,7 +163,7 @@ public class Enemy_Grim : MonoBehaviour
             {
                 if (patrolPoints.Count == 0) return;
                 Vector2 nextPos = patrolPoints[currentPointIndex].position;
-                if (IsPathClearBox(transform.position, nextPos))
+                if (IsPathClear(transform.position, nextPos))
                 {
                     Vector2 dirToNext = (nextPos - (Vector2)transform.position).normalized;
                     rb.velocity = dirToNext * speed;
@@ -225,7 +228,7 @@ public class Enemy_Grim : MonoBehaviour
             }
             else
             {
-                if (IsPathClearBox(transform.position, playerPos))
+                if (IsPathClear(transform.position, playerPos))
                 {
                     // 플레이어 추적
                     Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
@@ -269,7 +272,7 @@ public class Enemy_Grim : MonoBehaviour
 
         currentPointIndex = nearestIndex;
 
-        if (IsPathClearBox(transform.position, playerPos))
+        if (IsPathClear(transform.position, playerPos))
         {
             // 플레이어 추적
             Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
@@ -309,7 +312,7 @@ public class Enemy_Grim : MonoBehaviour
 
         if (applefind)
         {
-            if (IsPathClearBox(transform.position, applePos))
+            if (IsPathClear(transform.position, applePos))
             {
                 Vector2 dirToApole = (applePos - (Vector2)transform.position).normalized;
                 rb.velocity = dirToApole * speed;
@@ -363,6 +366,7 @@ public class Enemy_Grim : MonoBehaviour
             isAttacking = true;
             Invoke(nameof(ResetToStart), 0.5f);
         }
+
     }
 
     // 사과를 먹게 됨
@@ -416,39 +420,12 @@ public class Enemy_Grim : MonoBehaviour
     }
 
     // 레이캐스트, 적이랑 다음 이동할 위치 사이를 확인
-    private bool IsPathClearBox(Vector2 from, Vector2 to)
+    private bool IsPathClear(Vector2 from, Vector2 to)
     {
-        // 콜라이더 정보
-        BoxCollider2D box = GetComponent<BoxCollider2D>();
-        Bounds bounds = box.bounds;
-        Vector2 center = bounds.center;
-
-        // 꼭짓점들 (왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래)
-        Vector2[] startPoints = new Vector2[5];
-        startPoints[0] = bounds.center; // 중앙
-        startPoints[1] = new Vector2(bounds.min.x, bounds.max.y); // 왼쪽 위
-        startPoints[2] = new Vector2(bounds.max.x, bounds.max.y); // 오른쪽 위
-        startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
-        startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
-
-        Vector2 dir = (to - startPoints[0]).normalized;
-
-        foreach (Vector2 start in startPoints)
-        {
-            float dist = Vector2.Distance(start, to);
-
-            // 실제 레이캐스트
-            RaycastHit2D hit = Physics2D.Raycast(start, dir, dist, LayerMask.GetMask("Wall"));
-            Debug.DrawRay(start, dir * dist, Color.red, 0.1f); // 디버깅용
-
-            if (hit.collider != null)
-                return false; // 하나라도 막히면 false
-        }
-
-        return true;
+        RaycastHit2D hit = Physics2D.Raycast(from, (to - from).normalized, Vector2.Distance(from, to), LayerMask.GetMask("Wall"));
+        return hit.collider == null;
     }
 
-    // 가장 가까운 우회위치 탐색
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
     {
         Transform bestPoint = null;
@@ -458,7 +435,7 @@ public class Enemy_Grim : MonoBehaviour
         {
             if (point == null) continue;
 
-            if (IsPathClearBox(from, point.position))
+            if (IsPathClear(from, point.position))
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
