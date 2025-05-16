@@ -358,21 +358,30 @@ public class Dwarf : MonoBehaviour
         return true;
     }
 
-    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)     //이동 가능한 순찰 좌표 확인
+    private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
     {
         Transform bestPoint = null;
         float minDistanceToTarget = float.MaxValue;
 
         foreach (var point in dirPoints)
         {
-            if (point == null) continue;
+            if (point == null || !IsPathClear(from, point.position)) continue;
 
-            if (IsPathClear(from, point.position) &&
-                !Physics2D.Raycast(point.position, (to - (Vector2)point.position).normalized, Vector2.Distance(point.position, to), LayerMask.GetMask("Wall")))
+            bool hasClearPathToTarget = !Physics2D.Raycast(
+                point.position,
+                (to - (Vector2)point.position).normalized,
+                Vector2.Distance(point.position, to),
+                LayerMask.GetMask("Wall")
+            );
+
+            // 첫 번째 패스: 타겟까지 길이 뚫려있는 우회 포인트
+            // 두 번째 패스: 그냥 가까운 우회 포인트
+            if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
             {
                 float distToTarget = Vector2.Distance(point.position, to);
 
-                if (distToTarget < minDistanceToTarget)
+                if (distToTarget < minDistanceToTarget &&
+                    (hasClearPathToTarget || bestPoint == null))
                 {
                     minDistanceToTarget = distToTarget;
                     bestPoint = point;
