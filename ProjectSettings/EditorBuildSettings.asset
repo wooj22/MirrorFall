@@ -1,0 +1,44 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1045 &1
+EditorBuildSettings:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Scenes:
+  - enabled: 1
+    path: Assets/01. Scenes/01_Start.unity
+    guid: a79d11463891e1e498b23ff3eccc9563
+  - enabled: 1
+    path: Assets/01. Scenes/02_Opening.unity
+    guid: a36b82d6a91281941b8a529526a861b7
+  - enabled: 1
+    path: Assets/01. Scenes/03_Tutorial.unity
+    guid: ba6a881ff5d12d84faa6992eaf4e723c
+  - enabled: 1
+    path: Assets/01. Scenes/04_Play0.unity
+    guid: b331b953ae2b645478805bd68e2a56f0
+  - enabled: 1
+    path: Assets/01. Scenes/05_Play1.unity
+    guid: f9da9dfc1c85ac944b6c46449fd72d7f
+  - enabled: 1
+    path: Assets/01. Scenes/06_Play2.unity
+    guid: 4092fb129f1c734459bf90e9d3c166dd
+  - enabled: 1
+    path: Assets/01. Scenes/07_Play3.unity
+    guid: ac0e4f4c1bf1ac04a9875d5a55a7905d
+  - enabled: 1
+    path: Assets/01. Scenes/08_Play4.unity
+    guid: afe37d5e84aef6f44b031157168e7243
+  - enabled: 1
+    path: Assets/01. Scenes/09_Boss.unity
+    guid: 0dc6546091a691e43b57896c353b22f1
+  - enabled: 1
+    path: Assets/01. Scenes/99_Delete.unity
+    guid: f7225b27750be3545995fc7b31e8b76a
+  - enabled: 1
+    path: Assets/01. Scenes/10_GameClear.unity
+    guid: 5b48080e19ac76f4da497a900f788694
+  - enabled: 1
+    path: Assets/01. Scenes/11_GameOver.unity
+    guid: 9205711d59cc9104e88cfeda1a1fba25
+  m_configObjects: {}
