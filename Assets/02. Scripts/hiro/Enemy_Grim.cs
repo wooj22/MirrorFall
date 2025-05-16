@@ -439,7 +439,7 @@ public class Enemy_Grim : MonoBehaviour
 
             // 실제 레이캐스트
             RaycastHit2D hit = Physics2D.Raycast(start, dir, dist, LayerMask.GetMask("Wall"));
-            Debug.DrawRay(start, dir * dist, Color.red, 0.1f); // 디버깅용
+            Debug.DrawRay(start, dir * dist, Color.red); // 디버깅용
 
             if (hit.collider != null)
                 return false; // 하나라도 막히면 false
