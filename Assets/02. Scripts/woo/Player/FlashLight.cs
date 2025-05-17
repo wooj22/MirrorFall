@@ -22,6 +22,7 @@ public class FlashLight : MonoBehaviour
     private float originInBaseLightRadius;      // 0.4
     private float originOutBaseLightRadius;     // 0.8
     private Coroutine braightCoroutine;
+    private float     add_duration; // 양초 스킬 중복 발동시 추가시간
 
     // Hit lihgt 연출 data
     private float defaultSpotIntensity;
@@ -121,8 +122,15 @@ public class FlashLight : MonoBehaviour
     /// 양초 스킬 사용시 밝아짐
     public void Brightness()
     {
+        if (player.isBright)
+        {
+            // 스킬 발동중일땐 유지시간
+            add_duration += player.brightDurationTime;
+            return;
+        }
+
         braightCoroutine = StartCoroutine(BrightnessCo());
-        player.isHourglass = true;
+        player.isBright = true;
     }
 
     private IEnumerator BrightnessCo()
@@ -150,6 +158,7 @@ public class FlashLight : MonoBehaviour
         baseLight.pointLightOuterRadius = endOut;
 
         yield return new WaitForSeconds(player.brightDurationTime);
+        yield return new WaitForSeconds(add_duration);      // 추가시간
 
         // off
         elapsed = 0f;
@@ -166,6 +175,6 @@ public class FlashLight : MonoBehaviour
         baseLight.pointLightInnerRadius = originInBaseLightRadius;
         baseLight.pointLightOuterRadius = originOutBaseLightRadius;
 
-        player.isHourglass = false;
+        player.isBright = false;
     }
 }
