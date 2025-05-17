@@ -100,22 +100,42 @@ public class FlashLight : MonoBehaviour
     }
 
     /*-------------------- Light Expansion --------------------*/
-    // 
+    // 거울조각 먹었을 때 베이스 영역 넓어짐
     public void LightExpansion()
     {
         // angle set
         curBaseIndex++;
         curBaseRadius = lightRadiusArr[curBaseIndex];
 
-        // update
-        baseLight.pointLightInnerRadius = curBaseRadius;
-        baseLight.pointLightOuterRadius = curBaseRadius + 1.0f;
+        StartCoroutine(LightExpansionCo());
     }
 
-    //private IEnumerator LightExpansionCo()
-    //{
+    private IEnumerator LightExpansionCo()
+    {
+        float duration = 1f;
+        float elapsed = 0f;
 
-    //}
+        float startIn = baseLight.pointLightInnerRadius;
+        float startOut = baseLight.pointLightOuterRadius;
+
+        float endIn = curBaseRadius;
+        float endOut = curBaseRadius + 1.0f;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = Mathf.Clamp01(elapsed / duration);
+
+            baseLight.pointLightInnerRadius = Mathf.Lerp(startIn, endIn, t);
+            baseLight.pointLightOuterRadius = Mathf.Lerp(startOut, endOut, t);
+
+            yield return null;
+        }
+
+        // set
+        baseLight.pointLightInnerRadius = endIn;
+        baseLight.pointLightOuterRadius = endOut;
+    }
 
 
     /*-------------------- Hit Event --------------------*/
