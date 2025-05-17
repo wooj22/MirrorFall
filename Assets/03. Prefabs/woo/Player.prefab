@@ -345,6 +345,8 @@ MonoBehaviour:
   piece3: 0
   piece4: 0
   piece5: 0
+  curMirrorWay: 0
+  curSceneMirrorPiece: {fileID: 0}
   isDie: 0
   isHit: 0
   isAddiction: 0
@@ -458,9 +460,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hp_Image: {fileID: 2600545500795296809}
   hpSpriteArr:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 21300000, guid: d5c95b357d29dd5489a46f4803ee037c, type: 3}
+  - {fileID: 21300000, guid: 2eb7397f622d71f408bcf79206dee5a7, type: 3}
+  - {fileID: 21300000, guid: b5747596d9aac164097346f2442691fd, type: 3}
+  - {fileID: 21300000, guid: 9e36a6446afa950419f9c6af65dc5ac9, type: 3}
   mirrorUIArr:
   - {fileID: 1172485249658651237}
   - {fileID: 1998004872878286665}
