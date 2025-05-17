@@ -227,7 +227,7 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Idle);
     }
 
-    /// ## 보스전 Retry를 위한 로직 ##
+    /// ## 보스전 Retry를 위한 Save ##
     public void SavePlayerData_ToBossScene()
     {
         saveBossHp = 1;
@@ -236,7 +236,7 @@ public class PlayerController : MonoBehaviour
         Debug.Log("SavePlayerData_ToBossScene");
     }
 
-    /// ## TODO :: 보스전 Retry를 위한 로직 ##
+    /// 보스전 Retry Data Init ##
     public void InitPlayer_ToBossScene()
     {
         isDie = false;
@@ -246,7 +246,13 @@ public class PlayerController : MonoBehaviour
         flashLight.SetCurIndex(saveBossAngleIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
 
+        // 거울조각
+        piece5 = false;
+        curPieceCount = 4;
+        GameManager.Instance.UnCollectPiece(5);
+
         PlayerUIHandler.Instance.UpdateHpUI(curHp);
+        PlayerUIHandler.Instance.UpdateMissMirrorUI(5);
         Debug.Log("InitPlayer_ToBossScene");
     }
 
@@ -377,7 +383,7 @@ public class PlayerController : MonoBehaviour
         }
             
         GameManager.Instance.CollectPiece(pieceNum);       // game data
-        PlayerUIHandler.Instance.UpdateMirrorUI(pieceNum); // ui    
+        PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
 
         curMirrorPiece = null;
         piece.InteratcionUIOff();

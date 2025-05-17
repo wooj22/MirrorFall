@@ -32,8 +32,14 @@ public class PlayerUIHandler : MonoBehaviour
     }
 
     // Update Mirror UI
-    public void UpdateMirrorUI(int mirrorNum)
+    public void UpdateGetMirrorUI(int mirrorNum)
     {
         mirrorUIArr[mirrorNum - 1].enabled = true;
+    }
+
+    // 보스전 Init을 위해 5번조각 reset
+    public void UpdateMissMirrorUI(int missMirrorNum)
+    {
+        mirrorUIArr[missMirrorNum - 1].enabled = false;
     }
 }
