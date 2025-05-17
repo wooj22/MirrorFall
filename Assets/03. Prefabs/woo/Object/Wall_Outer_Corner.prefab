@@ -162,6 +162,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1013061295421637308}
   - component: {fileID: 7991946539534379039}
+  - component: {fileID: 8908953209091454965}
   m_Layer: 0
   m_Name: Wall_Outer_Corner
   m_TagString: Untagged
@@ -238,6 +239,18 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &8908953209091454965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6235294681652394018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8461959558767514783
 GameObject:
   m_ObjectHideFlags: 0

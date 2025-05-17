@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 8874146751848806028}
   - component: {fileID: 758813429472432784}
   - component: {fileID: 2059342372664759054}
+  - component: {fileID: -4772810479927950814}
   m_Layer: 0
   m_Name: Pillar02
   m_TagString: Untagged
@@ -352,6 +353,18 @@ MonoBehaviour:
   m_LocalBounds:
     m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
     m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
+--- !u!114 &-4772810479927950814
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4397051235519962223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7839647554525552617
 GameObject:
   m_ObjectHideFlags: 0
