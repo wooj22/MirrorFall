@@ -292,9 +292,13 @@ public class PlayerController : MonoBehaviour
     private void MirrorWayUpdate()
     {
         // 내 위치와 curSceneMirrorPiece위치를 계산해서 curMirrorWay update
-        if (curSceneMirrorPiece == null) return;
+        if (curSceneMirrorPiece == null)
+        {
+            PlayerUIHandler.Instance.UpdateArrowUI(99);
+            return;
+        }
 
-        Vector2 dir = curSceneMirrorPiece.transform.position - transform.position;
+            Vector2 dir = curSceneMirrorPiece.transform.position - transform.position;
         float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
 
         // angle을 0~360도로 보정
@@ -424,8 +428,9 @@ public class PlayerController : MonoBehaviour
             default: break;
         }
             
-        GameManager.Instance.CollectPiece(pieceNum);       // game data
+        GameManager.Instance.CollectPiece(pieceNum);          // game data
         PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
+        curSceneMirrorPiece = null;
 
         curMirrorPiece = null;
         piece.InteratcionUIOff();
