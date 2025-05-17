@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 7295237986103130830}
   - component: {fileID: 8549746893867401490}
   - component: {fileID: 2847032574648519300}
+  - component: {fileID: -7488712888395745857}
   m_Layer: 0
   m_Name: Hourglass_Item
   m_TagString: Item
@@ -316,3 +317,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 2717917106715301511}
+--- !u!114 &-7488712888395745857
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6589967263033575309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

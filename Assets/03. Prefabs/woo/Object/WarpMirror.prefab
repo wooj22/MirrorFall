@@ -114,7 +114,7 @@ GameObject:
   - component: {fileID: 1600004089916371160}
   - component: {fileID: 5241876983708625397}
   - component: {fileID: 2767159775597702339}
-  - component: {fileID: 3893659980110591351}
+  - component: {fileID: -4209903216234026179}
   m_Layer: 0
   m_Name: WarpMirror
   m_TagString: WarpMirror
@@ -253,7 +253,7 @@ MonoBehaviour:
   nextSeneName: 05_Play1
   uiCanvas: {fileID: 1935350542293589439}
   interactionText: {fileID: 5658878189027055521}
---- !u!114 &3893659980110591351
+--- !u!114 &-4209903216234026179
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -262,7 +262,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2950433949002588882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &4517041748767555884

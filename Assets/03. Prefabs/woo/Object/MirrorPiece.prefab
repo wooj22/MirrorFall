@@ -114,6 +114,7 @@ GameObject:
   - component: {fileID: 2835631994029734663}
   - component: {fileID: 5652863203267482260}
   - component: {fileID: 7821707493886759123}
+  - component: {fileID: 5254083828831283863}
   m_Layer: 0
   m_Name: MirrorPiece
   m_TagString: MirrorPiece
@@ -237,6 +238,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 1192876814930142611}
+  pieceNum: 0
+--- !u!114 &5254083828831283863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5587276036870219922}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &6164662451134392804
 GameObject:
   m_ObjectHideFlags: 0
