@@ -5,12 +5,10 @@ using UnityEngine.UI;
 
 public class PlayerUIHandler : MonoBehaviour
 {
-    // 감정 hp ui
     [SerializeField] private Image hp_Image;
     [SerializeField] Sprite[] hpSpriteArr = new Sprite[3];
-
-    // 거울 조각 ui
     [SerializeField] Image[] mirrorUIArr = new Image[5];
+    [SerializeField] SpriteRenderer[] arrowArr = new SpriteRenderer[8];
 
     public static PlayerUIHandler Instance { get; private set; }
     private void Awake()
@@ -25,21 +23,17 @@ public class PlayerUIHandler : MonoBehaviour
         }
     }
 
-    // Update HP UI
-    public void UpdateHpUI(int curHp)
-    {
-        hp_Image.sprite = hpSpriteArr[curHp];
-    }
+    public void UpdateHpUI(int curHp) { hp_Image.sprite = hpSpriteArr[curHp]; }
 
-    // Update Mirror UI
-    public void UpdateGetMirrorUI(int mirrorNum)
-    {
-        mirrorUIArr[mirrorNum - 1].enabled = true;
-    }
+    public void UpdateGetMirrorUI(int mirrorNum) { mirrorUIArr[mirrorNum - 1].enabled = true; }
 
-    // 보스전 Init을 위해 5번조각 reset
-    public void UpdateMissMirrorUI(int missMirrorNum)
+    public void UpdateMissMirrorUI(int missMirrorNum) { mirrorUIArr[missMirrorNum - 1].enabled = false; }
+
+    public void UpdateArrowUI(int way)
     {
-        mirrorUIArr[missMirrorNum - 1].enabled = false;
+        for (int i = 0; i < arrowArr.Length; i++)
+        {
+            arrowArr[i].enabled = (i == way);
+        }
     }
 }
