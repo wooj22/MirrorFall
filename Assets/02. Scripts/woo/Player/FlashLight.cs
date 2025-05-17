@@ -5,10 +5,15 @@ using UnityEngine.Rendering.Universal;
 
 public class FlashLight : MonoBehaviour
 {
-    [Header("Data")]
+    [Header("Flash Light")]
     public float curLiahtAngle;
     private int curIndex = 0;
     public float[] lightAngleArr = new float[4];        // inner (out = inner + 20)
+
+    [Header("Base Light")]
+    public float curBaseRadius;
+    private int curBaseIndex = 0;
+    public float[] lightRadiusArr = new float[6];       // inner (out = inner + 1.0)
 
     [Header("Asset")]
     public Light2D spotLight;
@@ -36,8 +41,11 @@ public class FlashLight : MonoBehaviour
     {
         // init
         curIndex = 0;
+        curBaseIndex = 0;
         curLiahtAngle = lightAngleArr[curIndex];
+        curBaseRadius = lightRadiusArr[curIndex];
 
+        // effect data
         defaultSpotIntensity = spotLight.intensity;
         defaultBaseIntensity = baseLight.intensity;
         originInBaseLightRadius = baseLight.pointLightInnerRadius;
@@ -55,8 +63,27 @@ public class FlashLight : MonoBehaviour
         }
     }
 
+    // ## 보스 save, init data ##
     public int GetCurIndex() { return curIndex; }
-    public void SetCurIndex(int index) {  curIndex = index; }   // 보스전용
+    public int GetCurBaseIndex() { return curBaseIndex; }
+    public void SetCurIndex(int index) {  
+        curIndex = index;
+        curLiahtAngle = lightAngleArr[curIndex];
+
+        // update
+        spotLight.pointLightInnerAngle = curLiahtAngle;
+        spotLight.pointLightOuterAngle = curLiahtAngle + 20f;
+
+    }   
+
+    public void SetCurBaseIndex(int index) { 
+        curBaseIndex = index;
+        curBaseRadius = lightRadiusArr[curBaseIndex];
+
+        // update
+        baseLight.pointLightInnerRadius = curBaseRadius;
+        baseLight.pointLightOuterRadius = curBaseRadius + 1.0f;
+    }
 
     /// Flash Light Rotation
     public void RotationFlashLight()
@@ -72,6 +99,24 @@ public class FlashLight : MonoBehaviour
         flashLight.up = direction.normalized;
     }
 
+    /*-------------------- Light Expansion --------------------*/
+    // 
+    public void LightExpansion()
+    {
+        // angle set
+        curBaseIndex++;
+        curBaseRadius = lightRadiusArr[curBaseIndex];
+
+        // update
+        baseLight.pointLightInnerRadius = curBaseRadius;
+        baseLight.pointLightOuterRadius = curBaseRadius + 1.0f;
+    }
+
+    //private IEnumerator LightExpansionCo()
+    //{
+
+    //}
+
 
     /*-------------------- Hit Event --------------------*/
     /// Hit Light Logic
@@ -81,7 +126,7 @@ public class FlashLight : MonoBehaviour
     }
 
     /// Angle Down
-    public void LightAngleDown()
+    private void LightAngleDown()
     {
         // angle set
         curIndex++;

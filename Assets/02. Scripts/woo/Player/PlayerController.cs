@@ -77,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [Header("Boss Scene Save Data")]
     [SerializeField] private int saveBossHp;
     [SerializeField] private int saveBossAngleIndex;
+    [SerializeField] private int saveBossRangeIndex;
     [SerializeField] private List<string> saveBossInventoryItems;
 
     // controll
@@ -236,6 +237,7 @@ public class PlayerController : MonoBehaviour
     {
         saveBossHp = 1;
         saveBossAngleIndex = flashLight.GetCurIndex();
+        saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
         Debug.Log("SavePlayerData_ToBossScene");
     }
@@ -248,6 +250,7 @@ public class PlayerController : MonoBehaviour
 
         curHp = saveBossHp;
         flashLight.SetCurIndex(saveBossAngleIndex);
+        flashLight.SetCurBaseIndex(saveBossRangeIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
 
         // 거울조각
@@ -427,10 +430,11 @@ public class PlayerController : MonoBehaviour
                 }
             default: break;
         }
-            
+
+        flashLight.LightExpansion();                           // 빛 영역 확장
         GameManager.Instance.CollectPiece(pieceNum);          // game data
         PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
-        curSceneMirrorPiece = null;
+        curSceneMirrorPiece = null;                           // arrow controll
 
         curMirrorPiece = null;
         piece.InteratcionUIOff();
@@ -762,15 +766,5 @@ public class PlayerController : MonoBehaviour
                 curMirrorPiece = null;
             }
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
     }
 }
