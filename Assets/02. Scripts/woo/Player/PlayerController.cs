@@ -375,8 +375,9 @@ public class PlayerController : MonoBehaviour
                 }
             default: break;
         }
-
-        GameManager.Instance.CollectPiece(pieceNum);    // game data
+            
+        GameManager.Instance.CollectPiece(pieceNum);       // game data
+        PlayerUIHandler.Instance.UpdateMirrorUI(pieceNum); // ui    
 
         curMirrorPiece = null;
         piece.InteratcionUIOff();

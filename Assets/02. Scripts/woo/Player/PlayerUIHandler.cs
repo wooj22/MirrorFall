@@ -5,8 +5,12 @@ using UnityEngine.UI;
 
 public class PlayerUIHandler : MonoBehaviour
 {
-    [SerializeField] private Image Hdu_Image;
-    [SerializeField] Sprite[] HduSpriteArr = new Sprite[3];
+    // 감정 hp ui
+    [SerializeField] private Image hp_Image;
+    [SerializeField] Sprite[] hpSpriteArr = new Sprite[3];
+
+    // 거울 조각 ui
+    [SerializeField] Image[] mirrorUIArr = new Image[5];
 
     public static PlayerUIHandler Instance { get; private set; }
     private void Awake()
@@ -24,6 +28,12 @@ public class PlayerUIHandler : MonoBehaviour
     // Update HP UI
     public void UpdateHpUI(int curHp)
     {
-        Hdu_Image.sprite = HduSpriteArr[curHp];
+        hp_Image.sprite = hpSpriteArr[curHp];
+    }
+
+    // Update Mirror UI
+    public void UpdateMirrorUI(int mirrorNum)
+    {
+        mirrorUIArr[mirrorNum - 1].enabled = true;
     }
 }
