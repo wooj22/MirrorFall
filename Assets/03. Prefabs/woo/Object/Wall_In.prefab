@@ -130,7 +130,6 @@ GameObject:
   - component: {fileID: 595795367365285782}
   - component: {fileID: 4589208417536437553}
   - component: {fileID: 1878381496186594295}
-  - component: {fileID: 8571796623770344471}
   m_Layer: 0
   m_Name: Invisible_Trigger
   m_TagString: Untagged
@@ -271,21 +270,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fadeDuration: 0.2
   targetAlpha: 0.3
-  top: {fileID: 3644240443273690027}
---- !u!114 &8571796623770344471
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3386643382768930209}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e438863cc47d3d64b8bde3a4a0649f63, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  fadeDuration: 0.2
-  targetAlpha: 0.1
   top: {fileID: 3644240443273690027}
 --- !u!1 &4533122332852678479
 GameObject:
