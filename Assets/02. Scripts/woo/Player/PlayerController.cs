@@ -566,17 +566,23 @@ public class PlayerController : MonoBehaviour
         if (curPieceCount == 4)
         {
             if (SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+            {
                 FadeManager.Instance.FadeOutSceneChange("10_GameClear");
+            }
             else
             {
                 SavePlayerData_ToBossScene();       // 보스씬 진입 data save
+                this.transform.position = Vector2.zero;
                 FadeManager.Instance.FadeOutSceneChange("09_Boss");
             }
         }
-        else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        else
+        {
+            // 워프 위치
+            this.transform.position = curWarpMirror.GetWarpPosition();
+            FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        }
         curWarpMirror = null;
-
-        // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@
     }
 
     /// 5. Hide 투명화 (state)

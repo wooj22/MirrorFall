@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class WarpMirror : MonoBehaviour
 {
+    [SerializeField] private Vector2 nextMirrorPos;
     [SerializeField] private float warpCoolTime;
     [SerializeField] private float warpTimmer;
     [SerializeField] public bool isWarpReady;
@@ -43,4 +44,7 @@ public class WarpMirror : MonoBehaviour
         warpTimmer = 0f;
         return nextSeneName;
     }
+
+    // 워프할 위치 getter
+    public Vector2 GetWarpPosition() { return nextMirrorPos; }
 }

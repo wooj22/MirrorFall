@@ -793,7 +793,7 @@ Transform:
   m_GameObject: {fileID: 299075570}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 22.26, y: 5.73, z: 0}
+  m_LocalPosition: {x: 24.17, y: 5.04, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1187,11 +1187,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -8.01
+      value: -5.22
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 13.15
+      value: 12.96
       objectReference: {fileID: 0}
     - target: {fileID: 6325745316569950055, guid: 185da0b92222e8c479d8b05084c55938, type: 3}
       propertyPath: m_LocalPosition.z
@@ -1676,7 +1676,7 @@ Transform:
   m_GameObject: {fileID: 598752326}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.649726, y: 0.17364979, z: -11}
+  m_LocalPosition: {x: 16.55128, y: 0.19619083, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3643,7 +3643,7 @@ Transform:
   m_GameObject: {fileID: 1522281088}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 37.47, y: -5.88, z: 0}
+  m_LocalPosition: {x: 39.38, y: -6.87, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -3914,17 +3914,25 @@ PrefabInstance:
       propertyPath: nextSeneName
       value: 08_Play4
       objectReference: {fileID: 0}
+    - target: {fileID: 2767159775597702339, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
+      propertyPath: nextMirrorPos.x
+      value: 18.75
+      objectReference: {fileID: 0}
+    - target: {fileID: 2767159775597702339, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
+      propertyPath: nextMirrorPos.y
+      value: -11.73
+      objectReference: {fileID: 0}
     - target: {fileID: 2950433949002588882, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
       propertyPath: m_Name
       value: WarpMirror
       objectReference: {fileID: 0}
     - target: {fileID: 6408982682711005362, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -23.61
+      value: -21
       objectReference: {fileID: 0}
     - target: {fileID: 6408982682711005362, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 7.58
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6408982682711005362, guid: e3ad53070743a2440b02c4c508dcc23b, type: 3}
       propertyPath: m_LocalPosition.z
