@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1404456564485693591}
   - component: {fileID: 8259098242082444452}
   - component: {fileID: 6313312472609358701}
+  - component: {fileID: 7979376690475083966}
   m_Layer: 0
   m_Name: Player
   m_TagString: Player
@@ -374,6 +375,7 @@ MonoBehaviour:
   hourglassDurationTime: 5
   saveBossHp: 0
   saveBossAngleIndex: 0
+  saveBossRangeIndex: 0
   saveBossInventoryItems: []
   moveX: 0
   moveY: 0
@@ -440,6 +442,14 @@ MonoBehaviour:
   - 60
   - 40
   - 20
+  curBaseRadius: 0
+  lightRadiusArr:
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
+  - 0
   spotLight: {fileID: 1867271161381298469}
   baseLight: {fileID: 3716341455099235603}
   flashLight: {fileID: 4977026480226285512}
@@ -489,6 +499,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7979376690475083966
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 797992798782638370}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 16ba5fe37b4bfad48a7e9023756b69b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &901217268700012789

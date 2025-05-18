@@ -126,7 +126,7 @@ public class PlayerController : MonoBehaviour
     /*------------------------- Function -------------------------------*/
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
         AddFSM();
     }
 
