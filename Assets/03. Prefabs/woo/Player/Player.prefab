@@ -338,8 +338,8 @@ MonoBehaviour:
   wayState: 0
   curHp: 3
   initHp: 3
-  curSpeed: 7
-  initSpeed: 7
+  curSpeed: 3.5
+  initSpeed: 3.5
   curPieceCount: 0
   piece1: 0
   piece2: 0

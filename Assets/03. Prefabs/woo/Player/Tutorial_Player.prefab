@@ -283,7 +283,6 @@ GameObject:
   - component: {fileID: 7067774431472247493}
   - component: {fileID: 8076335979802690738}
   - component: {fileID: 5096470007629149600}
-  - component: {fileID: 7651343522424745094}
   - component: {fileID: 3481772762521717182}
   - component: {fileID: 5242909787946591214}
   - component: {fileID: 3961683080312747933}
@@ -432,41 +431,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -1.4}
   m_Size: {x: 1.5, y: 1}
   m_Direction: 0
---- !u!70 &7651343522424745094
-CapsuleCollider2D:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1027375765779683142}
-  m_Enabled: 0
-  m_Density: 1
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_ForceSendLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ForceReceiveLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_ContactCaptureLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_CallbackLayers:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_IsTrigger: 1
-  m_UsedByEffector: 0
-  m_UsedByComposite: 0
-  m_Offset: {x: 0.0047450215, y: 0}
-  m_Size: {x: 1, y: 4}
-  m_Direction: 0
 --- !u!120 &3481772762521717182
 LineRenderer:
   serializedVersion: 2
@@ -608,8 +572,8 @@ MonoBehaviour:
   wayState: 0
   curHp: 3
   initHp: 3
-  curSpeed: 7
-  initSpeed: 7
+  curSpeed: 3.5
+  initSpeed: 3.5
   curPieceCount: 0
   piece1: 0
   piece2: 0
