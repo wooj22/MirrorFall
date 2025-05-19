@@ -36,8 +36,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 12, y: 2}
-  m_SizeDelta: {x: 200, y: 100}
+  m_AnchoredPosition: {x: 18, y: 2}
+  m_SizeDelta: {x: 300, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &5289736607893428199
 Canvas:
@@ -169,11 +169,11 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: c708da6ebdd57054ab4f77759b5a8cde, type: 3}
-    m_FontSize: 40
+    m_FontSize: 80
     m_FontStyle: 1
     m_BestFit: 0
     m_MinSize: 0
-    m_MaxSize: 45
+    m_MaxSize: 80
     m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 7295237986103130830}
   - component: {fileID: 4361137697226418842}
   - component: {fileID: 3979142876133789661}
+  - component: {fileID: 2168244460637107836}
   m_Layer: 0
   m_Name: Apple_Item
   m_TagString: Item
@@ -316,3 +317,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 50907173569629719}
+--- !u!114 &2168244460637107836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6589967263033575309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

@@ -1,8 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using UnityEngine.SceneManagement;
 
 public class PlayerController : MonoBehaviour
 {
@@ -24,13 +22,18 @@ public class PlayerController : MonoBehaviour
     [SerializeField] public float curSpeed;
     [SerializeField] private float initSpeed;
 
-    [Header("Mirror Piece Collection")]
+    [Header("Mirror Piece")]
     [SerializeField] private int curPieceCount;
     [SerializeField] private bool piece1;
     [SerializeField] private bool piece2;
     [SerializeField] private bool piece3;
     [SerializeField] private bool piece4;
     [SerializeField] private bool piece5;
+
+    // mirror piece position way
+    private enum MirrorWay {Up, LeftUp, Left, LeftDown, RightUp, Right, RightDown, Down }
+    [SerializeField] private MirrorWay curMirrorWay;
+    [SerializeField] private GameObject curSceneMirrorPiece; // 현재 씬에 있는 거울 조각
 
     [Header("Player State Flags")]
     public bool isDie;
@@ -74,6 +77,7 @@ public class PlayerController : MonoBehaviour
     [Header("Boss Scene Save Data")]
     [SerializeField] private int saveBossHp;
     [SerializeField] private int saveBossAngleIndex;
+    [SerializeField] private int saveBossRangeIndex;
     [SerializeField] private List<string> saveBossInventoryItems;
 
     // controll
@@ -122,7 +126,7 @@ public class PlayerController : MonoBehaviour
     /*------------------------- Function -------------------------------*/
     private void Awake()
     {
-        DontDestroyOnLoad(this.gameObject);
+        //DontDestroyOnLoad(this.gameObject);
         AddFSM();
     }
 
@@ -148,6 +152,7 @@ public class PlayerController : MonoBehaviour
             KeyInputUpdate();
             MoveInputUpdate();
             WayUpdate();
+            MirrorWayUpdate();
 
             // interation & pickup
             ItemInputCheak();
@@ -227,16 +232,17 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Idle);
     }
 
-    /// ## 보스전 Retry를 위한 로직 ##
+    /// ## 보스전 Retry를 위한 Save ##
     public void SavePlayerData_ToBossScene()
     {
         saveBossHp = 1;
         saveBossAngleIndex = flashLight.GetCurIndex();
+        saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
         Debug.Log("SavePlayerData_ToBossScene");
     }
 
-    /// ## TODO :: 보스전 Retry를 위한 로직 ##
+    /// 보스전 Retry Data Init ##
     public void InitPlayer_ToBossScene()
     {
         isDie = false;
@@ -244,9 +250,16 @@ public class PlayerController : MonoBehaviour
 
         curHp = saveBossHp;
         flashLight.SetCurIndex(saveBossAngleIndex);
+        flashLight.SetCurBaseIndex(saveBossRangeIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
 
+        // 거울조각
+        piece5 = false;
+        curPieceCount = 4;
+        GameManager.Instance.UnCollectPiece(5);
+
         PlayerUIHandler.Instance.UpdateHpUI(curHp);
+        PlayerUIHandler.Instance.UpdateMissMirrorUI(5);
         Debug.Log("InitPlayer_ToBossScene");
     }
 
@@ -276,6 +289,48 @@ public class PlayerController : MonoBehaviour
             wayState = PlayerWayState.RightUp;
         else if (lastDirX == 1 && lastDirY == -1)
             wayState = PlayerWayState.RightDown;
+    }
+
+    /// Player Mirror Way Upate
+    private void MirrorWayUpdate()
+    {
+        // 내 위치와 curSceneMirrorPiece위치를 계산해서 curMirrorWay update
+        if (curSceneMirrorPiece == null)
+        {
+            PlayerUIHandler.Instance.UpdateArrowUI(99);
+            return;
+        }
+
+            Vector2 dir = curSceneMirrorPiece.transform.position - transform.position;
+        float angle = Mathf.Atan2(dir.y, dir.x) * Mathf.Rad2Deg;
+
+        // angle을 0~360도로 보정
+        if (angle < 0) angle += 360;
+
+        if (angle >= 337.5f || angle < 22.5f)
+            curMirrorWay = MirrorWay.Right;
+        else if (angle >= 22.5f && angle < 67.5f)
+            curMirrorWay = MirrorWay.RightUp;
+        else if (angle >= 67.5f && angle < 112.5f)
+            curMirrorWay = MirrorWay.Up;
+        else if (angle >= 112.5f && angle < 157.5f)
+            curMirrorWay = MirrorWay.LeftUp;
+        else if (angle >= 157.5f && angle < 202.5f)
+            curMirrorWay = MirrorWay.Left;
+        else if (angle >= 202.5f && angle < 247.5f)
+            curMirrorWay = MirrorWay.LeftDown;
+        else if (angle >= 247.5f && angle < 292.5f)
+            curMirrorWay = MirrorWay.Down;
+        else if (angle >= 292.5f && angle < 337.5f)
+            curMirrorWay = MirrorWay.RightDown;
+
+        // 방향 UI 업데이트
+        PlayerUIHandler.Instance.UpdateArrowUI((int)curMirrorWay);
+    }
+
+    public void SetCurSceneMirrorPiece(GameObject mirrorPiece)
+    {
+        curSceneMirrorPiece = mirrorPiece;
     }
 
     /*----------------- Interation ------------------------*/
@@ -376,7 +431,10 @@ public class PlayerController : MonoBehaviour
             default: break;
         }
 
-        GameManager.Instance.CollectPiece(pieceNum);    // game data
+        flashLight.LightExpansion();                           // 빛 영역 확장
+        GameManager.Instance.CollectPiece(pieceNum);          // game data
+        PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
+        curSceneMirrorPiece = null;                           // arrow controll
 
         curMirrorPiece = null;
         piece.InteratcionUIOff();
@@ -508,17 +566,23 @@ public class PlayerController : MonoBehaviour
         if (curPieceCount == 4)
         {
             if (SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+            {
                 FadeManager.Instance.FadeOutSceneChange("10_GameClear");
+            }
             else
             {
                 SavePlayerData_ToBossScene();       // 보스씬 진입 data save
+                this.transform.position = Vector2.zero;
                 FadeManager.Instance.FadeOutSceneChange("09_Boss");
             }
         }
-        else FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        else
+        {
+            // 워프 위치
+            this.transform.position = curWarpMirror.GetWarpPosition();
+            FadeManager.Instance.FadeOutSceneChange(warpSceneName);
+        }
         curWarpMirror = null;
-
-        // TODO :: 해당 씬의 거울 앞으로 이동 !!! 여기다 잊지마라 @@@
     }
 
     /// 5. Hide 투명화 (state)
@@ -708,15 +772,5 @@ public class PlayerController : MonoBehaviour
                 curMirrorPiece = null;
             }
         }
-    }
-
-    private void OnCollisionEnter2D(Collision2D collision)
-    {
-
-    }
-
-    private void OnCollisionExit2D(Collision2D collision)
-    {
-
     }
 }

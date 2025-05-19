@@ -93,7 +93,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2784106039457204218
 Transform:
   m_ObjectHideFlags: 0
@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 8874146751848806028}
   - component: {fileID: 758813429472432784}
   - component: {fileID: 2059342372664759054}
+  - component: {fileID: 4423680207847135075}
   m_Layer: 0
   m_Name: Pillar02
   m_TagString: Untagged
@@ -261,7 +262,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2.46, y: 2.62, z: 0}
-  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1454138614736710427}
@@ -311,7 +312,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d386600b96e203a4bb50621369e9a38c, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 82a02d69a1ba45e4581252d917f05d62, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -348,10 +349,22 @@ MonoBehaviour:
   - {x: 0.018749585, y: -0.44248745, z: 0}
   m_ShapePathHash: -1219823877
   m_Mesh: {fileID: 0}
-  m_InstanceId: 310814
+  m_InstanceId: 79740
   m_LocalBounds:
     m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
     m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
+--- !u!114 &4423680207847135075
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4397051235519962223}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7839647554525552617
 GameObject:
   m_ObjectHideFlags: 0

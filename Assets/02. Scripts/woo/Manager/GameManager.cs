@@ -36,6 +36,12 @@ public class GameManager : MonoBehaviour
         collectedMirror.Add(pieceNum);
     }
 
+    /// 거울 조각 삭제 (5번 init)
+    public void UnCollectPiece(int pieceNum)
+    {
+        collectedMirror.Remove(pieceNum);
+    }
+
     /// 수집 여부 확인
     public bool HasCollected(int pieceNum)
     {

@@ -43,6 +43,7 @@ public class Apple : MonoBehaviour
         {
             //GetComponent<CircleCollider2D>().enabled = false;
             //isGround = true;        // 벽에 닿았을때 강제 종료
+            GetComponent<SpriteRenderer>().enabled = false; 
             Debug.Log("벽에 닿음 사과가 그래서 멈춤");
         }
     }

@@ -11,6 +11,11 @@ public class MirrorPiece : MonoBehaviour
     {
         // 씬 진입시, 이미 수집한 조각이면 비활성화
         if (GameManager.Instance.HasCollected(pieceNum)) gameObject.SetActive(false);
+        else
+        {
+            // 플레이어에게 전달 (위치 업데이트용)
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().SetCurSceneMirrorPiece(this.gameObject);
+        }
     }
 
     public void InteractionUIOn() { uiCanvas.SetActive(true); }
