@@ -25,6 +25,10 @@ public class TutorialPlayer : MonoBehaviour
 
     private void Update()
     {
+        step2_isBright = controller.isBright;
+        step3_isAppleThrow = controller.isThrrow;
+        step4_isHide = controller.isHide;
+        step6_isHit = controller.isHit;
         step7_isDie = controller.isDie;
     }
 }
