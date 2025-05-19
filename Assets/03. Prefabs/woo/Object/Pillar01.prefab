@@ -152,7 +152,7 @@ BoxCollider2D:
   m_CallbackLayers:
     serializedVersion: 2
     m_Bits: 4294967295
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
@@ -284,7 +284,7 @@ MonoBehaviour:
   - {x: -0.04260254, y: -1.6250448, z: 0}
   m_ShapePathHash: -1025588907
   m_Mesh: {fileID: 0}
-  m_InstanceId: -114634
+  m_InstanceId: 73110
   m_LocalBounds:
     m_Center: {x: 0.009805679, y: -1.384368, z: 0}
     m_Extent: {x: 0.37293625, y: 0.24067688, z: 0}
