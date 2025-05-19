@@ -28,6 +28,8 @@ public class Step1 : TutorialStep
     {
         manager.playerText.text = "";
         manager.narrationText.text = "";
+
+        Debug.Log("Tutorial Step1 Clear");
     }
 
     //coco.StartCoroutine(Test());

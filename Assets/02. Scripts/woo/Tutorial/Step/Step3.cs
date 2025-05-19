@@ -34,5 +34,7 @@ public class Step3 : TutorialStep
         manager.narrationText.text = "";
 
         manager.zone3.enabled = false;
+
+        Debug.Log("Tutorial Step3 Clear");
     }
 }

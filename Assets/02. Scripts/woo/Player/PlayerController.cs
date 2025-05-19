@@ -669,6 +669,12 @@ public class PlayerController : MonoBehaviour
                 else
                 {
                     ChangeState(PlayerState.Hit);
+
+                    // 튜토리얼 검사
+                    if (GetComponent<TutorialPlayer>() != null)
+                    {
+                        GetComponent<TutorialPlayer>().step6_isHit = true;
+                    }
                 }
             }
         } 

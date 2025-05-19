@@ -33,5 +33,7 @@ public class Step2 : TutorialStep
         manager.narrationText.text = "";
 
         manager.zone2.enabled = false;
+
+        Debug.Log("Tutorial Step2 Clear");
     }
 }

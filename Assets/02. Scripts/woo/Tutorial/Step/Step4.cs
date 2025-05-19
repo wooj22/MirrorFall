@@ -31,5 +31,7 @@ public class Step4 : TutorialStep
         manager.narrationText.text = "";
 
         manager.zone4.enabled = false;
+
+        Debug.Log("Tutorial Step4 Clear");
     }
 }

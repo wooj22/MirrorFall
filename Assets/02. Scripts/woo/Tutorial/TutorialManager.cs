@@ -14,11 +14,13 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] public TutorialPlayer player;         
     [SerializeField] public TutorialAI ai;
     [SerializeField] public GameObject apple;
+    [SerializeField] public Transform aiRespawnPos; 
 
     [Header("MapCollider")]
     [SerializeField] public BoxCollider2D zone2;
     [SerializeField] public BoxCollider2D zone3;
     [SerializeField] public BoxCollider2D zone4;
+    [SerializeField] public BoxCollider2D zone5;
 
     [Header("UI")]
     [SerializeField] public Text playerText;

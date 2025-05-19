@@ -24,6 +24,6 @@ public class Step7 : TutorialStep
 
     public override void Exit()
     {
-
+        Debug.Log("Tutorial Step7 Clear");
     }
 }
