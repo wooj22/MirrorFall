@@ -337,7 +337,7 @@ public class PlayerController : MonoBehaviour
     /// Door Input Cheak
     private void DoorInputCheak()
     {
-        if (isInteractionKey && curDoor != null)
+        if (curDoor != null)
         {
             string nextSceneName = curDoor.DoorGetNextScene();
             if (nextSceneName == null) Debug.Log("문에 씬 이름 안넣었다 우정아");
