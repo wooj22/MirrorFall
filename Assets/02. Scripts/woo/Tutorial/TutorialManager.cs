@@ -11,8 +11,16 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private int currentStepIndex = 0;       // 튜토리얼 Step index
 
     [Header("Object")]
-    [SerializeField] public PlayerController player;         // 플레이용이지만 그냥 이걸로 제어 잘 해보기
+    [SerializeField] public TutorialPlayer player;         
     [SerializeField] public TutorialAI ai;
+    [SerializeField] public GameObject apple;
+    [SerializeField] public Transform aiRespawnPos; 
+
+    [Header("MapCollider")]
+    [SerializeField] public BoxCollider2D zone2;
+    [SerializeField] public BoxCollider2D zone3;
+    [SerializeField] public BoxCollider2D zone4;
+    [SerializeField] public BoxCollider2D zone5;
 
     [Header("UI")]
     [SerializeField] public Text playerText;
