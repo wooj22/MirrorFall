@@ -4,13 +4,21 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    private List<TutorialStep> steps;       // 튜토리얼 단계 FSM
-    private TutorialStep currentStep;       // 튜토리얼 현재 Step
-    private int currentStepIndex = 0;       // 튜토리얼 Step index
+    private List<TutorialStep> steps;                        // 튜토리얼 단계 FSM
+    [SerializeField] private TutorialStep currentStep;       // 튜토리얼 현재 Step
+    [SerializeField] private int currentStepIndex = 0;       // 튜토리얼 Step index
 
     private void Start()
     {
-        TutorialStepInit();
+        // Step FSM
+        steps = new List<TutorialStep>()
+        {
+            new Step1(),
+        };
+
+        currentStep = steps[currentStepIndex]; // 먼저 현재 Step 설정
+        currentStep.coco = this;               // 그 다음에 coco 할당
+        currentStep.Enter();                   // 상태 진입
     }
 
     private void Update()
@@ -32,16 +40,5 @@ public class TutorialManager : MonoBehaviour
             else
                 Debug.Log("Tutorial Step Clear");
         }
-    }
-
-    // Tutorial Step FSM Init
-    private void TutorialStepInit()
-    {
-        steps = new List<TutorialStep>()
-        {
-            new Step1(),
-        };
-
-        steps[0].Enter();
     }
 }
