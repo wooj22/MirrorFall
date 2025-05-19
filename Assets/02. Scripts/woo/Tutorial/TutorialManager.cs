@@ -4,20 +4,13 @@ using UnityEngine;
 
 public class TutorialManager : MonoBehaviour
 {
-    private List<TutorialStep> steps;
-    private int currentStepIndex = 0;
+    private List<TutorialStep> steps;       // 튜토리얼 단계 FSM
+    private TutorialStep currentStep;       // 튜토리얼 현재 Step
+    private int currentStepIndex = 0;       // 튜토리얼 Step index
 
     private void Start()
     {
-        steps = new List<TutorialStep>()
-        {
-            //new MoveTutorialStep(),
-            //new JumpTutorialStep(),
-            //new AttackTutorialStep(),
-            //new SkillTutorialStep(),
-        };
-
-        steps[0].Enter();
+        TutorialStepInit();
     }
 
     private void Update()
@@ -25,18 +18,30 @@ public class TutorialManager : MonoBehaviour
         if (currentStepIndex >= steps.Count)
             return;
 
-        var currentStep = steps[currentStepIndex];
+        // update
         currentStep.Update();
 
+        // next step
         if (currentStep.IsComplete())
         {
             currentStep.Exit();
-            currentStepIndex++;
+            currentStep = steps[++currentStepIndex];
 
             if (currentStepIndex < steps.Count)
                 steps[currentStepIndex].Enter();
             else
-                Debug.Log("튜토리얼 완료!");
+                Debug.Log("Tutorial Step Clear");
         }
+    }
+
+    // Tutorial Step FSM Init
+    private void TutorialStepInit()
+    {
+        steps = new List<TutorialStep>()
+        {
+            new Step1(),
+        };
+
+        steps[0].Enter();
     }
 }
