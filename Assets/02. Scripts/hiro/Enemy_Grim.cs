@@ -202,28 +202,10 @@ public class Enemy_Grim : MonoBehaviour
             // 플레이어 추적
             if (playerdistance > missDistance)
             {
-                if (isPlayerHidden)
-                {
-                    rb.velocity = Vector2.zero;
-                    playerfind = false;
+                rb.velocity = Vector2.zero;
+                playerfind = false;
 
-                    SetNearestPatrolPoint();
-
-                    Vector2 target = patrolPoints[currentPointIndex].position;
-                    Vector2 dir = (target - (Vector2)transform.position).normalized;
-                    rb.velocity = dir * speed;
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero;
-                    playerfind = false;
-
-                    SetNearestPatrolPoint();
-
-                    Vector2 target = patrolPoints[currentPointIndex].position;
-                    Vector2 dir = (target - (Vector2)transform.position).normalized;
-                    rb.velocity = dir * speed;
-                }
+                SetNearestPatrolPoint();
             }
             else
             {
@@ -271,27 +253,6 @@ public class Enemy_Grim : MonoBehaviour
 
         currentPointIndex = nearestIndex;
 
-        if (IsPathClearBox(transform.position, playerPos))
-        {
-            // 플레이어 추적
-            Vector2 dirToPlayer = (playerPos - (Vector2)transform.position).normalized;
-            rb.velocity = dirToPlayer * speed;
-        }
-        else
-        {
-            Transform bypassNext = FindClosestBypassPoint(transform.position, playerPos);
-
-            if (bypassNext != null)
-            {
-                Vector2 bypassPos = bypassNext.position;
-                Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToBypassNext * speed;
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-        }
     }
 
     // 사과로 이동
