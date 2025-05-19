@@ -14,12 +14,12 @@ public class Step6 : TutorialStep
     public override void Enter()
     {
         pos = manager.player.transform.position;
-        // ai 추격 시작
     }
 
     public override void Update()
     {
         manager.player.transform.position = pos;        // 못움직임
+        manager.ai.Trace();                             // ai 추격
         Step6_Clear = manager.player.step6_isHit;       
     }
 

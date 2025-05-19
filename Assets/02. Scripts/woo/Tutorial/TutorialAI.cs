@@ -4,15 +4,33 @@ using UnityEngine;
 
 public class TutorialAI : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    public Transform playerPos;
+    public Transform reSpawnPos;
+    public Transform movePos;
+    private float speed;
+    [SerializeField] private float attackLimit = 0.5f;
+    
+    // Player 추격
+    public void Trace()
     {
-        
+        float distanceToPlayer = Vector2.Distance(transform.position, playerPos.position);
+
+        if (distanceToPlayer > attackLimit)
+        {
+            Vector2 direction = (playerPos.position - transform.position).normalized;
+            transform.position += (Vector3)(direction * speed * Time.deltaTime);
+        }
+        else
+        {
+            transform.position = reSpawnPos.position;
+            playerPos.gameObject.GetComponent<PlayerController>().Hit("K");
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    // 목표 위치로 이동시킴 (apple, 플레이어 은신중 respawnPos)
+    public void MoveToPos(Transform pos)
     {
-        
+        Vector2 direction = (pos.position - transform.position).normalized;
+        transform.position += (Vector3)(direction * speed*2 * Time.deltaTime);
     }
 }

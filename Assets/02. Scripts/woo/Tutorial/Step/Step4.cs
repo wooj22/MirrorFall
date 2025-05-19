@@ -16,6 +16,7 @@ public class Step4 : TutorialStep
 
     public override void Update()
     {
+        //manager.ai.MoveToPos(manager.apple.transform);
         if (manager.player.step4_isHide) Step4_Clear = true;
     }
 

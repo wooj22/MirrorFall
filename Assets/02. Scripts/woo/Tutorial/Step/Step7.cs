@@ -17,6 +17,7 @@ public class Step7 : TutorialStep
 
     public override void Update()
     {
+        manager.ai.Trace();    // ai Ãß°Ý                       
         if (manager.player.step7_isDie) SceneSwitch.Instance.SceneReload();
     }
 

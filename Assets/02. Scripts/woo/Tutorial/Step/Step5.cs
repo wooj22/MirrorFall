@@ -11,11 +11,12 @@ public class Step5 : TutorialStep
 
     public override void Enter()
     {
-        manager.ai.transform.position = manager.aiRespawnPos.position;
+        //manager.ai.transform.position = manager.aiRespawnPos.position;
     }
 
     public override void Update()
     {
+        manager.ai.MoveToPos(manager.aiRespawnPos);
         if (manager.player.step5_isZone5) Step5_Clear = true;
     }
 

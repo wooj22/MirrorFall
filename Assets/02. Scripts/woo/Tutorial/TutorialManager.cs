@@ -30,6 +30,9 @@ public class TutorialManager : MonoBehaviour
 
     private void Start()
     {
+        ai.playerPos = player.gameObject.transform;
+        ai.reSpawnPos = aiRespawnPos;
+
         // Step FSM
         steps = new List<TutorialStep>()
         {
