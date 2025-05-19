@@ -16,7 +16,7 @@ public class Step1 : TutorialStep
 
     public override void Update() 
     {
-        if (manager.player.isZone1) Step1_Clear = true;
+        if (manager.player.step1_isZone1) Step1_Clear = true;
     }
 
     public override bool IsComplete()

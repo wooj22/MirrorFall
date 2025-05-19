@@ -543,6 +543,13 @@ public class PlayerController : MonoBehaviour
     public void BrightSkill()
     {
         flashLight.Brightness();
+
+
+        // 튜토리얼 검사 (아 이건 좀 하드코딩인데..)
+        if(GetComponent<TutorialPlayer>() != null)
+        {
+            GetComponent<TutorialPlayer>().step2_isBright = true;
+        }  
     }
 
 
