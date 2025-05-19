@@ -4,6 +4,7 @@ public class TutorialPlayer : MonoBehaviour
 {
     public bool step1_isZone1;
     public bool step2_isBright;
+    public bool step3_isAppleThrow;
 
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -514,6 +514,12 @@ public class PlayerController : MonoBehaviour
         float height = Mathf.Max(1f, distance / 2f);
 
         StartCoroutine(MoveAppleParabola(start, end, height, 0.5f)); // duration은 0.5초 정도
+
+        // 튜토리얼 검사
+        if (GetComponent<TutorialPlayer>() != null)
+        {
+            GetComponent<TutorialPlayer>().step3_isAppleThrow = true;
+        }
     }
 
     private IEnumerator MoveAppleParabola(Vector2 start, Vector2 end, float height, float duration)
@@ -545,7 +551,7 @@ public class PlayerController : MonoBehaviour
         flashLight.Brightness();
 
 
-        // 튜토리얼 검사 (아 이건 좀 하드코딩인데..)
+        // 튜토리얼 검사
         if(GetComponent<TutorialPlayer>() != null)
         {
             GetComponent<TutorialPlayer>().step2_isBright = true;
