@@ -326,36 +326,26 @@ public class Dwarf : MonoBehaviour
 
     private bool IsPathClear(Vector2 from, Vector2 to)     //경로 상 벽 오브젝트 확인
     {
-        BoxCollider2D box = col as BoxCollider2D;
-        if (box == null) return false;
+        BoxCollider2D box = GetComponent<BoxCollider2D>();
+        Vector2 center = box.bounds.center;
+        float raySize = 1.1f;
 
-        Vector2 direction = (to - from).normalized;
-        float distance = Vector2.Distance(from, to);
-        Debug.DrawLine(from, to, Color.magenta, 0.1f);
-        float expandRate = 0.1f;                  //콜라이더와 비율 상 0.1차이
-        Vector2 scaledSize = box.size * box.transform.lossyScale;
-        Vector2 size = scaledSize * (1f + expandRate);
-        Vector2[] offsets = new Vector2[]
-        {
-        new Vector2(-size.x / 2f, -size.y / 2f),
-        new Vector2(-size.x / 2f, size.y / 2f),
-        new Vector2(size.x / 2f, -size.y / 2f),
-        new Vector2(size.x / 2f, size.y / 2f),
-        };
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
 
-        Vector2 boxCenter = (Vector2)box.transform.TransformPoint(box.offset);
+        // 월드 스케일 반영한 실제 크기 계산
+        Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
 
-        foreach (Vector2 offset in offsets)
-        {
-            Vector2 rayOrigin = boxCenter + offset;
-            RaycastHit2D hit = Physics2D.Raycast(rayOrigin, direction, distance, LayerMask.GetMask("Wall"));
-            Debug.DrawRay(rayOrigin, direction * distance, Color.red, 0.1f);
+        // BoxCast의 중심 위치를 콜라이더 중심으로 맞춤
+        // (from과 center가 다르면 center를 기준으로 하는 게 맞음)
+        Vector2 castOrigin = center;
 
-            if (hit.collider != null)
-                return false;
-        }
+        RaycastHit2D hit = Physics2D.BoxCast(
+            castOrigin, worldSize, 0f, dir, dist, LayerMask.GetMask("Wall"));
 
-        return true;
+        Debug.DrawRay(castOrigin, dir * dist, Color.red);
+
+        return hit.collider == null;
     }
 
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
