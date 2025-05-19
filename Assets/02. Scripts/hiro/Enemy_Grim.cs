@@ -241,7 +241,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // 플레이어와 멀어지면 가장 가까운 페트롤포인트로 이동
+    // 플레이어와 멀어지면 가장 가까운 페트롤포인트를 찾음
     void SetNearestPatrolPoint()
     {
         float minDist = float.MaxValue;
@@ -357,12 +357,20 @@ public class Enemy_Grim : MonoBehaviour
     // 리셋
     private void ResetToStart()
     {
-        Vector2 newPos = GetRandomPositionAwayFromPlayer(15f, 20f);
-        transform.position = newPos;
+        Transform respawnPos;
+
+        do
+        {
+            respawnPos = patrolPoints[Random.Range(0, patrolPoints.Count)];
+        } while (Vector2.Distance(respawnPos.position, playerPos) < missDistance);
+
+        transform.position = respawnPos.position;
         playerfind = false;
         col.enabled = true;
         isAttacking = false;
         isReturning = false;
+
+        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
     }
 
     // 사과를 먹게 되면 다시 플레이어를 탐색 시작
@@ -487,30 +495,30 @@ public class Enemy_Grim : MonoBehaviour
         ani.Play(anim);
     }
 
-    // 맵을 기준으로 랜덤 좌표로 이동
-    Vector2 GetRandomPositionAwayFromPlayer(float minDistance, float maxDistance)
-    {
-        Vector2 randomPos;
-        int safety = 0;
 
-        do
-        {
-            float angle = Random.Range(0f, 2f * Mathf.PI);
-            float distance = Random.Range(minDistance, maxDistance);
-            Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
-            randomPos = (Vector2)player.transform.position + offset;
+    //Vector2 GetRandomPositionAwayFromPlayer(float minDistance, float maxDistance)
+    //{
+    //    Vector2 randomPos;
+    //    int safety = 0;
 
-            // 맵 경계 체크
-            randomPos.x = Mathf.Clamp(randomPos.x, minX, maxX);
-            randomPos.y = Mathf.Clamp(randomPos.y, minY, maxY);
+    //    do
+    //    {
+    //        float angle = Random.Range(0f, 2f * Mathf.PI);
+    //        float distance = Random.Range(minDistance, maxDistance);
+    //        Vector2 offset = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * distance;
+    //        randomPos = (Vector2)player.transform.position + offset;
 
-            safety++;
-            if (safety > 100) break; // 무한 루프 방지
-        }
-        while (Vector2.Distance(randomPos, player.transform.position) < minDistance);
+    //        // 맵 경계 체크
+    //        randomPos.x = Mathf.Clamp(randomPos.x, minX, maxX);
+    //        randomPos.y = Mathf.Clamp(randomPos.y, minY, maxY);
 
-        return randomPos;
-    }
+    //        safety++;
+    //        if (safety > 100) break; // 무한 루프 방지
+    //    }
+    //    while (Vector2.Distance(randomPos, player.transform.position) < minDistance);
+
+    //    return randomPos;
+    //}
 
     // 기즈모 추가
 #if UNITY_EDITOR
