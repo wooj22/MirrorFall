@@ -4,6 +4,7 @@ using UnityEngine;
 public class Step4 : TutorialStep
 {
     private bool Step4_Clear;
+    private Transform applePos;
 
     public Step4(MonoBehaviour coco, TutorialManager tutorialManager) :
         base(coco, tutorialManager)
@@ -12,11 +13,14 @@ public class Step4 : TutorialStep
     public override void Enter()
     {
         manager.narrationText.text = "은신 기둥에서 [Shift]키를 누르고 적이 지나갈때까지 기다리세요";
+        
     }
 
     public override void Update()
     {
-        //manager.ai.MoveToPos(manager.apple.transform);
+        // 사과 찾기
+        if (applePos == null) { applePos = GameObject.FindWithTag("Apple").transform; }
+        manager.ai.MoveToPos(applePos);
         if (manager.player.step4_isHide) Step4_Clear = true;
     }
 

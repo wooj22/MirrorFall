@@ -97,3 +97,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6e18b3865634889408406ed27db1cce4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerPos: {fileID: 0}
+  reSpawnPos: {fileID: 0}
+  movePos: {fileID: 0}
+  speed: 0
+  attackLimit: 1

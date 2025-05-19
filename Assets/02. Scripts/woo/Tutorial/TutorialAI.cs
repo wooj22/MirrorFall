@@ -7,7 +7,7 @@ public class TutorialAI : MonoBehaviour
     public Transform playerPos;
     public Transform reSpawnPos;
     public Transform movePos;
-    private float speed;
+    [SerializeField] private float speed;
     [SerializeField] private float attackLimit = 0.5f;
     
     // Player Ãß°Ý
@@ -31,6 +31,6 @@ public class TutorialAI : MonoBehaviour
     public void MoveToPos(Transform pos)
     {
         Vector2 direction = (pos.position - transform.position).normalized;
-        transform.position += (Vector3)(direction * speed*2 * Time.deltaTime);
+        transform.position += (Vector3)(direction * speed * 3.5f * Time.deltaTime);
     }
 }

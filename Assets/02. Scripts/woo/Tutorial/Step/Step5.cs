@@ -11,7 +11,7 @@ public class Step5 : TutorialStep
 
     public override void Enter()
     {
-        //manager.ai.transform.position = manager.aiRespawnPos.position;
+
     }
 
     public override void Update()
