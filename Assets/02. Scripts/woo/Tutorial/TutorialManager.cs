@@ -1,19 +1,37 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TutorialManager : MonoBehaviour
 {
+    [Header ("Step")]
     private List<TutorialStep> steps;                        // 튜토리얼 단계 FSM
     [SerializeField] private TutorialStep currentStep;       // 튜토리얼 현재 Step
     [SerializeField] private int currentStepIndex = 0;       // 튜토리얼 Step index
+
+    [Header("Object")]
+    [SerializeField] public PlayerController player;         // 플레이용이지만 그냥 이걸로 제어 잘 해보기
+    [SerializeField] public TutorialAI ai;
+
+    [Header("UI")]
+    [SerializeField] public Text playerText;
+    [SerializeField] public Text aiText;
+    [SerializeField] public Text narrationText;
+
 
     private void Start()
     {
         // Step FSM
         steps = new List<TutorialStep>()
         {
-            new Step1(this)
+            new Step1(this, this)
+            , new Step2(this, this)
+            , new Step3(this, this)
+            , new Step4(this, this)
+            , new Step5(this, this)
+            , new Step6(this, this)
+            , new Step7(this, this)
         };
 
         currentStep = steps[currentStepIndex];

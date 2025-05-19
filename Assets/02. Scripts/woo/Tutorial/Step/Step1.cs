@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class Step1 : TutorialStep
 {
-    public Step1(MonoBehaviour coco) : base(coco) { }
+    public Step1(MonoBehaviour coco, TutorialManager tutorialManager) : 
+        base(coco, tutorialManager) { }
 
     public override void Enter() 
     {
