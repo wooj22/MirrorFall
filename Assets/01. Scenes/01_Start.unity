@@ -183,7 +183,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   OptionPanel: {fileID: 2003834557}
   bgmSlider: {fileID: 356200803}
-  vfxSlider: {fileID: 537175770}
+  sfxSlider: {fileID: 537175770}
 --- !u!114 &143146603
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -926,7 +926,7 @@ GameObject:
   - component: {fileID: 537175769}
   - component: {fileID: 537175770}
   m_Layer: 5
-  m_Name: VFXSlider
+  m_Name: SFXSlider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
