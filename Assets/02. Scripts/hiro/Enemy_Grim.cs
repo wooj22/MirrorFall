@@ -120,7 +120,7 @@ public class Enemy_Grim : MonoBehaviour
 
             foreach (GameObject Apple in Apples)
             {
-                if (!Apple.GetComponent<Apple>().isGround) return;
+                if (!Apple.GetComponent<Apple>().isGround) continue;
 
                 float dist = Vector2.Distance(transform.position, Apple.transform.position);
                 if (dist < minDistance)
@@ -135,6 +135,12 @@ public class Enemy_Grim : MonoBehaviour
                 nearestApple = closest;
                 applePos = nearestApple.transform.position;
                 appledistance = minDistance;
+            }
+            else
+            {
+                nearestApple = null;
+                applePos = Vector2.positiveInfinity;
+                appledistance = float.MaxValue;
             }
         }
         else
