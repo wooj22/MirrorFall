@@ -31,5 +31,7 @@ public class Step2 : TutorialStep
         manager.playerText.text = "";
         manager.aiText.text = "";
         manager.narrationText.text = "";
+
+        manager.zone2.enabled = false;
     }
 }

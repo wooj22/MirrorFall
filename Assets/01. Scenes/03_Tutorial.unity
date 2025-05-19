@@ -132,11 +132,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 266070638896254378, guid: 51e4ff251c3e5214fa14217512f8488a, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -15.77
+      value: -12.66
       objectReference: {fileID: 0}
     - target: {fileID: 266070638896254378, guid: 51e4ff251c3e5214fa14217512f8488a, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -12.49
+      value: -11.37
       objectReference: {fileID: 0}
     - target: {fileID: 266070638896254378, guid: 51e4ff251c3e5214fa14217512f8488a, type: 3}
       propertyPath: m_LocalPosition.z
@@ -174,6 +174,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Apple_Item
       objectReference: {fileID: 0}
+    - target: {fileID: 6589967263033575309, guid: 51e4ff251c3e5214fa14217512f8488a, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -210,7 +214,7 @@ Transform:
   m_GameObject: {fileID: 24320537}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.23655248, w: 0.9716188}
-  m_LocalPosition: {x: 29.81, y: 17, z: 0}
+  m_LocalPosition: {x: 20.31, y: 10.86, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -295,8 +299,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -384}
-  m_SizeDelta: {x: 1000, y: 120}
+  m_AnchoredPosition: {x: -549, y: 12}
+  m_SizeDelta: {x: 800, y: 120}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &30735719
 MonoBehaviour:
@@ -1247,8 +1251,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -292}
-  m_SizeDelta: {x: 1000, y: 80}
+  m_AnchoredPosition: {x: 0, y: -313}
+  m_SizeDelta: {x: 1000, y: 70}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &374633653
 MonoBehaviour:
@@ -1272,10 +1276,10 @@ MonoBehaviour:
       m_Calls: []
   m_FontData:
     m_Font: {fileID: 12800000, guid: 17504f2b16ee8a74ca7852539e7c6144, type: 3}
-    m_FontSize: 40
+    m_FontSize: 35
     m_FontStyle: 0
     m_BestFit: 0
-    m_MinSize: 4
+    m_MinSize: 3
     m_MaxSize: 60
     m_Alignment: 4
     m_AlignByGeometry: 0
@@ -1339,6 +1343,7 @@ MonoBehaviour:
   currentStepIndex: 0
   player: {fileID: 6037377047628219596}
   ai: {fileID: 32371149}
+  apple: {fileID: 1531786278}
   zone2: {fileID: 945880027}
   zone3: {fileID: 24320539}
   playerText: {fileID: 374633653}
@@ -2575,7 +2580,7 @@ Transform:
   m_GameObject: {fileID: 945880025}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0.23655248, w: 0.9716188}
-  m_LocalPosition: {x: 19.93, y: 10.46, z: 0}
+  m_LocalPosition: {x: 12.93, y: 6.72, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -3009,7 +3014,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 6550502718597666677, guid: 305ce6f29c07db84cad4b0fd668d7de8, type: 3}
   m_PrefabInstance: {fileID: 1300836596}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &1305291920
+--- !u!43 &1353426274
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3468,7 +3473,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 313}
+  m_AnchoredPosition: {x: 420, y: 313}
   m_SizeDelta: {x: 1000, y: 80}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1398632502
@@ -3775,6 +3780,11 @@ PrefabInstance:
 Transform:
   m_CorrespondingSourceObject: {fileID: 266070638896254378, guid: 169499d730880be4a9cea392374abaa0, type: 3}
   m_PrefabInstance: {fileID: 1517046578}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1531786278 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6589967263033575309, guid: 51e4ff251c3e5214fa14217512f8488a, type: 3}
+  m_PrefabInstance: {fileID: 2069575}
   m_PrefabAsset: {fileID: 0}
 --- !u!1 &1532335557
 GameObject:
@@ -5305,11 +5315,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 700917161121092693, guid: d235da78c559cfe4fa8ae2a88ed455a6, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 13.2699995
+      value: 16.75
       objectReference: {fileID: 0}
     - target: {fileID: 700917161121092693, guid: d235da78c559cfe4fa8ae2a88ed455a6, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 8.43
+      value: 10.04
       objectReference: {fileID: 0}
     - target: {fileID: 700917161121092693, guid: d235da78c559cfe4fa8ae2a88ed455a6, type: 3}
       propertyPath: m_LocalPosition.z

@@ -13,6 +13,7 @@ public class TutorialManager : MonoBehaviour
     [Header("Object")]
     [SerializeField] public TutorialPlayer player;         
     [SerializeField] public TutorialAI ai;
+    [SerializeField] public GameObject apple;
 
     [Header("MapCollider")]
     [SerializeField] public BoxCollider2D zone2;

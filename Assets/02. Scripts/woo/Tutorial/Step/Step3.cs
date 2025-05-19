@@ -13,6 +13,8 @@ public class Step3 : TutorialStep
         manager.playerText.text = "너는 나?";
         manager.aiText.text = "잡히면 너 대신 내가 밖으로 나가는거다?";
         manager.narrationText.text = "빨간 사과를 줍고[F], 사과를 던져 AI를 유인하세요. [1][2][3]";
+
+        manager.apple.SetActive(true);
     }
 
     public override void Update()
@@ -31,6 +33,6 @@ public class Step3 : TutorialStep
         manager.aiText.text = "";
         manager.narrationText.text = "";
 
-        manager.zone2.enabled = false;
+        manager.zone3.enabled = false;
     }
 }
