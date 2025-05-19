@@ -1333,6 +1333,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3426a2a51483284d8f451e8311bc641, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentStepIndex: 0
 --- !u!1 &441102013
 GameObject:
   m_ObjectHideFlags: 0
@@ -2341,7 +2342,7 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 733358248424839354, guid: 20fa2554c1ae5794dbd507ab8bcf4b89, type: 3}
   m_PrefabInstance: {fileID: 892702603}
   m_PrefabAsset: {fileID: 0}
---- !u!43 &980124534
+--- !u!43 &918217048
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

@@ -13,12 +13,11 @@ public class TutorialManager : MonoBehaviour
         // Step FSM
         steps = new List<TutorialStep>()
         {
-            new Step1(),
+            new Step1(this)
         };
 
-        currentStep = steps[currentStepIndex]; // 먼저 현재 Step 설정
-        currentStep.coco = this;               // 그 다음에 coco 할당
-        currentStep.Enter();                   // 상태 진입
+        currentStep = steps[currentStepIndex];
+        currentStep.Enter();     
     }
 
     private void Update()
@@ -33,12 +32,17 @@ public class TutorialManager : MonoBehaviour
         if (currentStep.IsComplete())
         {
             currentStep.Exit();
-            currentStep = steps[++currentStepIndex];
+            currentStepIndex++;
 
             if (currentStepIndex < steps.Count)
-                steps[currentStepIndex].Enter();
+            {
+                currentStep = steps[currentStepIndex];
+                currentStep.Enter();
+            }
             else
+            {
                 Debug.Log("Tutorial Step Clear");
+            }
         }
     }
 }

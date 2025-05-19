@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Step1 : TutorialStep
 {
+    public Step1(MonoBehaviour coco) : base(coco) { }
+
     public override void Enter() 
     {
         coco.StartCoroutine(Test());

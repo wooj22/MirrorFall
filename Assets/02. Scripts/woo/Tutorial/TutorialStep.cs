@@ -6,6 +6,8 @@ using UnityEngine;
 public abstract class TutorialStep
 {
     public MonoBehaviour coco;       // 코루틴 쓸래 ~~
+
+    public TutorialStep(MonoBehaviour co) {  this.coco = co; }
     public virtual void Enter() { }
     public virtual void Update() { }
     public virtual bool IsComplete() => false;
