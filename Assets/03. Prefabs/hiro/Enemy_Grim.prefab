@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 7573325865339373338}
   - component: {fileID: 5370269463350273474}
   - component: {fileID: 6824936594859690371}
+  - component: {fileID: 7422549893096128545}
   m_Layer: 8
   m_Name: Enemy_Grim
   m_TagString: Untagged
@@ -208,3 +209,15 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 0.4754417, y: 0.37480736}
   m_EdgeRadius: 0
+--- !u!114 &7422549893096128545
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6478174189263777540}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
