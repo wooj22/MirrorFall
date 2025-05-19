@@ -155,12 +155,45 @@ public class Enemy_Grim : MonoBehaviour
 
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
 
+        //if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
+        //{
+        //    isReturning = false;
+        //    playerfind = true;
+        //}
+
+        //if (playerfind)
+        //{
+        //    if (playerdistance > missDistance)
+        //    {
+        //        playerfind = false;
+        //        isReturning = true;
+        //        SetNearestPatrolPoint();
+        //        rb.velocity = Vector2.zero;
+        //    }
+        //    else
+        //    {
+                
+        //    }
+        //}
+
+
+
+
+
+
+
+
+
+
         if (!playerfind)
         {
+
             if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
             {
+                isReturning = false;
                 playerfind = true;
             }
+
             else
             {
                 if (patrolPoints.Count == 0) return;
@@ -232,6 +265,31 @@ public class Enemy_Grim : MonoBehaviour
                 playerfind = false;
 
                 SetNearestPatrolPoint();
+
+                Vector2 patrolTarget = patrolPoints[currentPointIndex].position;
+
+                if (IsPathClearBox(transform.position, patrolTarget))
+                {
+                    // 다시 패트롤 포인트로 이동
+                    Vector2 dirToPlayer = (patrolTarget - (Vector2)transform.position).normalized;
+                    rb.velocity = dirToPlayer * speed;
+                }
+                else
+                {
+                    Transform bypassNext = FindClosestBypassPoint(transform.position, patrolTarget);
+
+                    if (bypassNext != null)
+                    {
+                        Vector2 bypassPos = bypassNext.position;
+                        Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
+                        rb.velocity = dirToBypassNext * speed;
+                    }
+                    else
+                    {
+                        rb.velocity = Vector2.zero;
+                    }
+
+                }
             }
             else
             {
