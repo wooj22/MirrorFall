@@ -18,6 +18,7 @@ public class TutorialManager : MonoBehaviour
     [Header("MapCollider")]
     [SerializeField] public BoxCollider2D zone2;
     [SerializeField] public BoxCollider2D zone3;
+    [SerializeField] public BoxCollider2D zone4;
 
     [Header("UI")]
     [SerializeField] public Text playerText;

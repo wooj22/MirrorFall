@@ -550,7 +550,6 @@ public class PlayerController : MonoBehaviour
     {
         flashLight.Brightness();
 
-
         // 튜토리얼 검사
         if(GetComponent<TutorialPlayer>() != null)
         {
@@ -606,6 +605,12 @@ public class PlayerController : MonoBehaviour
             StopCoroutine(invisibleCo);
 
         invisibleCo = StartCoroutine(FadeInvisible(targetAlpha));
+
+        // 튜토리얼 검사
+        if (GetComponent<TutorialPlayer>() != null)
+        {
+            GetComponent<TutorialPlayer>().step4_isHide = true;
+        }
     }
 
     IEnumerator FadeInvisible(float targetAlpha)
