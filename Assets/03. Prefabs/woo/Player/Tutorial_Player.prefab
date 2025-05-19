@@ -605,7 +605,7 @@ MonoBehaviour:
   applePrefab: {fileID: 3276579282958200528, guid: b6e6045ec6918c44ba3df28cde9c0804, type: 3}
   appleSpawnPoint: {fileID: 6155474830301252468}
   brightDurationTime: 5
-  speedUpRate: 1.5
+  speedUpRate: 1.2
   hourglassDurationTime: 5
   saveBossHp: 0
   saveBossAngleIndex: 0
