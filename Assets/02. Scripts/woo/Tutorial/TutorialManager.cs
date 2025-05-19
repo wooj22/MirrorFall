@@ -11,7 +11,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] private int currentStepIndex = 0;       // 튜토리얼 Step index
 
     [Header("Object")]
-    [SerializeField] public PlayerController player;         // 플레이용이지만 그냥 이걸로 제어 잘 해보기
+    [SerializeField] public TutorialPlayer player;         
     [SerializeField] public TutorialAI ai;
 
     [Header("UI")]
