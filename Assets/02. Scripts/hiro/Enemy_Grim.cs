@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -359,9 +360,20 @@ public class Enemy_Grim : MonoBehaviour
     {
         Transform respawnPos;
 
+        int tryCount = 0;
+
         do
         {
             respawnPos = patrolPoints[Random.Range(0, patrolPoints.Count)];
+
+            tryCount++;
+
+            if (tryCount >= patrolPoints.Count)
+            {
+                respawnPos = patrolPoints.OrderByDescending(p => Vector2.Distance(p.position, playerPos)).First();
+                break;
+            }
+
         } while (Vector2.Distance(respawnPos.position, playerPos) < missDistance);
 
         transform.position = respawnPos.position;
