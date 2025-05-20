@@ -8,16 +8,10 @@ public class BossSceneManager : MonoBehaviour
     [SerializeField] private int BossSceneTimeLimit;
     private int currentTime;
     [SerializeField] private Text timerUI;
-    [SerializeField] private GameObject retryPannel;
 
-    private void Start()
-    {
-        Time.timeScale = 1;
-        StartCoroutine(Boss());
-        retryPannel.SetActive(false);
-    }
+    public void BossCountDown() { StartCoroutine(BossCountDownCo()); }
 
-    private IEnumerator Boss()
+    private IEnumerator BossCountDownCo()
     {
         while(currentTime< BossSceneTimeLimit)
         {
@@ -33,21 +27,5 @@ public class BossSceneManager : MonoBehaviour
     private void UpdateTimeUI()
     {
         timerUI.text = "거울속에 같히기까지  " + (BossSceneTimeLimit-currentTime);
-    }
-
-    public void OnClickBossRetry()
-    {
-        GameManager.Instance.BossRetry();
-    }
-
-    public void RetryPannelOn() 
-    { 
-        retryPannel.gameObject.SetActive(true);
-        Time.timeScale = 0;
-    }
-    public void RetryPannelOff() 
-    { 
-        retryPannel.gameObject.SetActive(false);
-        Time.timeScale = 1;
     }
 }

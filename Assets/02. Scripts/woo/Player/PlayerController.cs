@@ -239,6 +239,8 @@ public class PlayerController : MonoBehaviour
         saveBossAngleIndex = flashLight.GetCurIndex();
         saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
+
+        
         Debug.Log("SavePlayerData_ToBossScene");
     }
 
@@ -252,6 +254,8 @@ public class PlayerController : MonoBehaviour
         flashLight.SetCurIndex(saveBossAngleIndex);
         flashLight.SetCurBaseIndex(saveBossRangeIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
+
+        this.transform.position = Vector3.zero; // 문 위지로 다시 저장해서 inti
 
         // 거울조각
         piece5 = false;
@@ -424,8 +428,8 @@ public class PlayerController : MonoBehaviour
             case 5:
                 {
                     piece5 = true; 
-                    curPieceCount++; 
-                    // 보스방 AI, 이동경로 생성 트리거 
+                    curPieceCount++;
+                    GameManager.Instance.BossMirrorPieceTrigger();   // 보스방 AI, 이동경로 생성 트리거 
                     break;
                 }
             default: break;
@@ -679,7 +683,7 @@ public class PlayerController : MonoBehaviour
         if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
             GameManager.Instance.BossPlayerDie();
-            // 12_GameOver 씬으로 보내기
+            // 원래는 여기가 Retry 패널이었는데 12_GameOver 씬으로 보내는걸로 수정(게임매니저에서)
         }
         else
         {
