@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 700917161121092693}
   - component: {fileID: 8184253955180445131}
   - component: {fileID: 7943473268219607287}
+  - component: {fileID: 6950690426267012232}
   m_Layer: 0
   m_Name: Tutorial_Ai
   m_TagString: Untagged
@@ -100,5 +101,27 @@ MonoBehaviour:
   playerPos: {fileID: 0}
   reSpawnPos: {fileID: 0}
   movePos: {fileID: 0}
-  speed: 0
-  attackLimit: 1
+  speed: 1
+  attackLimit: 0.1
+  anim_cur: Idle
+--- !u!95 &6950690426267012232
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217032252869352135}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 1ec7b7105958c4542b1835eb3793da0e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
