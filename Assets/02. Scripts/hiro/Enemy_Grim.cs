@@ -45,7 +45,6 @@ public class Enemy_Grim : MonoBehaviour
     private GameObject nearestApple;
 
     private Vector2 playerPos;
-    private Vector2 playerfootPos;
     private Vector2 applePos;
 
     void Start()
@@ -99,24 +98,9 @@ public class Enemy_Grim : MonoBehaviour
         if (player != null)
         {
             playerPos = player.transform.position;
-            // 플레이어 자식 오브젝트 AIPos 찾기 (없으면 플레이어 위치로 대체)
-            Transform foot = player.transform.Find("AIPos");
-            if (foot != null)
-            {
-                playerfootPos = foot.position;
-            }
-            else
-            {
-                playerfootPos = playerPos;
-            }
-            playerdistance = Vector2.Distance(transform.position, playerPos);
         }
-        else
-        {
-            playerPos = Vector2.positiveInfinity;
-            playerfootPos = Vector2.positiveInfinity;
-            playerdistance = float.MaxValue;
-        }
+
+        playerdistance = Vector2.Distance(transform.position, playerPos);
     }
 
     // 사과 탐색
@@ -389,12 +373,13 @@ public class Enemy_Grim : MonoBehaviour
         } while (Vector2.Distance(respawnPos.position, playerPos) < missDistance);
 
         transform.position = respawnPos.position;
-        currentPointIndex = patrolPoints.IndexOf(respawnPos);
         playerfind = false;
         col.enabled = true;
         isAttacking = false;
         isReturning = false;
         goback = false;
+
+        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
     }
 
     // 사과를 먹게 되면 다시 플레이어를 탐색 시작
@@ -418,10 +403,6 @@ public class Enemy_Grim : MonoBehaviour
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
-        if (Vector2.Distance(to, playerPos) < 0.01f)
-        {
-            to = playerfootPos;
-        }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
         float raySize = 1.1f;
@@ -540,10 +521,6 @@ public class Enemy_Grim : MonoBehaviour
 
     private bool IsLineClear(Vector2 from, Vector2 to)
     {
-        if (Vector2.Distance(to, playerPos) < 0.01f)
-        {
-            to = playerfootPos;
-        }
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
 
