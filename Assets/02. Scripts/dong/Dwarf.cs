@@ -351,31 +351,60 @@ public class Dwarf : MonoBehaviour
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
     {
         Transform bestPoint = null;
-        float minDistanceToTarget = float.MaxValue;
+        float bestScore = float.MaxValue;
 
         foreach (var point in dirPoints)
         {
-            if (point == null || !IsPathClear(from, point.position)) continue;
+            if (point == null) continue;
 
-            bool hasClearPathToTarget = !Physics2D.Raycast(
-                point.position,
-                (to - (Vector2)point.position).normalized,
-                Vector2.Distance(point.position, to),
-                LayerMask.GetMask("Wall")
-            );
+            // 1. 'from → point' 경로가 뚫려있는지 확인 (기본 조건)
+            if (!IsPathClear(from, point.position)) continue;
 
-            // 첫 번째 패스: 타겟까지 길이 뚫려있는 우회 포인트
-            // 두 번째 패스: 그냥 가까운 우회 포인트
-            if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
+            // 2. 'point → to(플레이어)' 경로가 직접 뚫려있는지 확인
+            bool directToTarget = IsPathClear(point.position, to);
+            bool indirectToTarget = false;
+
+            // 3. 만약 직접 갈 수 없다면, 다른 우회 포인트를 경유할 수 있는지 체크
+            if (!directToTarget)
             {
-                float distToTarget = Vector2.Distance(point.position, to);
-
-                if (distToTarget < minDistanceToTarget &&
-                    (hasClearPathToTarget || bestPoint == null))
+                foreach (var other in dirPoints)
                 {
-                    minDistanceToTarget = distToTarget;
-                    bestPoint = point;
+                    if (other == null || other == point) continue;
+
+                    // 3-1. 현재 point → 다른 우회포인트(other)로 경로가 뚫려있는가?
+                    bool connectable = IsPathClear(point.position, other.position);
+
+                    // 3-2. other → to(플레이어)로도 뚫려있는가?
+                    bool otherToTarget = IsPathClear(other.position, to);
+
+                    // 3-3. 둘 다 true면 간접 우회 경로 가능하다고 판단
+                    if (connectable && otherToTarget)
+                    {
+                        indirectToTarget = true;
+                        break;
+                    }
                 }
+            }
+
+            // 4. 우선순위 설정
+            // - 1순위: point → to로 직접 갈 수 있음
+            // - 2순위: 다른 point를 경유해서 to로 갈 수 있음
+            // - 3순위: 위 조건 모두 실패, 그냥 가까운 우회 포인트
+            int priority = directToTarget ? 1 :
+                           indirectToTarget ? 2 :
+                           3;
+
+            // 5. 거리 기반 보정값 계산
+            float distance = Vector2.Distance(point.position, to);
+
+            // 6. score 계산 (우선순위가 더 중요하므로 priority * 1000)
+            float score = priority * 1000 + distance;
+
+            // 7. 가장 낮은 score를 가진 point 선택
+            if (score < bestScore)
+            {
+                bestScore = score;
+                bestPoint = point;
             }
         }
 
