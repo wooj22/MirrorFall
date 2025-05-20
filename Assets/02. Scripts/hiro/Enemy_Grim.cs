@@ -258,6 +258,7 @@ public class Enemy_Grim : MonoBehaviour
     }
 
 
+
     // 사과로 이동
     void MovetoApple()
     {
@@ -400,41 +401,6 @@ public class Enemy_Grim : MonoBehaviour
         float angle = Vector2.Angle(forward, toPlayer);
         return angle < 55f;
     }
-
-    // 레이캐스트, 적이랑 다음 이동할 위치 사이를 확인
-    //private bool IsPathClearBox(Vector2 from, Vector2 to)
-    //{
-    //    // 콜라이더 정보
-    //    BoxCollider2D box = GetComponent<BoxCollider2D>();
-    //    Bounds bounds = box.bounds;
-    //    Vector2 center = bounds.center;
-
-    //    // 꼭짓점들 (왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래)
-    //    Vector2[] startPoints = new Vector2[5];
-    //    startPoints[0] = bounds.center; // 중앙
-    //    startPoints[1] = new Vector2(bounds.min.x, bounds.max.y); // 왼쪽 위
-    //    startPoints[2] = new Vector2(bounds.max.x, bounds.max.y); // 오른쪽 위
-    //    startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
-    //    startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
-
-    //    Vector2 dir = (to - center).normalized;
-    //    float dist = Vector2.Distance(center, to);
-    //    float offset = 0.1f;
-
-    //    foreach (Vector2 start in startPoints)
-    //    {
-    //        Vector2 offsetStart = start + dir * offset;
-
-    //        RaycastHit2D hit = Physics2D.Raycast(offsetStart, dir, dist, LayerMask.GetMask("Wall"));
-    //        Debug.DrawRay(offsetStart, dir * dist, Color.red); // 디버깅용
-
-    //        if (hit.collider != null)
-    //            return false; // 하나라도 막히면 false
-    //    }
-
-    //    return true;
-    //}
-
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -494,32 +460,6 @@ public class Enemy_Grim : MonoBehaviour
 
         return bestPoint;
     }
-
-
-    // 현재 위치(transform.position)와 현재 우회점 제외하고 가장 가까운 우회점 찾기
-    private Transform FindAnotherBypassPointExceptCurrent(Vector2 currentPos, Vector2 currentBypassPos)
-    {
-        Transform closest = null;
-        float minDistance = float.MaxValue;
-
-        foreach (Transform bypass in bypassPoints) // bypassPoints는 우회점 리스트
-        {
-            if (bypass == null) continue;
-
-            // 현재 우회점 제외
-            if (Vector2.Distance(bypass.position, currentBypassPos) < 0.01f) continue;
-
-            float dist = Vector2.Distance(currentPos, bypass.position);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = bypass;
-            }
-        }
-        return closest;
-    }
-
-
 
     // 애니메이션 재생
     private void SetAnimation(string anim)
