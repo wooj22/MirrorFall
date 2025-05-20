@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -295,12 +296,30 @@ public class Dwarf : MonoBehaviour
 
     private void ResetToStart()     //공격 후 0번 순찰 좌표로 순간이동
     {
-        transform.position = patrolPoints[0].position;
-        currentPointIndex = 0;
-        col.enabled = true;
-        notmove = false;
-        isAttacking = false;
+        Transform respawnPos;
+
+        int tryCount = 0;
+
+        do
+        {
+            respawnPos = patrolPoints[Random.Range(0, patrolPoints.Count)];
+
+            tryCount++;
+
+            if (tryCount >= patrolPoints.Count)
+            {
+                respawnPos = patrolPoints.OrderByDescending(p => Vector2.Distance(p.position, PlayerPos)).First();
+                break;
+            }
+
+        } while (Vector2.Distance(respawnPos.position, PlayerPos) < missDistance);
+
+        transform.position = respawnPos.position;
+        currentPointIndex = patrolPoints.IndexOf(respawnPos);
         playerfind = false;
+        col.enabled = true;
+        isAttacking = false;
+        notmove = false;
         goback = false;
     }
 

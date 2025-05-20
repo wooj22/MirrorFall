@@ -373,13 +373,12 @@ public class Enemy_Grim : MonoBehaviour
         } while (Vector2.Distance(respawnPos.position, playerPos) < missDistance);
 
         transform.position = respawnPos.position;
+        currentPointIndex = patrolPoints.IndexOf(respawnPos);
         playerfind = false;
         col.enabled = true;
         isAttacking = false;
         isReturning = false;
         goback = false;
-
-        currentPointIndex = (currentPointIndex + 1) % patrolPoints.Count;
     }
 
     // 사과를 먹게 되면 다시 플레이어를 탐색 시작
