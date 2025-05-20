@@ -654,6 +654,8 @@ public class PlayerController : MonoBehaviour
                 // Áßµ¶
                 Addiction();
                 Invoke(nameof(ReturnAddiction), addictionDurationTime);
+                // sound
+                SoundManager2.Instance.PlaySFX("SFX_Dwarf_Hit");
             }
         }
 
