@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Boss Scene Save Data")]
     [SerializeField] private int saveBossHp;
+    [SerializeField] private Vector2 saveBossPos;
     [SerializeField] private int saveBossAngleIndex;
     [SerializeField] private int saveBossRangeIndex;
     [SerializeField] private List<string> saveBossInventoryItems;
@@ -236,6 +237,7 @@ public class PlayerController : MonoBehaviour
     public void SavePlayerData_ToBossScene()
     {
         saveBossHp = 1;
+        saveBossPos = this.transform.position;
         saveBossAngleIndex = flashLight.GetCurIndex();
         saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
@@ -251,11 +253,10 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Idle);
 
         curHp = saveBossHp;
+        this.transform.position = saveBossPos;
         flashLight.SetCurIndex(saveBossAngleIndex);
         flashLight.SetCurBaseIndex(saveBossRangeIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
-
-        this.transform.position = Vector3.zero; // 문 위지로 다시 저장해서 inti
 
         // 거울조각
         piece5 = false;
