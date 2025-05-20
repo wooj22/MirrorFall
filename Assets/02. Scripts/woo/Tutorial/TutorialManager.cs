@@ -10,6 +10,7 @@ public class TutorialManager : MonoBehaviour
     private List<TutorialStep> steps;                        // 튜토리얼 단계 FSM
     [SerializeField] private TutorialStep currentStep;       // 튜토리얼 현재 Step
     [SerializeField] private int currentStepIndex = 0;       // 튜토리얼 Step index
+    public bool isClear;
 
     [Header("Object")]
     [SerializeField] public TutorialPlayer player;         
@@ -81,6 +82,7 @@ public class TutorialManager : MonoBehaviour
     {
         if (tutorialClearCo == null)
         {
+            isClear = true;
             ai.gameObject.SetActive(false);
             tutorialClearCo = StartCoroutine(TuTorialLastCo());
             Debug.Log("Tutorial Step Clear");
