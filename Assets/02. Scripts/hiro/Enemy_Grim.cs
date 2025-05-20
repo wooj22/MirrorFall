@@ -280,6 +280,28 @@ public class Enemy_Grim : MonoBehaviour
             }
             else
             {
+                // 아무 우회 지점도 못 찾은 경우, 주변 방향 중 뚫린 곳으로 조금이나마 움직임
+                Vector2[] directions = {
+                Vector2.right, Vector2.left,
+                Vector2.up, Vector2.down,
+                new Vector2(1, 1).normalized,
+                new Vector2(-1, 1).normalized,
+                new Vector2(1, -1).normalized,
+                new Vector2(-1, -1).normalized
+            };
+
+                foreach (var dir in directions)
+                {
+                    Vector2 checkPos = (Vector2)transform.position + dir * 0.5f; // 0.5 유닛 정도만 이동
+
+                    if (IsPathClearBox(transform.position, checkPos))
+                    {
+                        rb.velocity = dir * speed * 0.5f; // 살짝만 밀어냄
+                        return;
+                    }
+                }
+
+                // 정말 아무 데도 못 가면 멈춤
                 rb.velocity = Vector2.zero;
 
                 // debug
