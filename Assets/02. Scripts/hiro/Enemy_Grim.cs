@@ -280,40 +280,66 @@ public class Enemy_Grim : MonoBehaviour
             }
             else
             {
-                // 아무 우회 지점도 못 찾은 경우, 주변 방향 중 뚫린 곳으로 조금이나마 움직임
+                // 주변 방향 탐색 후 뚫린 방향으로 그냥 이동
                 Vector2[] directions = {
                 Vector2.right, Vector2.left,
                 Vector2.up, Vector2.down,
-                new Vector2(1, 1).normalized,
-                new Vector2(-1, 1).normalized,
-                new Vector2(1, -1).normalized,
-                new Vector2(-1, -1).normalized
+                new Vector2(1, 0.5f).normalized,
+                new Vector2(-1, 0.5f).normalized,
+                new Vector2(1, -0.5f).normalized,
+                new Vector2(-1, -0.5f).normalized
             };
+
+                bool moved = false;  // 이동했는지 체크하는 변수
 
                 foreach (var dir in directions)
                 {
-                    Vector2 checkPos = (Vector2)transform.position + dir * 0.5f; // 0.5 유닛 정도만 이동
+                    Vector2 checkPos = (Vector2)transform.position + dir * 0.7f;
 
                     if (IsPathClearBox(transform.position, checkPos))
                     {
-                        rb.velocity = dir * speed * 0.5f; // 살짝만 밀어냄
-                        return;
+                        rb.velocity = dir * speed;
+                        debugPos = checkPos;
+                        debugOb.transform.position = debugPos;
+                        moved = true;
+                        break;  // 한 번이라도 이동하면 더 이상 다른 방향을 체크하지 않음
                     }
                 }
 
                 // 정말 아무 데도 못 가면 멈춤
-                rb.velocity = Vector2.zero;
+                if (!moved)
+                {
+                    // 움직일 수 없다면 주변 방향으로 살짝 움직여 봄
+                    Vector2[] fallbackDirections = {
+                    Vector2.right, Vector2.left, Vector2.up, Vector2.down
+                };
 
-                // debug
-                debugPos = Vector2.zero;
+                    foreach (var dir in fallbackDirections)
+                    {
+                        Vector2 checkPos = (Vector2)transform.position + dir * 0.5f;
+
+                        if (IsPathClearBox(transform.position, checkPos))
+                        {
+                            rb.velocity = dir * speed * 0.5f;  // 살짝 밀어줌
+                            debugPos = checkPos;
+                            debugOb.transform.position = debugPos;
+                            break;
+                        }
+                    }
+                }
+
+                // 만약 주변 방향으로도 못 가면 멈추는 것
+                if (rb.velocity == Vector2.zero)
+                {
+                    debugPos = transform.position;
+                    debugOb.transform.position = debugPos;
+                }
             }
         }
 
         // debug
         debugOb.transform.position = debugPos;
     }
-
-
 
     // 사과로 이동
     void MovetoApple()
@@ -332,26 +358,7 @@ public class Enemy_Grim : MonoBehaviour
 
         if (applefind)
         {
-            if (IsPathClearBox(transform.position, applePos))
-            {
-                Vector2 dirToApole = (applePos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToApole * speed;
-            }
-            else
-            {
-                Transform bypassNext = FindClosestBypassPoint(transform.position, applePos);
-
-                if (bypassNext != null)
-                {
-                    Vector2 bypassPos = bypassNext.position;
-                    Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
-                    rb.velocity = dirToBypassNext * speed;
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero;
-                }
-            }
+            MoveToTarget(applePos);
 
             if (appledistance > applemissDistance)
             {
@@ -468,6 +475,8 @@ public class Enemy_Grim : MonoBehaviour
 
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
+
+        //if (dist < 0.01f) return true;
 
         // 월드 스케일 반영한 실제 크기 계산
         Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
