@@ -41,11 +41,13 @@ public class Apple : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
-        // 2) 벽에 닿았을을 경우 (강제 종료)
+        // 2) 어딘가에 닿았을을 경우 (강제 종료)
+        isGround = true;
+        SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
+
         if (collision.gameObject.CompareTag("Wall"))
         {
-            isGround = true;        
-            SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
+            
         }
     }
 }
