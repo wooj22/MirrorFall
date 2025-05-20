@@ -412,7 +412,7 @@ public class Dwarf : MonoBehaviour
 
         RaycastHit2D hit = Physics2D.Raycast(from, dir, dist, LayerMask.GetMask("Wall"));
 
-        Debug.DrawLine(from, to, hit.collider ? Color.red : Color.green);
+        //Debug.DrawLine(from, to, hit.collider ? Color.red : Color.green);
 
         return hit.collider == null;
     }

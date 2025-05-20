@@ -427,39 +427,110 @@ public class Enemy_Grim : MonoBehaviour
 
 
     // 가장 가까운 우회위치 탐색
+    //private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
+    //{
+    //    Transform bestPoint = null;
+    //    float minDistanceToTarget = float.MaxValue;
+
+    //    foreach (var point in bypassPoints)
+    //    {
+    //        if (point == null || !IsPathClearBox(from, point.position)) continue;
+
+    //        bool hasClearPathToTarget = !Physics2D.Raycast(
+    //            point.position,
+    //            (to - (Vector2)point.position).normalized,
+    //            Vector2.Distance(point.position, to),
+    //            LayerMask.GetMask("Wall")
+    //        );
+
+    //        // 첫 번째 패스: 타겟까지 길이 뚫려있는 우회 포인트
+    //        // 두 번째 패스: 그냥 가까운 우회 포인트
+    //        if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
+    //        {
+    //            float distToTarget = Vector2.Distance(point.position, to);
+
+    //            if (distToTarget < minDistanceToTarget &&
+    //                (hasClearPathToTarget || bestPoint == null))
+    //            {
+    //                minDistanceToTarget = distToTarget;
+    //                bestPoint = point;
+    //            }
+    //        }
+    //    }
+
+    //    return bestPoint;
+    //}
+
     private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
     {
         Transform bestPoint = null;
-        float minDistanceToTarget = float.MaxValue;
+        float bestScore = float.MaxValue;
 
         foreach (var point in bypassPoints)
         {
-            if (point == null || !IsPathClearBox(from, point.position)) continue;
+            if (point == null) continue;
 
-            bool hasClearPathToTarget = !Physics2D.Raycast(
-                point.position,
-                (to - (Vector2)point.position).normalized,
-                Vector2.Distance(point.position, to),
-                LayerMask.GetMask("Wall")
-            );
+            //  1. from(AI 본체) → 우회 포인트까지는 정확한 충돌 판정 필요
+            // => 기존의 BoxCast 기반 검사 함수 사용
+            if (!IsPathClearBox(from, point.position)) continue;
 
-            // 첫 번째 패스: 타겟까지 길이 뚫려있는 우회 포인트
-            // 두 번째 패스: 그냥 가까운 우회 포인트
-            if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
+            //  2. point → to(플레이어) 는 단순 Raycast로 검사
+            bool directToTarget = IsLineClear(point.position, to);
+            bool indirectToTarget = false;
+
+            //  3. direct가 막혀있다면, 다른 우회 포인트 경유 가능한지 검사
+            if (!directToTarget)
             {
-                float distToTarget = Vector2.Distance(point.position, to);
-
-                if (distToTarget < minDistanceToTarget &&
-                    (hasClearPathToTarget || bestPoint == null))
+                foreach (var other in bypassPoints)
                 {
-                    minDistanceToTarget = distToTarget;
-                    bestPoint = point;
+                    if (other == null || other == point) continue;
+
+                    // 3-1. point → other
+                    bool connectable = IsLineClear(point.position, other.position);
+
+                    // 3-2. other → to
+                    bool otherToTarget = IsLineClear(other.position, to);
+
+                    if (connectable && otherToTarget)
+                    {
+                        indirectToTarget = true;
+                        break;
+                    }
                 }
+            }
+
+            //  4. 우선순위 분류
+            int priority = directToTarget ? 1 :
+                           indirectToTarget ? 2 :
+                           3;
+
+            // 거리 보정값 (여기선 point → target 거리 기준)
+            float distance = Vector2.Distance(point.position, to);
+            float score = priority * 1000 + distance;
+
+            //  5. 가장 점수가 낮은 포인트 선택
+            if (score < bestScore)
+            {
+                bestScore = score;
+                bestPoint = point;
             }
         }
 
         return bestPoint;
     }
+
+    private bool IsLineClear(Vector2 from, Vector2 to)
+    {
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
+
+        RaycastHit2D hit = Physics2D.Raycast(from, dir, dist, LayerMask.GetMask("Wall"));
+
+        //Debug.DrawLine(from, to, hit.collider ? Color.red : Color.green);
+
+        return hit.collider == null;
+    }
+
 
     // 애니메이션 재생
     private void SetAnimation(string anim)
