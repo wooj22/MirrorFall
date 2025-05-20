@@ -101,6 +101,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector] public FlashLight flashLight;
     [HideInInspector] public LineRenderer lineRenderer;
     [HideInInspector] public Inventory inventory;
+    [HideInInspector] public FootStep footStep;
 
     [Header("Player Key Input Flags")]
     [HideInInspector] public bool isMoveLKey;
@@ -140,6 +141,7 @@ public class PlayerController : MonoBehaviour
         flashLight = GetComponent<FlashLight>();
         lineRenderer = GetComponent<LineRenderer>();
         inventory = GetComponent<Inventory>();
+        footStep = GetComponentInChildren<FootStep>();
 
         // player init
         PlayerInit();
