@@ -49,20 +49,29 @@ public class GameManager : MonoBehaviour
     }
 
     /*--------------- Boss Scene ----------------*/
+    // 5번째 거울조각 모았을때
+    public void BossMirrorPieceTrigger()
+    {
+        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().BossCountDown();
+    }
+
+    // 보스방에서 제한시간 끝났을때
     public void BossTimeEndDie()
     {
         player.ChangeState(PlayerController.PlayerState.Die);
     }
 
+    // 보스방에서 플레이어가 죽었을 떄 (Hit, 제한시간)
     public void BossPlayerDie()
     {
-        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().RetryPannelOn();
+        FadeManager.Instance.FadeOutSceneChange("12_GameOverBoss");
     }
 
+    // 12_GameOverBoss 씬에서 Retry시 호출해야하는 함수
     public void BossRetry()
     {
         Debug.Log("보스전 Retry");
-        FadeManager.Instance.FadeOutSceneChange(SceneSwitch.Instance.GetCurrentScene());
+        FadeManager.Instance.FadeOutSceneChange("09_Boss");
     }
 
 
@@ -87,7 +96,14 @@ public class GameManager : MonoBehaviour
             Destroy(this.gameObject);
         }
 
+        // 게임 오버 보스 컷씬에서는 Destory X (다시 돌아올 가능성 있음)
+        if(scene.name == "12_GameOverBoss") player.gameObject.SetActive(false);
+
         // 보스씬 로드시 save data로 player init
-        if (scene.name == "09_Boss") player.InitPlayer_ToBossScene();
+        if (scene.name == "09_Boss")
+        {
+            player.gameObject.SetActive(true);
+            player.InitPlayer_ToBossScene();
+        }
     }
 }
