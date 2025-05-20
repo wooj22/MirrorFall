@@ -1,4 +1,4 @@
-using System.Collections;
+ï»¿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.InteropServices;
@@ -8,18 +8,21 @@ using UnityEngine.EventSystems;
 
 public class Enemy_Grim : MonoBehaviour
 {
+    [SerializeField] Vector2 debugPos;
+    [SerializeField] GameObject debugOb;
+
     // AI
     public string anim_cur = "Idle";
-    public float speed = 2f;            // ÀÌµ¿ ¼Óµµ
+    public float speed = 2f;            // ì´ë™ ì†ë„
     public float findDistance = 5f;
     public float missDistance = 7f;
     public float applefindDistance = 10f;
     public float applemissDistance = 15f;
-    public float attackDistance = 2f;   // °ø°İ °Å¸®
+    public float attackDistance = 2f;   // ê³µê²© ê±°ë¦¬
     public float eatDistance = 2f;
     public Vector2 startPos;
 
-    // AI ÀÌµ¿
+    // AI ì´ë™
     public GameObject allPatrolPoints;
     public GameObject allBypassPoints;
     private List<Transform> patrolPoints = new List<Transform>();
@@ -50,6 +53,9 @@ public class Enemy_Grim : MonoBehaviour
 
     void Start()
     {
+        // debug
+        debugOb = GameObject.Find("AI_Dir_Pos(Debug)");
+
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
@@ -93,13 +99,13 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌ¾î Å½»ö
+    // í”Œë ˆì´ì–´ íƒìƒ‰
     void PlayerCheck()
     {
         if (player != null)
         {
             playerPos = player.transform.position;
-            // ÇÃ·¹ÀÌ¾î ÀÚ½Ä ¿ÀºêÁ§Æ® AIPos Ã£±â (¾øÀ¸¸é ÇÃ·¹ÀÌ¾î À§Ä¡·Î ´ëÃ¼)
+            // í”Œë ˆì´ì–´ ìì‹ ì˜¤ë¸Œì íŠ¸ AIPos ì°¾ê¸° (ì—†ìœ¼ë©´ í”Œë ˆì´ì–´ ìœ„ì¹˜ë¡œ ëŒ€ì²´)
             Transform foot = player.transform.Find("AIPos");
             if (foot != null)
             {
@@ -119,7 +125,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // »ç°ú Å½»ö
+    // ì‚¬ê³¼ íƒìƒ‰
     void AppleCheck()
     {
         Apples = GameObject.FindGameObjectsWithTag("Apple");
@@ -161,14 +167,14 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // Àû AI ±âº» ÀÌµ¿
+    // ì  AI ê¸°ë³¸ ì´ë™
     void NormalMove()
     {
         if (isReturning || applefind) return;
 
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
 
-        if (!playerfind && !goback) // ÇÃ·¹ÀÌ¾î °¨Áöx, º¹±Í Áßx
+        if (!playerfind && !goback) // í”Œë ˆì´ì–´ ê°ì§€x, ë³µê·€ ì¤‘x
         {
             if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
             {
@@ -181,7 +187,7 @@ public class Enemy_Grim : MonoBehaviour
 
                 MoveToTarget(nextPos);
 
-                // ¼øÂû ÁöÁ¡ °»½Å
+                // ìˆœì°° ì§€ì  ê°±ì‹ 
                 if (Vector2.Distance(transform.position, nextPos) < 0.2f)
                 {
                     int nextIndex = (currentPointIndex + 1) % patrolPoints.Count;
@@ -197,9 +203,9 @@ public class Enemy_Grim : MonoBehaviour
                 }
             }
         }
-        else if (playerfind && !goback) // ÇÃ·¹ÀÌ¾î °¨Áöo, º¹±Í Áßx
+        else if (playerfind && !goback) // í”Œë ˆì´ì–´ ê°ì§€o, ë³µê·€ ì¤‘x
         {
-            // ÇÃ·¹ÀÌ¾î ÃßÀû
+            // í”Œë ˆì´ì–´ ì¶”ì 
             if (playerdistance > missDistance)
             {
                 playerfind = false;
@@ -210,7 +216,7 @@ public class Enemy_Grim : MonoBehaviour
                 MoveToTarget(playerPos);
             }
         }
-        else if (!playerfind && goback) // ÇÃ·¹ÀÌ¾î °¨Áöx, º¹±Í Áßo
+        else if (!playerfind && goback) // í”Œë ˆì´ì–´ ê°ì§€x, ë³µê·€ ì¤‘o
         {
             if (playerdistance < findDistance && !player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
             {
@@ -220,7 +226,7 @@ public class Enemy_Grim : MonoBehaviour
 
             if (patrolPoints.Count == 0) return;
 
-            // °¡Àå °¡±î¿î ¼øÂû ÁöÁ¡ Ã£±â
+            // ê°€ì¥ ê°€ê¹Œìš´ ìˆœì°° ì§€ì  ì°¾ê¸°
             float closestDistance = float.MaxValue;
             int closestIndex = 0;
 
@@ -234,11 +240,11 @@ public class Enemy_Grim : MonoBehaviour
                 }
             }
 
-            // ÇØ´ç ÁöÁ¡À¸·Î ÀÌµ¿
+            // í•´ë‹¹ ì§€ì ìœ¼ë¡œ ì´ë™
             Vector2 restartPos = patrolPoints[closestIndex].position;
             MoveToTarget(restartPos);
 
-            // µµÂøÇÏ¸é ¼øÂû Àç½ÃÀÛ
+            // ë„ì°©í•˜ë©´ ìˆœì°° ì¬ì‹œì‘
             if (Vector2.Distance(transform.position, restartPos) < 0.2f)
             {
                 currentPointIndex = closestIndex;
@@ -248,34 +254,94 @@ public class Enemy_Grim : MonoBehaviour
     }
 
 
-    private void MoveToTarget(Vector2 targetPos)    //¸ñÇ¥ Å¸°ÙÀ¸·Î ÀÌµ¿
+    private void MoveToTarget(Vector2 targetPos)    //ëª©í‘œ íƒ€ê²Ÿìœ¼ë¡œ ì´ë™
     {
         if (IsPathClearBox(transform.position, targetPos))
         {
-            // °æ·Î°¡ ¸·È÷Áö ¾Ê¾ÒÀ¸¸é Á÷Áø
+            // ê²½ë¡œê°€ ë§‰íˆì§€ ì•Šì•˜ìœ¼ë©´ ì§ì§„
             Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
             rb.velocity = dir * speed;
+
+            // debug
+            debugPos = targetPos;
         }
         else
         {
-            // ¿ìÈ¸ ÁöÁ¡ Å½»ö
+            // ìš°íšŒ ì§€ì  íƒìƒ‰
             Transform bypass = FindClosestBypassPoint(transform.position, targetPos);
 
             if (bypass != null)
             {
                 Vector2 dir = ((Vector2)bypass.position - (Vector2)transform.position).normalized;
                 rb.velocity = dir * speed;
+
+                // debug
+                debugPos = bypass.position;
             }
             else
             {
-                rb.velocity = Vector2.zero;
+                // ì£¼ë³€ ë°©í–¥ íƒìƒ‰ í›„ ëš«ë¦° ë°©í–¥ìœ¼ë¡œ ê·¸ëƒ¥ ì´ë™
+                Vector2[] directions = {
+                Vector2.right, Vector2.left,
+                Vector2.up, Vector2.down,
+                new Vector2(1, 0.5f).normalized,
+                new Vector2(-1, 0.5f).normalized,
+                new Vector2(1, -0.5f).normalized,
+                new Vector2(-1, -0.5f).normalized
+            };
+
+                bool moved = false;  // ì´ë™í–ˆëŠ”ì§€ ì²´í¬í•˜ëŠ” ë³€ìˆ˜
+
+                foreach (var dir in directions)
+                {
+                    Vector2 checkPos = (Vector2)transform.position + dir * 0.7f;
+
+                    if (IsPathClearBox(transform.position, checkPos))
+                    {
+                        rb.velocity = dir * speed;
+                        debugPos = checkPos;
+                        debugOb.transform.position = debugPos;
+                        moved = true;
+                        break;  // í•œ ë²ˆì´ë¼ë„ ì´ë™í•˜ë©´ ë” ì´ìƒ ë‹¤ë¥¸ ë°©í–¥ì„ ì²´í¬í•˜ì§€ ì•ŠìŒ
+                    }
+                }
+
+                // ì •ë§ ì•„ë¬´ ë°ë„ ëª» ê°€ë©´ ë©ˆì¶¤
+                if (!moved)
+                {
+                    // ì›€ì§ì¼ ìˆ˜ ì—†ë‹¤ë©´ ì£¼ë³€ ë°©í–¥ìœ¼ë¡œ ì‚´ì§ ì›€ì§ì—¬ ë´„
+                    Vector2[] fallbackDirections = {
+                    Vector2.right, Vector2.left, Vector2.up, Vector2.down
+                };
+
+                    foreach (var dir in fallbackDirections)
+                    {
+                        Vector2 checkPos = (Vector2)transform.position + dir * 0.5f;
+
+                        if (IsPathClearBox(transform.position, checkPos))
+                        {
+                            rb.velocity = dir * speed * 0.5f;  // ì‚´ì§ ë°€ì–´ì¤Œ
+                            debugPos = checkPos;
+                            debugOb.transform.position = debugPos;
+                            break;
+                        }
+                    }
+                }
+
+                // ë§Œì•½ ì£¼ë³€ ë°©í–¥ìœ¼ë¡œë„ ëª» ê°€ë©´ ë©ˆì¶”ëŠ” ê²ƒ
+                if (rb.velocity == Vector2.zero)
+                {
+                    debugPos = transform.position;
+                    debugOb.transform.position = debugPos;
+                }
             }
         }
+
+        // debug
+        debugOb.transform.position = debugPos;
     }
 
-
-
-    // »ç°ú·Î ÀÌµ¿
+    // ì‚¬ê³¼ë¡œ ì´ë™
     void MovetoApple()
     {
         if (isReturning) return;
@@ -292,26 +358,7 @@ public class Enemy_Grim : MonoBehaviour
 
         if (applefind)
         {
-            if (IsPathClearBox(transform.position, applePos))
-            {
-                Vector2 dirToApole = (applePos - (Vector2)transform.position).normalized;
-                rb.velocity = dirToApole * speed;
-            }
-            else
-            {
-                Transform bypassNext = FindClosestBypassPoint(transform.position, applePos);
-
-                if (bypassNext != null)
-                {
-                    Vector2 bypassPos = bypassNext.position;
-                    Vector2 dirToBypassNext = (bypassPos - (Vector2)transform.position).normalized;
-                    rb.velocity = dirToBypassNext * speed;
-                }
-                else
-                {
-                    rb.velocity = Vector2.zero;
-                }
-            }
+            MoveToTarget(applePos);
 
             if (appledistance > applemissDistance)
             {
@@ -320,7 +367,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // ÇÃ·¹ÀÌ ¾Ö´Ï¸ŞÀÌ¼Ç
+    // í”Œë ˆì´ ì• ë‹ˆë©”ì´ì…˜
     void Playani()
     {
         Vector2 velocity = rb.velocity;
@@ -329,7 +376,7 @@ public class Enemy_Grim : MonoBehaviour
         SetAnimation(velocity.y >= 0 ? "RightTop" : "RightBot");
     }
 
-    // °ø°İ
+    // ê³µê²©
     void Attack()
     {
         bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
@@ -347,7 +394,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // »ç°ú¸¦ ¸Ô°Ô µÊ
+    // ì‚¬ê³¼ë¥¼ ë¨¹ê²Œ ë¨
     void Eating()
     {
         if (appledistance <= eatDistance && !isEating && !isReturning)
@@ -367,7 +414,7 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // ¸®¼Â
+    // ë¦¬ì…‹
     private void ResetToStart()
     {
         Transform respawnPos;
@@ -397,7 +444,7 @@ public class Enemy_Grim : MonoBehaviour
         goback = false;
     }
 
-    // »ç°ú¸¦ ¸Ô°Ô µÇ¸é ´Ù½Ã ÇÃ·¹ÀÌ¾î¸¦ Å½»ö ½ÃÀÛ
+    // ì‚¬ê³¼ë¥¼ ë¨¹ê²Œ ë˜ë©´ ë‹¤ì‹œ í”Œë ˆì´ì–´ë¥¼ íƒìƒ‰ ì‹œì‘
     private void ReGoing()
     {
         col.enabled = true;
@@ -407,7 +454,7 @@ public class Enemy_Grim : MonoBehaviour
         goback = true;
     }
 
-    // ÇÃ·¹ÀÌ¾î¸¦ °¨ÁöÇÏ´Â ½Ã¾ß
+    // í”Œë ˆì´ì–´ë¥¼ ê°ì§€í•˜ëŠ” ì‹œì•¼
     private bool PlayerInSight()
     {
         if (player == null) return false;
@@ -429,11 +476,13 @@ public class Enemy_Grim : MonoBehaviour
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
 
-        // ¿ùµå ½ºÄÉÀÏ ¹İ¿µÇÑ ½ÇÁ¦ Å©±â °è»ê
+        //if (dist < 0.01f) return true;
+
+        // ì›”ë“œ ìŠ¤ì¼€ì¼ ë°˜ì˜í•œ ì‹¤ì œ í¬ê¸° ê³„ì‚°
         Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
 
-        // BoxCastÀÇ Áß½É À§Ä¡¸¦ Äİ¶óÀÌ´õ Áß½ÉÀ¸·Î ¸ÂÃã
-        // (from°ú center°¡ ´Ù¸£¸é center¸¦ ±âÁØÀ¸·Î ÇÏ´Â °Ô ¸ÂÀ½)
+        // BoxCastì˜ ì¤‘ì‹¬ ìœ„ì¹˜ë¥¼ ì½œë¼ì´ë” ì¤‘ì‹¬ìœ¼ë¡œ ë§ì¶¤
+        // (fromê³¼ centerê°€ ë‹¤ë¥´ë©´ centerë¥¼ ê¸°ì¤€ìœ¼ë¡œ í•˜ëŠ” ê²Œ ë§ìŒ)
         Vector2 castOrigin = center;
 
         RaycastHit2D hit = Physics2D.BoxCast(
@@ -445,7 +494,7 @@ public class Enemy_Grim : MonoBehaviour
     }
 
 
-    // °¡Àå °¡±î¿î ¿ìÈ¸À§Ä¡ Å½»ö
+    // ê°€ì¥ ê°€ê¹Œìš´ ìš°íšŒìœ„ì¹˜ íƒìƒ‰
     //private Transform FindClosestBypassPoint(Vector2 from, Vector2 to)
     //{
     //    Transform bestPoint = null;
@@ -462,8 +511,8 @@ public class Enemy_Grim : MonoBehaviour
     //            LayerMask.GetMask("Wall")
     //        );
 
-    //        // Ã¹ ¹øÂ° ÆĞ½º: Å¸°Ù±îÁö ±æÀÌ ¶Õ·ÁÀÖ´Â ¿ìÈ¸ Æ÷ÀÎÆ®
-    //        // µÎ ¹øÂ° ÆĞ½º: ±×³É °¡±î¿î ¿ìÈ¸ Æ÷ÀÎÆ®
+    //        // ì²« ë²ˆì§¸ íŒ¨ìŠ¤: íƒ€ê²Ÿê¹Œì§€ ê¸¸ì´ ëš«ë ¤ìˆëŠ” ìš°íšŒ í¬ì¸íŠ¸
+    //        // ë‘ ë²ˆì§¸ íŒ¨ìŠ¤: ê·¸ëƒ¥ ê°€ê¹Œìš´ ìš°íšŒ í¬ì¸íŠ¸
     //        if (bestPoint == null || hasClearPathToTarget || bestPoint != null && !hasClearPathToTarget)
     //        {
     //            float distToTarget = Vector2.Distance(point.position, to);
@@ -489,25 +538,25 @@ public class Enemy_Grim : MonoBehaviour
         {
             if (point == null) continue;
 
-            //  1. from(AI º»Ã¼) ¡æ ¿ìÈ¸ Æ÷ÀÎÆ®±îÁö´Â Á¤È®ÇÑ Ãæµ¹ ÆÇÁ¤ ÇÊ¿ä
-            // => ±âÁ¸ÀÇ BoxCast ±â¹İ °Ë»ç ÇÔ¼ö »ç¿ë
+            //  1. from(AI ë³¸ì²´) â†’ ìš°íšŒ í¬ì¸íŠ¸ê¹Œì§€ëŠ” ì •í™•í•œ ì¶©ëŒ íŒì • í•„ìš”
+            // => ê¸°ì¡´ì˜ BoxCast ê¸°ë°˜ ê²€ì‚¬ í•¨ìˆ˜ ì‚¬ìš©
             if (!IsPathClearBox(from, point.position)) continue;
 
-            //  2. point ¡æ to(ÇÃ·¹ÀÌ¾î) ´Â ´Ü¼ø Raycast·Î °Ë»ç
+            //  2. point â†’ to(í”Œë ˆì´ì–´) ëŠ” ë‹¨ìˆœ Raycastë¡œ ê²€ì‚¬
             bool directToTarget = IsLineClear(point.position, to);
             bool indirectToTarget = false;
 
-            //  3. direct°¡ ¸·ÇôÀÖ´Ù¸é, ´Ù¸¥ ¿ìÈ¸ Æ÷ÀÎÆ® °æÀ¯ °¡´ÉÇÑÁö °Ë»ç
+            //  3. directê°€ ë§‰í˜€ìˆë‹¤ë©´, ë‹¤ë¥¸ ìš°íšŒ í¬ì¸íŠ¸ ê²½ìœ  ê°€ëŠ¥í•œì§€ ê²€ì‚¬
             if (!directToTarget)
             {
                 foreach (var other in bypassPoints)
                 {
                     if (other == null || other == point) continue;
 
-                    // 3-1. point ¡æ other
+                    // 3-1. point â†’ other
                     bool connectable = IsLineClear(point.position, other.position);
 
-                    // 3-2. other ¡æ to
+                    // 3-2. other â†’ to
                     bool otherToTarget = IsLineClear(other.position, to);
 
                     if (connectable && otherToTarget)
@@ -518,16 +567,16 @@ public class Enemy_Grim : MonoBehaviour
                 }
             }
 
-            //  4. ¿ì¼±¼øÀ§ ºĞ·ù
+            //  4. ìš°ì„ ìˆœìœ„ ë¶„ë¥˜
             int priority = directToTarget ? 1 :
                            indirectToTarget ? 2 :
                            3;
 
-            // °Å¸® º¸Á¤°ª (¿©±â¼± point ¡æ target °Å¸® ±âÁØ)
+            // ê±°ë¦¬ ë³´ì •ê°’ (ì—¬ê¸°ì„  point â†’ target ê±°ë¦¬ ê¸°ì¤€)
             float distance = Vector2.Distance(point.position, to);
             float score = priority * 1000 + distance;
 
-            //  5. °¡Àå Á¡¼ö°¡ ³·Àº Æ÷ÀÎÆ® ¼±ÅÃ
+            //  5. ê°€ì¥ ì ìˆ˜ê°€ ë‚®ì€ í¬ì¸íŠ¸ ì„ íƒ
             if (score < bestScore)
             {
                 bestScore = score;
@@ -555,7 +604,7 @@ public class Enemy_Grim : MonoBehaviour
     }
 
 
-    // ¾Ö´Ï¸ŞÀÌ¼Ç Àç»ı
+    // ì• ë‹ˆë©”ì´ì…˜ ì¬ìƒ
     private void SetAnimation(string anim)
     {
         if (anim_cur == anim) return;
@@ -563,33 +612,33 @@ public class Enemy_Grim : MonoBehaviour
         ani.Play(anim);
     }
 
-    // ±âÁî¸ğ Ãß°¡
+    // ê¸°ì¦ˆëª¨ ì¶”ê°€
 #if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
-        // applefindDistance ½Ã°¢È­
+        // applefindDistance ì‹œê°í™”
         Gizmos.color = Color.green;
         Gizmos.DrawWireSphere(transform.position, applefindDistance);
 
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, findDistance);
 
-        // 120µµ ½Ã¾ß°¢ ½Ã°¢È­ (¡¾60µµ)
+        // 120ë„ ì‹œì•¼ê° ì‹œê°í™” (Â±60ë„)
         Gizmos.color = Color.yellow;
 
         Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
-        if (forward == Vector2.zero) forward = Vector2.right; // µğÆúÆ® ¹æÇâ
+        if (forward == Vector2.zero) forward = Vector2.right; // ë””í´íŠ¸ ë°©í–¥
 
         float halfAngle = 55f;
 
-        // ½Ã¾ß°¢ ³¡ ¹æÇâ °è»ê
+        // ì‹œì•¼ê° ë ë°©í–¥ ê³„ì‚°
         Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;
         Vector2 rightDir = Quaternion.Euler(0, 0, halfAngle) * forward;
 
-        // ½Ã¾ß°¢ ¶óÀÎ ±æÀÌ (findDistance¸¸Å­)
+        // ì‹œì•¼ê° ë¼ì¸ ê¸¸ì´ (findDistanceë§Œí¼)
         float length = findDistance;
 
-        // ½Ã¾ß°¢ ¶óÀÎ ±×¸®±â
+        // ì‹œì•¼ê° ë¼ì¸ ê·¸ë¦¬ê¸°
         Gizmos.DrawRay(transform.position, leftDir * length);
         Gizmos.DrawRay(transform.position, rightDir * length);
     }
