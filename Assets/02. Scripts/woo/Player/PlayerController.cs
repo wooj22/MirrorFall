@@ -76,6 +76,7 @@ public class PlayerController : MonoBehaviour
 
     [Header("Boss Scene Save Data")]
     [SerializeField] private int saveBossHp;
+    [SerializeField] private Vector2 saveBossPos;
     [SerializeField] private int saveBossAngleIndex;
     [SerializeField] private int saveBossRangeIndex;
     [SerializeField] private List<string> saveBossInventoryItems;
@@ -91,6 +92,7 @@ public class PlayerController : MonoBehaviour
     private Door curDoor = null;
     private WarpMirror curWarpMirror = null;    
     private MirrorPiece curMirrorPiece = null;
+    private Device curDevice = null;
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -126,7 +128,6 @@ public class PlayerController : MonoBehaviour
     /*------------------------- Function -------------------------------*/
     private void Awake()
     {
-        //DontDestroyOnLoad(this.gameObject);
         AddFSM();
     }
 
@@ -160,6 +161,9 @@ public class PlayerController : MonoBehaviour
             DoorInputCheak();
             WarpMirrorInputCheak();
             MirrorPieceInputCheak();
+
+            // boss device
+            OperationDevice();
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -236,6 +240,7 @@ public class PlayerController : MonoBehaviour
     public void SavePlayerData_ToBossScene()
     {
         saveBossHp = 1;
+        saveBossPos = this.transform.position;
         saveBossAngleIndex = flashLight.GetCurIndex();
         saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
@@ -251,11 +256,10 @@ public class PlayerController : MonoBehaviour
         ChangeState(PlayerState.Idle);
 
         curHp = saveBossHp;
+        this.transform.position = saveBossPos;
         flashLight.SetCurIndex(saveBossAngleIndex);
         flashLight.SetCurBaseIndex(saveBossRangeIndex);
         inventory.SetInventoryDate(saveBossInventoryItems);
-
-        this.transform.position = Vector3.zero; // 문 위지로 다시 저장해서 inti
 
         // 거울조각
         piece5 = false;
@@ -440,9 +444,19 @@ public class PlayerController : MonoBehaviour
         PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
         curSceneMirrorPiece = null;                           // arrow controll
 
-        curMirrorPiece = null;
         piece.InteratcionUIOff();
+        curMirrorPiece = null;
         Destroy(piece.gameObject);
+    }
+
+    /// Device Operation
+    private void OperationDevice()
+    {
+        if (isInteractionKey && curDevice != null && piece5 == true)
+        {
+            curDevice.Operation();
+            curDevice = null;
+        }
     }
 
     /*------------------------- Skill -------------------------------*/
@@ -728,6 +742,13 @@ public class PlayerController : MonoBehaviour
             curMirrorPiece = collision.GetComponent<MirrorPiece>();
             curMirrorPiece.InteractionUIOn();
         }
+
+        // device interaction
+        if (collision.CompareTag("Device") && piece5 == true)
+        {
+            curDevice = collision.GetComponent<Device>();
+            curDevice.InteractionUIOn();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -775,6 +796,16 @@ public class PlayerController : MonoBehaviour
             {
                 curMirrorPiece.InteratcionUIOff();
                 curMirrorPiece = null;
+            }
+        }
+
+        // device interaction
+        if (collision.CompareTag("Device") && piece5 == true)
+        {
+            if(curDevice != null)
+            {
+                curDevice.InteractionUIOff();
+                curDevice = null;
             }
         }
     }
