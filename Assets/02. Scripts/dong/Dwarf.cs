@@ -357,27 +357,27 @@ public class Dwarf : MonoBehaviour
         {
             if (point == null) continue;
 
-            // 1. 'from → point' 경로가 뚫려있는지 확인 (기본 조건)
+            //  1. from(AI 본체) → 우회 포인트까지는 정확한 충돌 판정 필요
+            // => 기존의 BoxCast 기반 검사 함수 사용
             if (!IsPathClear(from, point.position)) continue;
 
-            // 2. 'point → to(플레이어)' 경로가 직접 뚫려있는지 확인
-            bool directToTarget = IsPathClear(point.position, to);
+            //  2. point → to(플레이어) 는 단순 Raycast로 검사
+            bool directToTarget = IsLineClear(point.position, to);
             bool indirectToTarget = false;
 
-            // 3. 만약 직접 갈 수 없다면, 다른 우회 포인트를 경유할 수 있는지 체크
+            //  3. direct가 막혀있다면, 다른 우회 포인트 경유 가능한지 검사
             if (!directToTarget)
             {
                 foreach (var other in dirPoints)
                 {
                     if (other == null || other == point) continue;
 
-                    // 3-1. 현재 point → 다른 우회포인트(other)로 경로가 뚫려있는가?
-                    bool connectable = IsPathClear(point.position, other.position);
+                    // 3-1. point → other
+                    bool connectable = IsLineClear(point.position, other.position);
 
-                    // 3-2. other → to(플레이어)로도 뚫려있는가?
-                    bool otherToTarget = IsPathClear(other.position, to);
+                    // 3-2. other → to
+                    bool otherToTarget = IsLineClear(other.position, to);
 
-                    // 3-3. 둘 다 true면 간접 우회 경로 가능하다고 판단
                     if (connectable && otherToTarget)
                     {
                         indirectToTarget = true;
@@ -386,21 +386,16 @@ public class Dwarf : MonoBehaviour
                 }
             }
 
-            // 4. 우선순위 설정
-            // - 1순위: point → to로 직접 갈 수 있음
-            // - 2순위: 다른 point를 경유해서 to로 갈 수 있음
-            // - 3순위: 위 조건 모두 실패, 그냥 가까운 우회 포인트
+            //  4. 우선순위 분류
             int priority = directToTarget ? 1 :
                            indirectToTarget ? 2 :
                            3;
 
-            // 5. 거리 기반 보정값 계산
+            // 거리 보정값 (여기선 point → target 거리 기준)
             float distance = Vector2.Distance(point.position, to);
-
-            // 6. score 계산 (우선순위가 더 중요하므로 priority * 1000)
             float score = priority * 1000 + distance;
 
-            // 7. 가장 낮은 score를 가진 point 선택
+            //  5. 가장 점수가 낮은 포인트 선택
             if (score < bestScore)
             {
                 bestScore = score;
@@ -409,6 +404,17 @@ public class Dwarf : MonoBehaviour
         }
 
         return bestPoint;
+    }
+    private bool IsLineClear(Vector2 from, Vector2 to)
+    {
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
+
+        RaycastHit2D hit = Physics2D.Raycast(from, dir, dist, LayerMask.GetMask("Wall"));
+
+        Debug.DrawLine(from, to, hit.collider ? Color.red : Color.green);
+
+        return hit.collider == null;
     }
     private void MoveToTarget(Vector2 targetPos)    //목표 타겟으로 이동
     {
