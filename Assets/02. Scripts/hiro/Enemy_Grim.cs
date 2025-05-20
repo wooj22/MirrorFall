@@ -465,12 +465,10 @@ public class Enemy_Grim : MonoBehaviour
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
-        if (Vector2.Distance(to, playerPos) < 0.01f)
-        {
-            to = playerfootPos;
-        }
+        
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
+
         float raySize = 1.1f;
 
         Vector2 dir = (to - from).normalized;
@@ -484,6 +482,13 @@ public class Enemy_Grim : MonoBehaviour
         // BoxCast의 중심 위치를 콜라이더 중심으로 맞춤
         // (from과 center가 다르면 center를 기준으로 하는 게 맞음)
         Vector2 castOrigin = center;
+
+        if (Vector2.Distance(to, playerPos) < 0.01f)
+        {
+            to = playerfootPos;  
+
+            castOrigin.y += 0.2f;   // 높이 0.2만큼 오프셋
+        }
 
         RaycastHit2D hit = Physics2D.BoxCast(
             castOrigin, worldSize, 0f, dir, dist, LayerMask.GetMask("Wall"));
