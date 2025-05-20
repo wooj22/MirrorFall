@@ -240,7 +240,7 @@ public class Dwarf : MonoBehaviour
             bool isRight = transform.position.x <= PlayerPos.x;
             bool isUp = transform.position.y <= PlayerPos.y;
 
-            SetAnimation(isUp ? "Attack" : "Attack1");
+            SetAnimation(isUp ? "AttackUp" : "AttackDown");
             spr.flipX = !isRight;
             return;
         }
@@ -257,7 +257,7 @@ public class Dwarf : MonoBehaviour
         bool movingRight = vel.x >= 0;
         bool movingUp = vel.y >= 0;
 
-        SetAnimation(movingUp ? "Walk1" : "Walk");
+        SetAnimation(movingUp ? "WalkUp" : "WalkDown");
         spr.flipX = !movingRight;
     }
     void Attack()     //АјАн Сп
