@@ -63,7 +63,7 @@ public class TutorialAI : MonoBehaviour
         }
 
         direction.Normalize();
-        transform.position += (Vector3)(direction * speed * 3.5f * Time.deltaTime);
+        transform.position += (Vector3)(direction * speed * 1.3f * Time.deltaTime);
     }
 
     // Animation
