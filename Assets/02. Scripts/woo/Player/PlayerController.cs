@@ -679,6 +679,7 @@ public class PlayerController : MonoBehaviour
         if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
             GameManager.Instance.BossPlayerDie();
+            // 12_GameOver 씬으로 보내기
         }
         else
         {
