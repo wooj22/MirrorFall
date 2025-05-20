@@ -1,12 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.EventSystems;
 
-public class Enemy_Grim : MonoBehaviour
+public class Grim_Test : MonoBehaviour
 {
     // AI
     public string anim_cur = "Idle";
@@ -18,6 +15,7 @@ public class Enemy_Grim : MonoBehaviour
     public float attackDistance = 2f;   // 공격 거리
     public float eatDistance = 2f;
     public Vector2 startPos;
+    public LayerMask wallLayer;
 
     // AI 이동
     public GameObject allPatrolPoints;
@@ -32,8 +30,14 @@ public class Enemy_Grim : MonoBehaviour
     private bool isAttacking = false;
     private bool isEating = false;
     private bool goback = false;
+    private bool isPlayerHidden = false;
     private float playerdistance;
     private float appledistance;
+
+    private int currentPatrolIndex = 0;
+    private int returnPatrolIndex = -1;
+
+    private Transform currentBypassTarget = null;
 
     private Rigidbody2D rb;
     private Collider2D col;
@@ -47,6 +51,14 @@ public class Enemy_Grim : MonoBehaviour
     private Vector2 playerPos;
     private Vector2 applePos;
 
+    enum EnemyState
+    {
+        Patrol,
+        Chase,
+        Bypass,
+        Return
+    } EnemyState currentState;
+
     void Start()
     {
         startPos = transform.position;
@@ -56,6 +68,7 @@ public class Enemy_Grim : MonoBehaviour
         spr = GetComponent<SpriteRenderer>();
         playerSpr = GetComponent<SpriteRenderer>();
         player = GameObject.FindGameObjectWithTag("Player");
+        isPlayerHidden = player.GetComponent<PlayerController>().isHide;
 
         if (allPatrolPoints != null)
         {
@@ -80,7 +93,6 @@ public class Enemy_Grim : MonoBehaviour
         AppleCheck();
         Playani();
         MovetoApple();
-        NormalMove();
 
         if (!isAttacking && !isReturning)
         {
@@ -89,6 +101,170 @@ public class Enemy_Grim : MonoBehaviour
         if (!isReturning && !isEating)
         {
             Eating();
+        }
+
+        switch (currentState)
+        {
+            case EnemyState.Patrol:
+                PatrolState();
+                break;
+            case EnemyState.Chase:
+                ChaseState();
+                break;
+            case EnemyState.Bypass:
+                BypassState();
+                break;
+            case EnemyState.Return:
+                ReturnState();
+                break;
+        }
+    }
+
+    void PatrolState()
+    {
+        // 순찰 이동 + 플레이어 감지시 Chase 전환
+        if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
+        {
+            currentState = EnemyState.Chase;
+            playerfind = true;
+        }
+        else
+        {
+            if (patrolPoints.Count == 0) return;
+
+            Vector2 nextPos = patrolPoints[currentPointIndex].position;
+
+            MoveToTarget(nextPos);
+
+            // 순찰 지점 갱신
+            if (Vector2.Distance(transform.position, nextPos) < 0.2f)
+            {
+                int nextIndex = (currentPointIndex + 1) % patrolPoints.Count;
+
+                int attempts = 0;
+                while (patrolPoints[nextIndex] == null && attempts < patrolPoints.Count)
+                {
+                    nextIndex = (nextIndex + 1) % patrolPoints.Count;
+                    attempts++;
+                }
+
+                currentPointIndex = nextIndex;
+            }
+        }
+    }
+
+    void ChaseState()
+    {
+        // 플레이어 추적, 감지 실패 시 Return or Bypass 전환
+        if (playerdistance > missDistance)
+        {
+            playerfind = false;
+            goback = true;
+
+            currentState = EnemyState.Return;
+        }
+        else
+        {
+            MoveToTarget(playerPos);
+        }
+    }
+
+    void BypassState()
+    {
+        // 우회 경로 따라 이동, 도착 시 Return 전환
+        if (patrolPoints.Count == 0) return;
+
+        // 가장 가까운 순찰 지점 찾기
+        float closestDistance = float.MaxValue;
+        int closestIndex = 0;
+
+        for (int i = 0; i < patrolPoints.Count; i++)
+        {
+            float dist = Vector2.Distance(transform.position, patrolPoints[i].position);
+            if (dist < closestDistance)
+            {
+                closestDistance = dist;
+                closestIndex = i;
+            }
+        }
+
+        // 해당 지점으로 이동
+        Vector2 restartPos = patrolPoints[closestIndex].position;
+        MoveToTarget(restartPos);
+
+        // 도착하면 순찰 재시작
+        if (Vector2.Distance(transform.position, restartPos) < 0.2f)
+        {
+            currentPointIndex = closestIndex;
+            goback = false;
+
+            currentState = EnemyState.Return;
+        }
+    }
+
+    void ReturnState()
+    {
+        if (patrolPoints.Count == 0) return;
+
+        // 복귀 지점이 아직 지정되지 않았다면 가장 가까운 순찰 지점을 찾음
+        if (returnPatrolIndex == -1)
+        {
+            float closestDistance = float.MaxValue;
+            int closestIndex = 0;
+
+            for (int i = 0; i < patrolPoints.Count; i++)
+            {
+                float dist = Vector2.Distance(transform.position, patrolPoints[i].position);
+                if (dist < closestDistance)
+                {
+                    closestDistance = dist;
+                    closestIndex = i;
+                }
+            }
+
+            returnPatrolIndex = closestIndex;
+        }
+
+        Vector2 returnPos = patrolPoints[returnPatrolIndex].position;
+        MoveToTarget(returnPos);
+
+        // 지정된 복귀 지점에 도착하면 Patrol 상태로 복귀
+        if (Vector2.Distance(transform.position, returnPos) < 0.2f)
+        {
+            currentPointIndex = returnPatrolIndex;
+            returnPatrolIndex = -1;
+            goback = false;
+            playerfind = false;
+            isReturning = false;
+            isAttacking = false;
+            isEating = false;
+
+            currentState = EnemyState.Patrol;
+        }
+    }
+
+    private void MoveToTarget(Vector2 targetPos)    //목표 타겟으로 이동
+    {
+        if (IsPathClearBox(transform.position, targetPos))
+        {
+            // 경로가 막히지 않았으면 직진
+            Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
+            rb.velocity = dir * speed;
+        }
+        else
+        {
+            // 우회 지점 탐색
+            Transform bypass = FindClosestBypassPoint(transform.position, targetPos);
+
+            if (bypass != null)
+            {
+                Vector2 dir = ((Vector2)bypass.position - (Vector2)transform.position).normalized;
+                rb.velocity = dir * speed;
+            }
+            else
+            {
+                rb.velocity = Vector2.zero;
+            }
         }
     }
 
@@ -144,121 +320,6 @@ public class Enemy_Grim : MonoBehaviour
             appledistance = float.MaxValue;
         }
     }
-
-    // 적 AI 기본 이동
-    void NormalMove()
-    {
-        if (isReturning || applefind) return;
-
-        bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
-
-        if (!playerfind && !goback) // 플레이어 감지x, 복귀 중x
-        {
-            if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
-            {
-                playerfind = true;
-            }
-            else
-            {
-                if (patrolPoints.Count == 0) return;
-                Vector2 nextPos = patrolPoints[currentPointIndex].position;
-
-                MoveToTarget(nextPos);
-
-                // 순찰 지점 갱신
-                if (Vector2.Distance(transform.position, nextPos) < 0.2f)
-                {
-                    int nextIndex = (currentPointIndex + 1) % patrolPoints.Count;
-
-                    int attempts = 0;
-                    while (patrolPoints[nextIndex] == null && attempts < patrolPoints.Count)
-                    {
-                        nextIndex = (nextIndex + 1) % patrolPoints.Count;
-                        attempts++;
-                    }
-
-                    currentPointIndex = nextIndex;
-                }
-            }
-        }
-        else if (playerfind && !goback) // 플레이어 감지o, 복귀 중x
-        {
-            // 플레이어 추적
-            if (playerdistance > missDistance)
-            {
-                playerfind = false;
-                goback = true;
-            }
-            else
-            {
-                MoveToTarget(playerPos);
-            }
-        }
-        else if (!playerfind && goback) // 플레이어 감지x, 복귀 중o
-        {
-            if (playerdistance < findDistance && !player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
-            {
-                playerfind = true;
-                goback = false;
-            }
-
-            if (patrolPoints.Count == 0) return;
-
-            // 가장 가까운 순찰 지점 찾기
-            float closestDistance = float.MaxValue;
-            int closestIndex = 0;
-
-            for (int i = 0; i < patrolPoints.Count; i++)
-            {
-                float dist = Vector2.Distance(transform.position, patrolPoints[i].position);
-                if (dist < closestDistance)
-                {
-                    closestDistance = dist;
-                    closestIndex = i;
-                }
-            }
-
-            // 해당 지점으로 이동
-            Vector2 restartPos = patrolPoints[closestIndex].position;
-            MoveToTarget(restartPos);
-
-            // 도착하면 순찰 재시작
-            if (Vector2.Distance(transform.position, restartPos) < 0.2f)
-            {
-                currentPointIndex = closestIndex;
-                goback = false;
-            }
-        }
-    }
-
-
-    private void MoveToTarget(Vector2 targetPos)    //목표 타겟으로 이동
-    {
-        if (IsPathClearBox(transform.position, targetPos))
-        {
-            // 경로가 막히지 않았으면 직진
-            Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
-            rb.velocity = dir * speed;
-        }
-        else
-        {
-            // 우회 지점 탐색
-            Transform bypass = FindClosestBypassPoint(transform.position, targetPos);
-
-            if (bypass != null)
-            {
-                Vector2 dir = ((Vector2)bypass.position - (Vector2)transform.position).normalized;
-                rb.velocity = dir * speed;
-            }
-            else
-            {
-                rb.velocity = Vector2.zero;
-            }
-        }
-    }
-
-
-    // 사과로 이동
     void MovetoApple()
     {
         if (isReturning) return;
@@ -401,40 +462,6 @@ public class Enemy_Grim : MonoBehaviour
         return angle < 55f;
     }
 
-    // 레이캐스트, 적이랑 다음 이동할 위치 사이를 확인
-    //private bool IsPathClearBox(Vector2 from, Vector2 to)
-    //{
-    //    // 콜라이더 정보
-    //    BoxCollider2D box = GetComponent<BoxCollider2D>();
-    //    Bounds bounds = box.bounds;
-    //    Vector2 center = bounds.center;
-
-    //    // 꼭짓점들 (왼쪽 위, 오른쪽 위, 오른쪽 아래, 왼쪽 아래)
-    //    Vector2[] startPoints = new Vector2[5];
-    //    startPoints[0] = bounds.center; // 중앙
-    //    startPoints[1] = new Vector2(bounds.min.x, bounds.max.y); // 왼쪽 위
-    //    startPoints[2] = new Vector2(bounds.max.x, bounds.max.y); // 오른쪽 위
-    //    startPoints[3] = new Vector2(bounds.max.x, bounds.min.y); // 오른쪽 아래
-    //    startPoints[4] = new Vector2(bounds.min.x, bounds.min.y); // 왼쪽 아래
-
-    //    Vector2 dir = (to - center).normalized;
-    //    float dist = Vector2.Distance(center, to);
-    //    float offset = 0.1f;
-
-    //    foreach (Vector2 start in startPoints)
-    //    {
-    //        Vector2 offsetStart = start + dir * offset;
-
-    //        RaycastHit2D hit = Physics2D.Raycast(offsetStart, dir, dist, LayerMask.GetMask("Wall"));
-    //        Debug.DrawRay(offsetStart, dir * dist, Color.red); // 디버깅용
-
-    //        if (hit.collider != null)
-    //            return false; // 하나라도 막히면 false
-    //    }
-
-    //    return true;
-    //}
-
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
         BoxCollider2D box = GetComponent<BoxCollider2D>();
@@ -495,32 +522,6 @@ public class Enemy_Grim : MonoBehaviour
         return bestPoint;
     }
 
-
-    // 현재 위치(transform.position)와 현재 우회점 제외하고 가장 가까운 우회점 찾기
-    private Transform FindAnotherBypassPointExceptCurrent(Vector2 currentPos, Vector2 currentBypassPos)
-    {
-        Transform closest = null;
-        float minDistance = float.MaxValue;
-
-        foreach (Transform bypass in bypassPoints) // bypassPoints는 우회점 리스트
-        {
-            if (bypass == null) continue;
-
-            // 현재 우회점 제외
-            if (Vector2.Distance(bypass.position, currentBypassPos) < 0.01f) continue;
-
-            float dist = Vector2.Distance(currentPos, bypass.position);
-            if (dist < minDistance)
-            {
-                minDistance = dist;
-                closest = bypass;
-            }
-        }
-        return closest;
-    }
-
-
-
     // 애니메이션 재생
     private void SetAnimation(string anim)
     {
@@ -528,6 +529,7 @@ public class Enemy_Grim : MonoBehaviour
         anim_cur = anim;
         ani.Play(anim);
     }
+
 
     // 기즈모 추가
 #if UNITY_EDITOR
@@ -560,5 +562,4 @@ public class Enemy_Grim : MonoBehaviour
         Gizmos.DrawRay(transform.position, rightDir * length);
     }
 #endif
-
 }
