@@ -27,6 +27,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] public Text aiText;
     [SerializeField] public Text narrationText;
 
+    private Coroutine tutorialClearCo;
 
     private void Start()
     {
@@ -46,7 +47,10 @@ public class TutorialManager : MonoBehaviour
         };
 
         currentStep = steps[currentStepIndex];
-        currentStep.Enter();     
+        currentStep.Enter();
+
+        SoundManager2.Instance.SetBGM("BGM_InGame");
+        SoundManager2.Instance.FadeInBGM();
     }
 
     private void Update()
@@ -68,10 +72,32 @@ public class TutorialManager : MonoBehaviour
                 currentStep = steps[currentStepIndex];
                 currentStep.Enter();
             }
-            else
-            {
-                Debug.Log("Tutorial Step Clear");
-            }
         }
+    }
+
+    // 튜토리얼 클리어 (Tutorial WarpMirror 워프시)
+    public void TutorialClear()
+    {
+        if (tutorialClearCo == null)
+        {
+            ai.gameObject.SetActive(false);
+            tutorialClearCo = StartCoroutine(TuTorialLastCo());
+            Debug.Log("Tutorial Step Clear");
+        }
+    }
+
+    IEnumerator TuTorialLastCo()
+    {
+        narrationText.text = "";
+        FadeManager.Instance.FadeOut();
+        yield return new WaitForSeconds(1.2f);
+
+        aiText.text = "아니? 대신 내가 나가서 네 얼굴로 살아줄게.. 예전처럼 예쁘게";
+        SoundManager2.Instance.PlaySFX("Voice_Tutorial_6");
+        yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
+
+        SoundManager2.Instance.FadeOutBGM();
+        yield return new WaitForSeconds(2f);
+        SceneSwitch.Instance.SceneSwithcing("04_Play0");
     }
 }

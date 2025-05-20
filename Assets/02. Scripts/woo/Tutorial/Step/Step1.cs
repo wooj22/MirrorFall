@@ -33,21 +33,15 @@ public class Step1 : TutorialStep
         Debug.Log("Tutorial Step1 Clear");
     }
 
-    //coco.StartCoroutine(Test());
-    //IEnumerator Test()
-    //{
-    //    yield return new WaitForSeconds(1);
-    //    Debug.Log("FSM도 코루틴 ㄱㄴ");
-    //}
-
     IEnumerator ScriptDirector()
     {
-        yield return new WaitForSeconds(3f);
+        yield return new WaitForSeconds(2f);
 
         manager.playerText.text = "여긴.. 어디지?    성..?";
-        SoundManager2.Instance.PlaySFX("tutorial_1_old");
+        SoundManager2.Instance.PlaySFX("Voice_Tutorial_1");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
+        manager.playerText.text = "";
         manager.narrationText.text = "거울 조각이 가리키는 방향으로 이동하세요\n(이동 : WASD)";
     }
 }

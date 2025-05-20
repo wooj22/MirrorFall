@@ -4,6 +4,7 @@ using UnityEngine;
 public class Step2 : TutorialStep
 {
     private bool Step2_Clear;
+    private Coroutine step2_co;
 
     public Step2(MonoBehaviour coco, TutorialManager tutorialManager) :
         base(coco, tutorialManager)
@@ -11,9 +12,7 @@ public class Step2 : TutorialStep
 
     public override void Enter()
     {
-        manager.playerText.text = "누, 누구야?";
-        manager.aiText.text = "네 자신이 싫다면 내가 대신 살아줄까?";
-        manager.narrationText.text = "노란 사과를 줍고[F], 시야를 밝히세요. [1][2][3]";
+        step2_co = coco.StartCoroutine(ScriptDirector());
     }
 
     public override void Update()
@@ -34,6 +33,17 @@ public class Step2 : TutorialStep
 
         manager.zone2.enabled = false;
 
+        coco.StopCoroutine(step2_co);
         Debug.Log("Tutorial Step2 Clear");
+    }
+
+    IEnumerator ScriptDirector()
+    {
+        manager.aiText.text = "네 자신이 싫다면 내가 대신 살아줄까?";
+        SoundManager2.Instance.PlaySFX("Voice_Tutorial_2");
+        yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
+
+        manager.aiText.text = "";
+        manager.narrationText.text = "노란 사과를 줍고[F], 시야를 밝히세요. [1][2][3]";
     }
 }

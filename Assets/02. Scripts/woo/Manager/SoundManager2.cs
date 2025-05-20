@@ -63,7 +63,8 @@ public class SoundManager2 : MonoBehaviour
         AudioClip clipToPlay = sfxClipList.Find(clip => clip.name == clipName);
 
         sfxSource.Stop();
-        sfxSource.PlayOneShot(clipToPlay);
+        sfxSource.clip = clipToPlay;
+        sfxSource.Play();
     }
 
     public void StopSFX()
@@ -73,7 +74,7 @@ public class SoundManager2 : MonoBehaviour
 
     public float GetPlayTimeSFX()
     {
-        return sfxSource.time;
+        return sfxSource.clip.length;
     }
 
     /// 볼륨 페이드인
