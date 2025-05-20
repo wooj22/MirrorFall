@@ -45,6 +45,7 @@ public class Enemy_Grim : MonoBehaviour
     private GameObject nearestApple;
 
     private Vector2 playerPos;
+    private Vector2 playerfootPos;
     private Vector2 applePos;
 
     void Start()
@@ -98,9 +99,24 @@ public class Enemy_Grim : MonoBehaviour
         if (player != null)
         {
             playerPos = player.transform.position;
+            // 플레이어 자식 오브젝트 AIPos 찾기 (없으면 플레이어 위치로 대체)
+            Transform foot = player.transform.Find("AIPos");
+            if (foot != null)
+            {
+                playerfootPos = foot.position;
+            }
+            else
+            {
+                playerfootPos = playerPos;
+            }
+            playerdistance = Vector2.Distance(transform.position, playerPos);
         }
-
-        playerdistance = Vector2.Distance(transform.position, playerPos);
+        else
+        {
+            playerPos = Vector2.positiveInfinity;
+            playerfootPos = Vector2.positiveInfinity;
+            playerdistance = float.MaxValue;
+        }
     }
 
     // 사과 탐색
@@ -402,6 +418,10 @@ public class Enemy_Grim : MonoBehaviour
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
+        if (Vector2.Distance(to, playerPos) < 0.01f)
+        {
+            to = playerfootPos;
+        }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
         float raySize = 1.1f;
