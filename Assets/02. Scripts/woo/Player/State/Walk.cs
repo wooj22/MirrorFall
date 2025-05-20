@@ -44,6 +44,9 @@ public class Walk : BaseState
 
         // move
         player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.curSpeed;
+
+        // sound
+        player.footStep.PlayFootstep(player.curSpeed);
     }
 
     /// Exit

@@ -100,8 +100,6 @@ public class TutorialManager : MonoBehaviour
         aiText.text = "아니? 대신 내가 나가서 네 얼굴로 살아줄게.. \n예전처럼 예쁘게";
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_6");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
-
-        SoundManager2.Instance.FadeOutBGM();
         yield return new WaitForSeconds(2f);
         SceneSwitch.Instance.SceneSwithcing("04_Play0");
     }

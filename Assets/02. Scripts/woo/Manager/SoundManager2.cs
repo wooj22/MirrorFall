@@ -33,6 +33,7 @@ public class SoundManager2 : MonoBehaviour
     /// BGM
     public void SetBGM(string clipName)
     {
+        bgmSource.Stop();
         bgmSource.clip = bgmClipList.Find(clip => clip.name == clipName);
     }
 
@@ -40,6 +41,12 @@ public class SoundManager2 : MonoBehaviour
     {
         bgmSource.loop = true;
         bgmSource.Play();
+    }
+
+    public void PlayOneShotBGM(string clipName)
+    {
+        AudioClip clipToPlay = bgmClipList.Find(clip => clip.name == clipName);
+        bgmSource.PlayOneShot(clipToPlay);
     }
 
     public void StopBGM()
