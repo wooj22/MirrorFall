@@ -17,6 +17,7 @@ public class SoundManager2 : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -68,6 +69,11 @@ public class SoundManager2 : MonoBehaviour
     public void StopSFX()
     {
         sfxSource.Stop();
+    }
+
+    public float GetPlayTimeSFX()
+    {
+        return sfxSource.time;
     }
 
     /// 볼륨 페이드인
