@@ -44,7 +44,7 @@ public class BossSceneManager : MonoBehaviour
         while (currentTime < BossSceneTimeLimit)
         {
             currentTime++;
-            timerUI.text = "거울속에 같히기까지  " + (BossSceneTimeLimit - currentTime);
+            timerUI.text = "거울속에 갇히기까지  " + (BossSceneTimeLimit - currentTime);
             yield return new WaitForSeconds(1f);
         }
 
