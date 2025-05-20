@@ -144,7 +144,7 @@ AudioSource:
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1
-  Loop: 1
+  Loop: 0
   Mute: 0
   Spatialize: 0
   SpatializePostEffects: 0
@@ -250,7 +250,8 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 31f1e747081e23b41a3f9cad7f6b4a97, type: 3}
   - {fileID: 8300000, guid: 8b9ee74d01f2650499aaee231babbc2a, type: 3}
   - {fileID: 8300000, guid: 0a378dd0c7285b34ab7040aee71db495, type: 3}
-  - {fileID: 8300000, guid: da544a028f73602499756d0c14bda012, type: 3}
+  - {fileID: 8300000, guid: 53a6e0cf8191c7146958d33075d84f52, type: 3}
+  - {fileID: 8300000, guid: a40c2b9d182aba445a9163fbabcea1bf, type: 3}
   - {fileID: 8300000, guid: 938d17aa6192698469e94fa615fac8a1, type: 3}
   - {fileID: 8300000, guid: d508e4604b1cc7645b108c6836dd3c41, type: 3}
   - {fileID: 8300000, guid: 80a0d8e9b88086d4d9dfa61392e63790, type: 3}
@@ -259,5 +260,6 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 686eab048f203854e8b02c64b0b3c0ee, type: 3}
   - {fileID: 8300000, guid: 6448c6beae6c35a43bac06b276fd2ffe, type: 3}
   - {fileID: 8300000, guid: 507c33d075230bb46ae5e36ff5a98ab9, type: 3}
+  - {fileID: 8300000, guid: a04c76fb0047fe04e899faf32dd39133, type: 3}
   - {fileID: 8300000, guid: a04c76fb0047fe04e899faf32dd39133, type: 3}
   fadeVolumeTime: 3

@@ -22,6 +22,9 @@ public class Hit : BaseState
 
         // velocity zero
         player.rb.velocity = Vector2.zero;
+
+        // sound
+        SoundManager2.Instance.PlaySFX("SFX_grimhilde_Die");
     }
 
     /// Change State

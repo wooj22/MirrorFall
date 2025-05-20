@@ -15,7 +15,7 @@ public class Apple : MonoBehaviour
     private void Start()
     {
         previousPosition = transform.position;
-        Destroy(this.gameObject, 12f);              // 12초 후 자가 소멸
+        Destroy(this.gameObject, 8f);
     }
 
     private void Update()
@@ -27,9 +27,11 @@ public class Apple : MonoBehaviour
         {
             float distanceMoved = (transform.position - previousPosition).sqrMagnitude;
 
+            // 1) 바닥에 떨어졌을 경우
             if (distanceMoved < stopThreshold * stopThreshold)
             {
                 isGround = true;
+                SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
             }
 
             previousPosition = transform.position;
@@ -39,12 +41,11 @@ public class Apple : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
+        // 2) 벽에 닿았을을 경우 (강제 종료)
         if (collision.gameObject.CompareTag("Wall"))
         {
-            //GetComponent<CircleCollider2D>().enabled = false;
-            isGround = true;        // 벽에 닿았을때 강제 종료
-            //GetComponent<SpriteRenderer>().enabled = false; 
-            Debug.Log("Apple 벽에 닿음. 기능 다 주석처리해둠");
+            isGround = true;        
+            SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
         }
     }
 }
