@@ -6,6 +6,9 @@ using UnityEngine;
 
 public class Dwarf : MonoBehaviour
 {
+    [SerializeField] Vector2 debugPos;
+    [SerializeField] GameObject debugOb;
+
     public string anim_cur = "Idle";
     public float speed = 2f;            // 이동 속도
     public float findDistance = 5f;     //플레이어 감지 범위
@@ -39,6 +42,9 @@ public class Dwarf : MonoBehaviour
 
     void Start()
     {
+        // debug
+        debugOb = GameObject.Find("AI_Dir_Pos(Debug)");
+
         rb = GetComponent<Rigidbody2D>();
         col = GetComponent<Collider2D>();
         ani = GetComponent<Animator>();
@@ -357,16 +363,10 @@ public class Dwarf : MonoBehaviour
 
     private bool IsPathClear(Vector2 from, Vector2 to)     //경로 상 벽 오브젝트 확인
     {
-        if (Vector2.Distance(to, PlayerPos) < 0.01f)
-        {
-            to = PlayerfootPos;
-        }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
-        float raySize = 1.1f;
 
-        Vector2 dir = (to - from).normalized;
-        float dist = Vector2.Distance(from, to);
+        float raySize = 1.1f;
 
         // 월드 스케일 반영한 실제 크기 계산
         Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
@@ -374,6 +374,14 @@ public class Dwarf : MonoBehaviour
         // BoxCast의 중심 위치를 콜라이더 중심으로 맞춤
         // (from과 center가 다르면 center를 기준으로 하는 게 맞음)
         Vector2 castOrigin = center;
+
+        if (Vector2.Distance(to, PlayerPos) < 0.01f)
+        {
+            to.y = PlayerfootPos.y + 1; // 플레이어 발 밑 기준으로 + 1;
+        }
+
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
 
         RaycastHit2D hit = Physics2D.BoxCast(
             castOrigin, worldSize, 0f, dir, dist, LayerMask.GetMask("Wall"));
@@ -462,6 +470,9 @@ public class Dwarf : MonoBehaviour
             // 경로가 막히지 않았으면 직진
             Vector2 dir = (targetPos - (Vector2)transform.position).normalized;
             rb.velocity = dir * speed;
+
+            // debug
+            debugPos = targetPos;
         }
         else
         {
@@ -472,35 +483,74 @@ public class Dwarf : MonoBehaviour
             {
                 Vector2 dir = ((Vector2)bypass.position - (Vector2)transform.position).normalized;
                 rb.velocity = dir * speed;
+
+                // debug
+                debugPos = targetPos;
             }
             else
             {
-                // 아무 우회 지점도 못 찾은 경우, 주변 방향 중 뚫린 곳으로 조금이나마 움직임
+                // 주변 방향 탐색 후 뚫린 방향으로 그냥 이동
                 Vector2[] directions = {
                 Vector2.right, Vector2.left,
                 Vector2.up, Vector2.down,
-                new Vector2(1, 1).normalized,
-                new Vector2(-1, 1).normalized,
-                new Vector2(1, -1).normalized,
-                new Vector2(-1, -1).normalized
+                new Vector2(1, 0.5f).normalized,
+                new Vector2(-1, 0.5f).normalized,
+                new Vector2(1, -0.5f).normalized,
+                new Vector2(-1, -0.5f).normalized
             };
+
+                bool moved = false;  // 이동했는지 체크하는 변수
 
                 foreach (var dir in directions)
                 {
-                    Vector2 checkPos = (Vector2)transform.position + dir * 0.5f; // 0.5 유닛 정도만 이동
+                    Vector2 checkPos = (Vector2)transform.position + dir * 0.7f;
 
                     if (IsPathClear(transform.position, checkPos))
                     {
-                        rb.velocity = dir * speed * 0.5f; // 살짝만 밀어냄
-                        return;
+                        rb.velocity = dir * speed;
+                        debugPos = checkPos;
+                        debugOb.transform.position = debugPos;
+                        moved = true;
+                        break;  // 한 번이라도 이동하면 더 이상 다른 방향을 체크하지 않음
                     }
                 }
 
                 // 정말 아무 데도 못 가면 멈춤
-                rb.velocity = Vector2.zero;
+                if (!moved)
+                {
+                    // 움직일 수 없다면 주변 방향으로 살짝 움직여 봄
+                    Vector2[] fallbackDirections = {
+                    Vector2.right, Vector2.left, Vector2.up, Vector2.down
+                };
+
+                    foreach (var dir in fallbackDirections)
+                    {
+                        Vector2 checkPos = (Vector2)transform.position + dir * 0.5f;
+
+                        if (IsPathClear(transform.position, checkPos))
+                        {
+                            rb.velocity = dir * speed * 0.5f;  // 살짝 밀어줌
+                            debugPos = checkPos;
+                            debugOb.transform.position = debugPos;
+                            break;
+                        }
+                    }
+                }
+
+                // 만약 주변 방향으로도 못 가면 멈추는 것
+                if (rb.velocity == Vector2.zero)
+                {
+                    debugPos = transform.position;
+                    debugOb.transform.position = debugPos;
+                }
+
             }
         }
+
+        // debug
+        debugOb.transform.position = debugPos;
     }
+
     private void SetAnimation(string anim)
     {
         if (anim_cur == anim) return;

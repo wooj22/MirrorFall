@@ -8,8 +8,8 @@ using UnityEngine.EventSystems;
 
 public class Enemy_Grim : MonoBehaviour
 {
-    [SerializeField] Vector2 debugPos;
-    [SerializeField] GameObject debugOb;
+    //[SerializeField] Vector2 debugPos;
+    //[SerializeField] GameObject debugOb;
 
     // AI
     public string anim_cur = "Idle";
@@ -54,7 +54,7 @@ public class Enemy_Grim : MonoBehaviour
     void Start()
     {
         // debug
-        debugOb = GameObject.Find("AI_Dir_Pos(Debug)");
+        //debugOb = GameObject.Find("AI_Dir_Pos(Debug)");
 
         startPos = transform.position;
         rb = GetComponent<Rigidbody2D>();
@@ -263,7 +263,7 @@ public class Enemy_Grim : MonoBehaviour
             rb.velocity = dir * speed;
 
             // debug
-            debugPos = targetPos;
+            //debugPos = targetPos;
         }
         else
         {
@@ -276,7 +276,7 @@ public class Enemy_Grim : MonoBehaviour
                 rb.velocity = dir * speed;
 
                 // debug
-                debugPos = bypass.position;
+                //debugPos = bypass.position;
             }
             else
             {
@@ -299,8 +299,8 @@ public class Enemy_Grim : MonoBehaviour
                     if (IsPathClearBox(transform.position, checkPos))
                     {
                         rb.velocity = dir * speed;
-                        debugPos = checkPos;
-                        debugOb.transform.position = debugPos;
+                        //debugPos = checkPos;
+                        //debugOb.transform.position = debugPos;
                         moved = true;
                         break;  // 한 번이라도 이동하면 더 이상 다른 방향을 체크하지 않음
                     }
@@ -321,8 +321,8 @@ public class Enemy_Grim : MonoBehaviour
                         if (IsPathClearBox(transform.position, checkPos))
                         {
                             rb.velocity = dir * speed * 0.5f;  // 살짝 밀어줌
-                            debugPos = checkPos;
-                            debugOb.transform.position = debugPos;
+                            //debugPos = checkPos;
+                            //debugOb.transform.position = debugPos;
                             break;
                         }
                     }
@@ -331,14 +331,14 @@ public class Enemy_Grim : MonoBehaviour
                 // 만약 주변 방향으로도 못 가면 멈추는 것
                 if (rb.velocity == Vector2.zero)
                 {
-                    debugPos = transform.position;
-                    debugOb.transform.position = debugPos;
+                    //debugPos = transform.position;
+                    //debugOb.transform.position = debugPos;
                 }
             }
         }
 
         // debug
-        debugOb.transform.position = debugPos;
+        //debugOb.transform.position = debugPos;
     }
 
     // 사과로 이동
@@ -465,16 +465,10 @@ public class Enemy_Grim : MonoBehaviour
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
-        
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
 
         float raySize = 1.1f;
-
-        Vector2 dir = (to - from).normalized;
-        float dist = Vector2.Distance(from, to);
-
-        //if (dist < 0.01f) return true;
 
         // 월드 스케일 반영한 실제 크기 계산
         Vector2 worldSize = Vector2.Scale(box.size, transform.lossyScale) * raySize;
@@ -485,10 +479,11 @@ public class Enemy_Grim : MonoBehaviour
 
         if (Vector2.Distance(to, playerPos) < 0.01f)
         {
-            to = playerfootPos;  
-
-            castOrigin.y += 0.2f;   // 높이 0.2만큼 오프셋
+            to.y = playerfootPos.y + 1;  // 플레이어 발 밑 기준으로 +1 오프셋
         }
+
+        Vector2 dir = (to - from).normalized;
+        float dist = Vector2.Distance(from, to);
 
         RaycastHit2D hit = Physics2D.BoxCast(
             castOrigin, worldSize, 0f, dir, dist, LayerMask.GetMask("Wall"));
@@ -594,10 +589,16 @@ public class Enemy_Grim : MonoBehaviour
 
     private bool IsLineClear(Vector2 from, Vector2 to)
     {
+        //if (Vector2.Distance(to, playerPos) < 0.01f)
+        //{
+        //    to.y = playerfootPos.y + 1; // +1 오프셋
+        //}
+
         if (Vector2.Distance(to, playerPos) < 0.01f)
         {
             to = playerfootPos;
         }
+
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
 
@@ -607,7 +608,6 @@ public class Enemy_Grim : MonoBehaviour
 
         return hit.collider == null;
     }
-
 
     // 애니메이션 재생
     private void SetAnimation(string anim)
