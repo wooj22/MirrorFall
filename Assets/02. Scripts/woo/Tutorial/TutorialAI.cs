@@ -9,23 +9,30 @@ public class TutorialAI : MonoBehaviour
     public Transform reSpawnPos;
     public Transform movePos;
     [SerializeField] private float speed;
-    [SerializeField] private float attackLimit = 0.5f;
+    [SerializeField] private float attackLimit;
 
+    // controll
+    private Vector2 lastPosition;
     public string anim_cur = "Idle";
+
+    // component
     private Animator ani;
     private SpriteRenderer spr;
-    private Vector2 lastPosition;
+    
+
     void Start()
     {
         ani = GetComponent<Animator>();
         spr = GetComponent<SpriteRenderer>();
         lastPosition = transform.position;
     }
+
     void Update()
     {
         Playani();
         lastPosition = transform.position;
     }
+
     // Player 추격
     public void Trace()
     {
@@ -46,10 +53,20 @@ public class TutorialAI : MonoBehaviour
     // 목표 위치로 이동시킴 (apple, 플레이어 은신중 respawnPos)
     public void MoveToPos(Transform pos)
     {
-        Vector2 direction = (pos.position - transform.position).normalized;
+        Vector2 direction = pos.position - transform.position;
+        float distance = direction.magnitude;
+
+        if (distance < 0.05)
+        {
+            transform.position = pos.position;
+            return;
+        }
+
+        direction.Normalize();
         transform.position += (Vector3)(direction * speed * 3.5f * Time.deltaTime);
     }
 
+    // Animation
     void Playani()
     {
         Vector2 moveDir = ((Vector2)transform.position - lastPosition).normalized;

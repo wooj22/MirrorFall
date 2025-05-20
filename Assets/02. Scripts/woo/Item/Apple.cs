@@ -42,7 +42,7 @@ public class Apple : MonoBehaviour
         if (collision.gameObject.CompareTag("Wall"))
         {
             //GetComponent<CircleCollider2D>().enabled = false;
-            //isGround = true;        // 벽에 닿았을때 강제 종료
+            isGround = true;        // 벽에 닿았을때 강제 종료
             //GetComponent<SpriteRenderer>().enabled = false; 
             Debug.Log("Apple 벽에 닿음. 기능 다 주석처리해둠");
         }

@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 700917161121092693}
   - component: {fileID: 8184253955180445131}
-  - component: {fileID: 7943473268219607287}
   - component: {fileID: 6950690426267012232}
+  - component: {fileID: 7943473268219607287}
   m_Layer: 0
   m_Name: Tutorial_Ai
   m_TagString: Untagged
@@ -86,24 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &7943473268219607287
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 9217032252869352135}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6e18b3865634889408406ed27db1cce4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerPos: {fileID: 0}
-  reSpawnPos: {fileID: 0}
-  movePos: {fileID: 0}
-  speed: 1
-  attackLimit: 0.1
-  anim_cur: Idle
 --- !u!95 &6950690426267012232
 Animator:
   serializedVersion: 5
@@ -125,3 +107,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7943473268219607287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217032252869352135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6e18b3865634889408406ed27db1cce4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerPos: {fileID: 0}
+  reSpawnPos: {fileID: 0}
+  movePos: {fileID: 0}
+  speed: 1
+  attackLimit: 0.1
+  anim_cur: Idle
