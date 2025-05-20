@@ -407,6 +407,8 @@ public class PlayerController : MonoBehaviour
             curFiledItem = null;
             item.InteractionUIOff();
             Destroy(item.gameObject);
+
+            SoundManager2.Instance.PlaySFX("SFX_ItemPickingUp");
         }  
     }
 
@@ -416,6 +418,7 @@ public class PlayerController : MonoBehaviour
         if(isInteractionKey && curMirrorPiece != null)
         {
             PickUpMirrorPiece(curMirrorPiece);
+            SoundManager2.Instance.PlaySFX("SFX_MirrorCollect");
         }
     }
 
@@ -561,6 +564,7 @@ public class PlayerController : MonoBehaviour
     public void BrightSkill()
     {
         flashLight.Brightness();
+        SoundManager2.Instance.PlaySFX("SFX_ItemUseCandle");
     }
 
 
@@ -569,6 +573,7 @@ public class PlayerController : MonoBehaviour
     {
         isHourglass = true;
         curSpeed = initSpeed * speedUpRate;
+        SoundManager2.Instance.PlaySFX("SFX_ItemUseHourglass");
     }
 
     /// 이속 원상복귀

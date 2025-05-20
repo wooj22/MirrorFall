@@ -10,16 +10,20 @@ public class Die : BaseState
     {
         Debug.Log("Die Enter");
 
+        // controll
         player.isDie = true;
         player.rb.velocity = Vector2.zero;
 
+        // animation
         player.ani.Play("Die");
         player.ani.SetFloat("Vertical", player.lastDirY);
         if (player.moveX < 0) { player.sr.flipX = true; }
         else if (player.moveX > 0) { player.sr.flipX = false; }
 
-        player.Die();
+        // sound
+        SoundManager2.Instance.PlaySFX("SFX_grimhilde_Die");
 
+        player.Die();
         //AnimatorStateInfo stateInfo = player.ani.GetCurrentAnimatorStateInfo(0);
         //Destroy(player.gameObject, stateInfo.length + 2);
     }

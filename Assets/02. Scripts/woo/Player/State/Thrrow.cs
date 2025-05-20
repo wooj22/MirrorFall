@@ -72,6 +72,9 @@ public class Thrrow : BaseState
 
                 player.AppleThrrowSkill();
                 player.isThrrow = false;
+
+                // sound
+                SoundManager2.Instance.PlaySFX("SFX_Apple_throw");
             }
         }
     }

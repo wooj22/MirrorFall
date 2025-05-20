@@ -80,7 +80,7 @@ public class SoundManager2 : MonoBehaviour
     /// 볼륨 페이드인
     private IEnumerator FadeInVolume(AudioSource audio)
     {
-        float targetVolume = 1f;
+        float targetVolume = 0.45f;
         float currentTime = 0f;
 
         audio.volume = 0;
