@@ -52,7 +52,7 @@ public class GameManager : MonoBehaviour
     // 5번째 거울조각 모았을때
     public void BossMirrorPieceTrigger()
     {
-        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().BossCountDown();
+        GameObject.Find("BossSceneManager").GetComponent<BossSceneManager>().BossStart();
     }
 
     // 보스방에서 제한시간 끝났을때

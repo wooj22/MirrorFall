@@ -92,6 +92,7 @@ public class PlayerController : MonoBehaviour
     private Door curDoor = null;
     private WarpMirror curWarpMirror = null;    
     private MirrorPiece curMirrorPiece = null;
+    private Device curDevice = null;
 
     // Components
     [HideInInspector] public SpriteRenderer sr;
@@ -729,6 +730,13 @@ public class PlayerController : MonoBehaviour
             curMirrorPiece = collision.GetComponent<MirrorPiece>();
             curMirrorPiece.InteractionUIOn();
         }
+
+        // device interaction
+        if (collision.CompareTag("Device"))
+        {
+            curDevice = collision.GetComponent<Device>();
+            curDevice.InteractionUIOn();
+        }
     }
 
     private void OnTriggerExit2D(Collider2D collision)
@@ -776,6 +784,16 @@ public class PlayerController : MonoBehaviour
             {
                 curMirrorPiece.InteratcionUIOff();
                 curMirrorPiece = null;
+            }
+        }
+
+        // device interaction
+        if (collision.CompareTag("Device"))
+        {
+            if(curDevice != null)
+            {
+                curDevice.InteractionUIOff();
+                curDevice = null;
             }
         }
     }
