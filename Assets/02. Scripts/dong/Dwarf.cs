@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -28,6 +29,7 @@ public class Dwarf : MonoBehaviour
     GameObject Player;
     GameObject nearestApple;    //가장 가까운 사과
     Vector2 PlayerPos;
+    Vector2 PlayerfootPos;
     Vector2 ApplePos;
     public GameObject allpatrolPoints;     //순찰 좌표 부모오브젝트
     private List<Transform> patrolPoints = new List<Transform>(); //순찰 좌표리스트
@@ -75,11 +77,22 @@ public class Dwarf : MonoBehaviour
         if (Player != null)
         {
             PlayerPos = Player.transform.position;
+            // 플레이어 자식 오브젝트 AIPos 찾기 (없으면 플레이어 위치로 대체)
+            Transform foot = Player.transform.Find("AIPos");
+            if (foot != null)
+            {
+                PlayerfootPos = foot.position;
+            }
+            else
+            {
+                PlayerfootPos = PlayerPos;
+            }
             playerdistance = Vector2.Distance(transform.position, PlayerPos);
         }
         else
         {
             PlayerPos = Vector2.positiveInfinity;
+            PlayerfootPos = Vector2.positiveInfinity;
             playerdistance = float.MaxValue;
         }
     }
@@ -295,12 +308,30 @@ public class Dwarf : MonoBehaviour
 
     private void ResetToStart()     //공격 후 0번 순찰 좌표로 순간이동
     {
-        transform.position = patrolPoints[0].position;
-        currentPointIndex = 0;
-        col.enabled = true;
-        notmove = false;
-        isAttacking = false;
+        Transform respawnPos;
+
+        int tryCount = 0;
+
+        do
+        {
+            respawnPos = patrolPoints[Random.Range(0, patrolPoints.Count)];
+
+            tryCount++;
+
+            if (tryCount >= patrolPoints.Count)
+            {
+                respawnPos = patrolPoints.OrderByDescending(p => Vector2.Distance(p.position, PlayerPos)).First();
+                break;
+            }
+
+        } while (Vector2.Distance(respawnPos.position, PlayerPos) < missDistance);
+
+        transform.position = respawnPos.position;
+        currentPointIndex = patrolPoints.IndexOf(respawnPos);
         playerfind = false;
+        col.enabled = true;
+        isAttacking = false;
+        notmove = false;
         goback = false;
     }
 
@@ -326,6 +357,10 @@ public class Dwarf : MonoBehaviour
 
     private bool IsPathClear(Vector2 from, Vector2 to)     //경로 상 벽 오브젝트 확인
     {
+        if (Vector2.Distance(to, PlayerPos) < 0.01f)
+        {
+            to = PlayerfootPos;
+        }
         BoxCollider2D box = GetComponent<BoxCollider2D>();
         Vector2 center = box.bounds.center;
         float raySize = 1.1f;
@@ -407,6 +442,10 @@ public class Dwarf : MonoBehaviour
     }
     private bool IsLineClear(Vector2 from, Vector2 to)
     {
+        if (Vector2.Distance(to, PlayerPos) < 0.01f)
+        {
+            to = PlayerfootPos;
+        }
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
 
