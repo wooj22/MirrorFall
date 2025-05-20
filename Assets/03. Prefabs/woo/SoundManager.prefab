@@ -141,7 +141,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -241,22 +241,23 @@ MonoBehaviour:
   bgmSource: {fileID: 4123795426277330937}
   sfxSource: {fileID: 6015235366350987228}
   bgmClipList:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 8300000, guid: 74a4c957271931746b2b00bd0e5651f1, type: 3}
+  - {fileID: 8300000, guid: 75fc7c87d5592d842b98c57c1d148e1d, type: 3}
+  - {fileID: 8300000, guid: eb8b8a343b47e404d92fdaf6181617f0, type: 3}
+  - {fileID: 8300000, guid: 50e248d682458b349a51fb71bde9ebae, type: 3}
   sfxClipList:
-  - {fileID: 8300000, guid: c292f2f59dd99c44889aaa7f92abb699, type: 3}
-  - {fileID: 8300000, guid: 9c528a77cf981744ba265e30cd0eaf35, type: 3}
-  - {fileID: 8300000, guid: a2fee7fd23f2e4c4ca015434343fea3c, type: 3}
-  - {fileID: 8300000, guid: d8a94a8f863c4b84db367bbae2a8c962, type: 3}
-  - {fileID: 8300000, guid: de7df6d673a955940869c7a4f15191df, type: 3}
-  - {fileID: 8300000, guid: 9aaa5706e58e6564c8f673d810198fd7, type: 3}
-  - {fileID: 8300000, guid: 1c87dd486cb537043b5286ac22720bc5, type: 3}
-  - {fileID: 8300000, guid: d8336eef003b49942b21cd2beacf033c, type: 3}
-  - {fileID: 8300000, guid: 98a70bed80cc386479a287442ceb9150, type: 3}
-  - {fileID: 8300000, guid: cab4257998fbccf428a376fec6d8a0b8, type: 3}
-  - {fileID: 8300000, guid: 3d7f52f2f7736a140a52393032e624a7, type: 3}
-  - {fileID: 8300000, guid: e607c523915a5db4c87da14e7cbe5fca, type: 3}
-  - {fileID: 8300000, guid: b86f9dd85cc4a984d9afaf300a9e8406, type: 3}
-  - {fileID: 8300000, guid: 475116a37b2306944ab7f18d135e8fa7, type: 3}
+  - {fileID: 8300000, guid: ce7ca5a56ee591144abd093ca0c5cf2b, type: 3}
+  - {fileID: 8300000, guid: 31f1e747081e23b41a3f9cad7f6b4a97, type: 3}
+  - {fileID: 8300000, guid: 8b9ee74d01f2650499aaee231babbc2a, type: 3}
+  - {fileID: 8300000, guid: 0a378dd0c7285b34ab7040aee71db495, type: 3}
+  - {fileID: 8300000, guid: da544a028f73602499756d0c14bda012, type: 3}
+  - {fileID: 8300000, guid: 938d17aa6192698469e94fa615fac8a1, type: 3}
+  - {fileID: 8300000, guid: d508e4604b1cc7645b108c6836dd3c41, type: 3}
+  - {fileID: 8300000, guid: 80a0d8e9b88086d4d9dfa61392e63790, type: 3}
+  - {fileID: 8300000, guid: 9dff2dc1b22ed77499cb66916a96b68d, type: 3}
+  - {fileID: 8300000, guid: f53c5a1bab91b7040ae7f70b34454029, type: 3}
+  - {fileID: 8300000, guid: 686eab048f203854e8b02c64b0b3c0ee, type: 3}
+  - {fileID: 8300000, guid: 6448c6beae6c35a43bac06b276fd2ffe, type: 3}
+  - {fileID: 8300000, guid: 507c33d075230bb46ae5e36ff5a98ab9, type: 3}
+  - {fileID: 8300000, guid: a04c76fb0047fe04e899faf32dd39133, type: 3}
   fadeVolumeTime: 3

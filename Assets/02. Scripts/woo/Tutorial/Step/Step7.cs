@@ -17,8 +17,11 @@ public class Step7 : TutorialStep
 
     public override void Update()
     {
-        manager.ai.Trace();    // ai 추격                       
-        if (manager.player.step7_isDie) SceneSwitch.Instance.SceneReload();
+        if (!manager.isClear)
+        {
+            manager.ai.Trace();    // ai 추격                       
+            if (manager.player.step7_isDie) SceneSwitch.Instance.SceneReload();
+        }
     }
 
     public override bool IsComplete() { return false; }

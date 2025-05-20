@@ -26,6 +26,7 @@ public class FadeManager : MonoBehaviour
     }
 
     public void FadeIn() { StartCoroutine(FadeInCo()); }
+    public void FadeOut() { StartCoroutine(FadeOutCo()); }
     public void FadeOutSceneChange(string name) { StartCoroutine(FadeOutSceneSwitch(name)); }
 
     /// FadeIn 
@@ -42,6 +43,20 @@ public class FadeManager : MonoBehaviour
         }
 
         fadeImage.gameObject.SetActive(false);
+    }
+
+    //. FadeOut
+    private IEnumerator FadeOutCo()
+    {
+        float fadeCount = 0f;
+        fadeImage.gameObject.SetActive(true);
+
+        while (fadeCount < 1.0f)
+        {
+            fadeCount += 0.01f;
+            yield return new WaitForSeconds(0.005f);
+            fadeImage.color = new Color(0, 0, 0, fadeCount);
+        }
     }
 
     /// Screen FadeOut & Goto Scene
