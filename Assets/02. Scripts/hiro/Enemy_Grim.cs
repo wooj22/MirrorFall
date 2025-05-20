@@ -540,6 +540,10 @@ public class Enemy_Grim : MonoBehaviour
 
     private bool IsLineClear(Vector2 from, Vector2 to)
     {
+        if (Vector2.Distance(to, playerPos) < 0.01f)
+        {
+            to = playerfootPos;
+        }
         Vector2 dir = (to - from).normalized;
         float dist = Vector2.Distance(from, to);
 
