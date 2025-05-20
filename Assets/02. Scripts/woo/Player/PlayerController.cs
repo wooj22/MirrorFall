@@ -452,7 +452,7 @@ public class PlayerController : MonoBehaviour
     /// Device Operation
     private void OperationDevice()
     {
-        if (isInteractionKey && curDevice != null)
+        if (isInteractionKey && curDevice != null && piece5 == true)
         {
             curDevice.Operation();
             curDevice = null;
@@ -744,7 +744,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // device interaction
-        if (collision.CompareTag("Device"))
+        if (collision.CompareTag("Device") && piece5 == true)
         {
             curDevice = collision.GetComponent<Device>();
             curDevice.InteractionUIOn();
@@ -800,7 +800,7 @@ public class PlayerController : MonoBehaviour
         }
 
         // device interaction
-        if (collision.CompareTag("Device"))
+        if (collision.CompareTag("Device") && piece5 == true)
         {
             if(curDevice != null)
             {
