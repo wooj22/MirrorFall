@@ -6,11 +6,11 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {   
     private HashSet<int> collectedMirror = new HashSet<int>();  // mirror piece collected data
-    private List<string> savedInventoryItems = null;            // inventory save data
-    private bool hasSavedInventory = false; // 아 이거 뭐더라 나중에 확인해봐
+    //private List<string> savedInventoryItems = null;            // inventory save data
+    //private bool hasSavedInventory = false;                     // 아 이거 뭐더라 나중에 확인해봐
 
     private PlayerController player;
-    public static GameManager Instance;
+    public static GameManager Instance;         
 
     void Awake()
     {

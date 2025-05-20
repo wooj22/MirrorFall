@@ -128,7 +128,6 @@ public class PlayerController : MonoBehaviour
     /*------------------------- Function -------------------------------*/
     private void Awake()
     {
-        //DontDestroyOnLoad(this.gameObject);
         AddFSM();
     }
 
@@ -162,6 +161,9 @@ public class PlayerController : MonoBehaviour
             DoorInputCheak();
             WarpMirrorInputCheak();
             MirrorPieceInputCheak();
+
+            // boss device
+            OperationDevice();
 
             // Test (Attack)
             if (Input.GetKeyDown(KeyCode.K)) Hit("K");
@@ -442,9 +444,19 @@ public class PlayerController : MonoBehaviour
         PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
         curSceneMirrorPiece = null;                           // arrow controll
 
-        curMirrorPiece = null;
         piece.InteratcionUIOff();
+        curMirrorPiece = null;
         Destroy(piece.gameObject);
+    }
+
+    /// Device Operation
+    private void OperationDevice()
+    {
+        if (isInteractionKey && curDevice != null)
+        {
+            curDevice.Operation();
+            curDevice = null;
+        }
     }
 
     /*------------------------- Skill -------------------------------*/

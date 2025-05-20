@@ -87,10 +87,10 @@ GameObject:
   m_Component:
   - component: {fileID: 5315124859880000153}
   - component: {fileID: 2047695717230318834}
+  - component: {fileID: 8074778154537304266}
   - component: {fileID: 605468114355922845}
   - component: {fileID: 909743351208916512}
   - component: {fileID: 1832321914217717859}
-  - component: {fileID: 8074778154537304266}
   m_Layer: 0
   m_Name: Device
   m_TagString: Device
@@ -169,61 +169,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &605468114355922845
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1916269398602482250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_ShadowGroup: 0
-  m_ComponentVersion: 1
-  m_HasRenderer: 1
-  m_UseRendererSilhouette: 1
-  m_CastsShadows: 1
-  m_SelfShadows: 0
-  m_ApplyToSortingLayers: 00000000
-  m_ShapePath:
-  - {x: -0.19626805, y: -0.29124263, z: 0}
-  - {x: 0.036196582, y: -0.17527266, z: 0}
-  - {x: 0.25544092, y: -0.28607914, z: 0}
-  - {x: 0.018749585, y: -0.44248745, z: 0}
-  m_ShapePathHash: -1219823877
-  m_Mesh: {fileID: 0}
-  m_InstanceId: 151316
-  m_LocalBounds:
-    m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
-    m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
---- !u!114 &909743351208916512
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1916269398602482250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1832321914217717859
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1916269398602482250}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f3bb42d796cc9294bab6976c9413fdd1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  uiCanvas: {fileID: 8322680917742751672}
 --- !u!58 &8074778154537304266
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -259,6 +204,62 @@ CircleCollider2D:
   m_Offset: {x: 0, y: -0.5}
   serializedVersion: 2
   m_Radius: 0.75
+--- !u!114 &605468114355922845
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916269398602482250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7db70e0ea77f5ac47a8f4565a9406397, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_ShadowGroup: 0
+  m_ComponentVersion: 1
+  m_HasRenderer: 1
+  m_UseRendererSilhouette: 1
+  m_CastsShadows: 1
+  m_SelfShadows: 0
+  m_ApplyToSortingLayers: 00000000
+  m_ShapePath:
+  - {x: -0.19626805, y: -0.29124263, z: 0}
+  - {x: 0.036196582, y: -0.17527266, z: 0}
+  - {x: 0.25544092, y: -0.28607914, z: 0}
+  - {x: 0.018749585, y: -0.44248745, z: 0}
+  m_ShapePathHash: -1219823877
+  m_Mesh: {fileID: 0}
+  m_InstanceId: 156016
+  m_LocalBounds:
+    m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
+    m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
+--- !u!114 &909743351208916512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916269398602482250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f235ef5cea703df4cade4e257a881c47, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1832321914217717859
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1916269398602482250}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3bb42d796cc9294bab6976c9413fdd1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  uiCanvas: {fileID: 8322680917742751672}
+  deviceNum: 0
 --- !u!1 &2913232321613283598
 GameObject:
   m_ObjectHideFlags: 0
