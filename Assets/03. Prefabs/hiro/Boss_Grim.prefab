@@ -206,6 +206,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5716f1585a184db4e9990b4070c2ef63, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugPos: {x: 0, y: 0}
+  debugOb: {fileID: 0}
   anim_cur: Idle
   speed: 2
   findDistance: 50

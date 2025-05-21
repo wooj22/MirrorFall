@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: 4561636713224572844}
   m_Layer: 8
   m_Name: Dwarf
-  m_TagString: Untagged
+  m_TagString: Dwarf
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -122,6 +122,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 232e90f7a37e97245b9ef53098be89a4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugPos: {x: 0, y: 0}
+  debugOb: {fileID: 0}
   anim_cur: Idle
   speed: 2
   findDistance: 5

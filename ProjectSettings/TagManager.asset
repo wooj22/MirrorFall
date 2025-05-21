@@ -12,6 +12,8 @@ TagManager:
   - WarpMirror
   - MirrorPiece
   - Device
+  - Grim
+  - Dwarf
   layers:
   - Default
   - TransparentFX
