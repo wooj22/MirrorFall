@@ -11,7 +11,7 @@ public class Enemy_Grim : MonoBehaviour
 
     // AI
     public string anim_cur = "Idle";
-    public float speed = 3.5f;            // 이동 속도
+    public float speed = 3.2f;            // 이동 속도
     public float findDistance = 5f;
     public float missDistance = 7f;
     public float applefindDistance = 10f;
@@ -457,7 +457,7 @@ public class Enemy_Grim : MonoBehaviour
         Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
         Vector2 forward = rb.velocity.normalized;
         float angle = Vector2.Angle(forward, toPlayer);
-        return angle < 90f;
+        return angle < 75f;
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
@@ -630,7 +630,7 @@ public class Enemy_Grim : MonoBehaviour
         Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
         if (forward == Vector2.zero) forward = Vector2.right; // 디폴트 방향
 
-        float halfAngle = 90f;
+        float halfAngle = 75f;
 
         // 시야각 끝 방향 계산
         Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;
