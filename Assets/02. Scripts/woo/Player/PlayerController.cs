@@ -450,6 +450,16 @@ public class PlayerController : MonoBehaviour
         PlayerUIHandler.Instance.UpdateGetMirrorUI(pieceNum); // ui    
         curSceneMirrorPiece = null;                           // arrow controll
 
+        // ai에게 거울조각 먹음 알림 (0521 QA 추가)
+        GameObject grim = GameObject.FindWithTag("Grim");
+        if (grim != null) grim.GetComponent<Enemy_Grim>().MirrorCheck();
+
+        GameObject[] dwarves = GameObject.FindGameObjectsWithTag("Dwarf");
+        foreach (GameObject dwarf in dwarves)
+        {
+            if (dwarf != null) dwarf.GetComponent<Dwarf>().MirrorCheck();
+        }
+
         piece.InteratcionUIOff();
         curMirrorPiece = null;
         Destroy(piece.gameObject);
