@@ -28,6 +28,10 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
+
+        // 방 왔다갔다 하는거땜에 메인 BGM 실행은 여기에 둠 (나머지는 soundmanager에서 controll)
+        SoundManager2.Instance.SetBGM("BGM_InGame");
+        SoundManager2.Instance.PlayBGM();
     }
 
     /// 거울조각 수집
@@ -92,7 +96,7 @@ public class GameManager : MonoBehaviour
         if (scene.name == "01_Start" ||
             scene.name == "10_GameClear" || scene.name == "11_GameOver")
         {
-            SoundManager2.Instance.StopBGM();
+            //SoundManager2.Instance.StopBGM();
             Destroy(player.gameObject);
             Destroy(this.gameObject);
         }
@@ -106,8 +110,8 @@ public class GameManager : MonoBehaviour
             player.gameObject.SetActive(true);
             player.InitPlayer_ToBossScene();
 
-            SoundManager2.Instance.SetBGM("BGM_InGame");
-            SoundManager2.Instance.PlayBGM();
+            //SoundManager2.Instance.SetBGM("BGM_InGame");
+            //SoundManager2.Instance.PlayBGM();
         }
     }
 }
