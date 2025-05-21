@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {   
     private HashSet<int> collectedMirror = new HashSet<int>();    // mirror piece collected data
+    private HashSet<string> collectedItemIds = new HashSet<string>(); // item piece collected data
     //private List<string> savedInventoryItems = null;            // inventory save data
     //private bool hasSavedInventory = false;                     // 아 이거 뭐더라 나중에 확인해봐
 
@@ -50,6 +51,18 @@ public class GameManager : MonoBehaviour
     public bool HasCollected(int pieceNum)
     {
         return collectedMirror.Contains(pieceNum);
+    }
+
+    /// 아이템 수집 등록
+    public void RegisterCollectedItem(string id)
+    {
+        collectedItemIds.Add(id);
+    }
+
+    /// 수집 여부 확인
+    public bool HasCollectedItem(string id)
+    {
+        return collectedItemIds.Contains(id);
     }
 
     /*--------------- Boss Scene ----------------*/
