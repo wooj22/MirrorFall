@@ -27,7 +27,6 @@ public class SceneSwitch : MonoBehaviour
             return;
         }
 
-        SoundManager2.Instance.PlaySFX("SFX_SceneChange");
         SceneManager.LoadScene(sceneName);
     }
 
