@@ -186,7 +186,7 @@ public class Dwarf : MonoBehaviour
         }
         else if (playerfind && !goback)     //플레이어 감지O, 복귀 중X
         {
-            if (playerdistance > missDistance)
+            if (playerdistance > missDistance && !mirrorTaked)
             {
                 goback = true;
                 playerfind = false;

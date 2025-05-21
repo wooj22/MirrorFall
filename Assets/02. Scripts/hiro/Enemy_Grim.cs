@@ -210,7 +210,7 @@ public class Enemy_Grim : MonoBehaviour
         else if (playerfind && !goback) // 플레이어 감지o, 복귀 중x
         {
             // 플레이어 추적
-            if (playerdistance > missDistance)
+            if (playerdistance > missDistance && !mirrorTaked)
             {
                 playerfind = false;
                 goback = true;
