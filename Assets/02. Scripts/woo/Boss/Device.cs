@@ -21,6 +21,7 @@ public class Device : MonoBehaviour
             manager.DeviceOperationCheak();
             isOperation = true;
             InteractionUIOff();
+            SoundManager2.Instance.PlaySFX("SFX_PillarActivatet");
         }     
     }
 }
