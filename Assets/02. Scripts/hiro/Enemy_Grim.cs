@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Grim : MonoBehaviour
@@ -10,7 +11,7 @@ public class Enemy_Grim : MonoBehaviour
 
     // AI
     public string anim_cur = "Idle";
-    public float speed = 2f;            // 이동 속도
+    public float speed = 3.5f;            // 이동 속도
     public float findDistance = 5f;
     public float missDistance = 7f;
     public float applefindDistance = 10f;
@@ -378,11 +379,7 @@ public class Enemy_Grim : MonoBehaviour
     // 공격
     void Attack()
     {
-        bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
-
-        if (isPlayerHidden) return;
-
-        if (playerdistance <= attackDistance)
+        if (playerdistance <= attackDistance && !isAttacking && !isReturning && playerfind)
         {
             player.GetComponent<PlayerController>().Hit("K");
             rb.velocity = Vector2.zero;
@@ -460,7 +457,7 @@ public class Enemy_Grim : MonoBehaviour
         Vector2 toPlayer = (playerPos - (Vector2)transform.position).normalized;
         Vector2 forward = rb.velocity.normalized;
         float angle = Vector2.Angle(forward, toPlayer);
-        return angle < 55f;
+        return angle < 90f;
     }
     private bool IsPathClearBox(Vector2 from, Vector2 to)
     {
@@ -627,13 +624,13 @@ public class Enemy_Grim : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, findDistance);
 
-        // 120도 시야각 시각화 (±60도)
+        // 180도 시야각 시각화 (±90도)
         Gizmos.color = Color.yellow;
 
         Vector2 forward = Application.isPlaying ? rb.velocity.normalized : Vector2.right;
         if (forward == Vector2.zero) forward = Vector2.right; // 디폴트 방향
 
-        float halfAngle = 55f;
+        float halfAngle = 90f;
 
         // 시야각 끝 방향 계산
         Vector2 leftDir = Quaternion.Euler(0, 0, -halfAngle) * forward;

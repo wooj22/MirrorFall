@@ -20,6 +20,7 @@ public class SoundManager2 : MonoBehaviour
         if (Instance == null)
         {
             Instance = this;
+            maxVolume = bgmSource.volume;
             DontDestroyOnLoad(gameObject);
         }
         else
@@ -162,7 +163,6 @@ public class SoundManager2 : MonoBehaviour
 
     public void SetSFXVolume(float volume)
     {
-        this.maxVolume = volume;
         sfxSource.volume = volume;
     }
 }
