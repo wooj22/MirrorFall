@@ -19,6 +19,8 @@ public class ToStartManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         ToStartButton.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        ToStartButton.SetActive(false);
     }
     public void OnClickToStartButton()
     {

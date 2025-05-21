@@ -16,6 +16,8 @@ public class ToPannelOpen : MonoBehaviour
     {
         yield return new WaitForSeconds(3f);
         PannelOpenButton.SetActive(true);
+        yield return new WaitForSeconds(8f);
+        PannelOpenButton.SetActive(false);
     }
     public void OnClickPannelOpenButton()
     {
