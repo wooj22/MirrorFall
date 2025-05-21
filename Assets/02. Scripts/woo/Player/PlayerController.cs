@@ -597,7 +597,11 @@ public class PlayerController : MonoBehaviour
             else
             {
                 SavePlayerData_ToBossScene();       // 보스씬 진입 data save
+
+                // 예외처리
                 this.transform.position = Vector2.zero;
+                saveBossPos = this.transform.position;
+
                 FadeManager.Instance.FadeOutSceneChange("09_Boss");
             }
         }
