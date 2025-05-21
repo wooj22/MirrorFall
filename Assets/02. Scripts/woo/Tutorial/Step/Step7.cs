@@ -12,7 +12,7 @@ public class Step7 : TutorialStep
 
     public override void Enter()
     {
-        manager.narrationText.text = "적에게 붙잡히면 시야가 줄어듭니다. \n거울을 찾아 이곳을 벗어나세요";
+        manager.NarrationScriptUpdate("적에게 붙잡히면 시야가 줄어듭니다. \n거울을 찾아 이곳을 벗어나세요");
     }
 
     public override void Update()

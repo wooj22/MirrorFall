@@ -28,6 +28,9 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] public Text playerText;
     [SerializeField] public Text aiText;
     [SerializeField] public Text narrationText;
+    [SerializeField] public Image player_background;
+    [SerializeField] public Image ai_background;
+    [SerializeField] public Image narration_background;
 
     private Coroutine tutorialClearCo;
 
@@ -75,6 +78,42 @@ public class TutorialManager : MonoBehaviour
                 currentStep.Enter();
             }
         }
+    }
+
+    public void PlayerScriptUpdate(string text)
+    {
+        player_background.enabled = true;
+        playerText.text = text;
+    }
+
+    public void AiScriptUpdate(string text)
+    {
+        ai_background.enabled = true;
+        aiText.text = text;
+    }
+
+    public void NarrationScriptUpdate(string text)
+    {
+        narration_background.enabled = true;
+        narrationText.text = text;
+    }
+
+    public void PlayerScriptOff()
+    {
+        player_background.enabled = false;
+        playerText.text = "";
+    }
+
+    public void AiScriptOff()
+    {
+        ai_background.enabled = false;
+        aiText.text = "";
+    }
+
+    public void NarrationScriptOff()
+    {
+        narration_background.enabled = false;
+        narrationText.text = "";
     }
 
     // Æ©Åä¸®¾ó ½ºÅµ
