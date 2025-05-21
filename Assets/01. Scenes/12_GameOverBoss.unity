@@ -584,7 +584,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Skip
+  m_Text: Retry?
 --- !u!222 &860224609
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1108,7 +1108,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 18c9914160f497840a843f94e86caeee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  PannelOpenButton: {fileID: 1952630784}
   RetryPannel: {fileID: 2126292865}
 --- !u!114 &1724045077
 MonoBehaviour:
