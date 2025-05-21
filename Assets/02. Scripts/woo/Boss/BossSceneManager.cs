@@ -8,6 +8,7 @@ public class BossSceneManager : MonoBehaviour
     [Header("Boss Controll")]
     [SerializeField] private GameObject ai;
     [SerializeField] private GameObject Walls;
+    [SerializeField] private GameObject clearWarpMirror;
     [SerializeField] private int operationDeviceCount;
 
     [Header("Boss UI")]
@@ -42,6 +43,7 @@ public class BossSceneManager : MonoBehaviour
         {
             ai.SetActive(true);
             Walls.SetActive(false);
+            GameObject.FindWithTag("Player").GetComponent<PlayerController>().SetCurSceneMirrorPiece(clearWarpMirror);
             StartCoroutine(BossCountDown());
         }
     }
