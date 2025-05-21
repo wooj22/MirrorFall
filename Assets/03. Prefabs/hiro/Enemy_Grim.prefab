@@ -150,7 +150,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim_cur: Idle
-  speed: 3.2
+  speed: 3.5
   findDistance: 6
   missDistance: 8
   applefindDistance: 10
