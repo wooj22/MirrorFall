@@ -36,17 +36,20 @@ public class Walk : BaseState
     /// Logic Update
     public override void UpdateLigic()
     {
-        // animation blend
-        player.ani.SetFloat("Vertical", player.lastDirY);
+        if (!player.walkLock)
+        {
+            // animation blend
+            player.ani.SetFloat("Vertical", player.lastDirY);
 
-        // filp, las Dir X
-        player.sr.flipX = player.lastDirX == 1 ? false : true;
+            // filp, las Dir X
+            player.sr.flipX = player.lastDirX == 1 ? false : true;
 
-        // move
-        player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.curSpeed;
+            // move
+            player.rb.velocity = new Vector2(player.moveX, player.moveY) * player.curSpeed;
 
-        // sound
-        player.footStep.PlayFootstep(player.curSpeed);
+            // sound
+            player.footStep.PlayFootstep(player.curSpeed);
+        } 
     }
 
     /// Exit

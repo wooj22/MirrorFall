@@ -6,6 +6,7 @@ using UnityEngine.UI;
 public class FadeManager : MonoBehaviour
 {
     [SerializeField] Image fadeImage;
+    private PlayerController _player;
 
     public static FadeManager Instance { get; private set; }
     private void Awake()
@@ -23,6 +24,7 @@ public class FadeManager : MonoBehaviour
     private void Start()
     {
         FadeIn();
+        _player = GameObject.FindWithTag("Player").GetComponent<PlayerController>();
     }
 
     public void FadeIn() { StartCoroutine(FadeInCo()); }
@@ -48,6 +50,8 @@ public class FadeManager : MonoBehaviour
     //. FadeOut
     private IEnumerator FadeOutCo()
     {
+        if(_player != null) _player.walkLock = true; // 페이드동안 플레이어가있다면 이동 잠금
+
         float fadeCount = 0f;
         fadeImage.gameObject.SetActive(true);
 
@@ -57,11 +61,15 @@ public class FadeManager : MonoBehaviour
             yield return new WaitForSeconds(0.005f);
             fadeImage.color = new Color(0, 0, 0, fadeCount);
         }
+
+        if (_player != null) _player.walkLock = false;       // 잠금 해제
     }
 
     /// Screen FadeOut & Goto Scene
     private IEnumerator FadeOutSceneSwitch(string scenename)
     {
+        if (_player != null) _player.walkLock = true;        // 페이드동안 플레이어가있다면 이동 잠금
+
         fadeImage.gameObject.SetActive(true);
         Time.timeScale = 1;
 
@@ -74,6 +82,7 @@ public class FadeManager : MonoBehaviour
         }
 
         SceneSwitch.Instance.SceneSwithcing(scenename);
+        if (_player != null) _player.walkLock = false;       // 잠금 해제
         yield return null;
     }
 }

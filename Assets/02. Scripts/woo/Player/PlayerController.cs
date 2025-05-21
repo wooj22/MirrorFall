@@ -84,8 +84,9 @@ public class PlayerController : MonoBehaviour
     // controll
     [HideInInspector] public float moveX;
     [HideInInspector] public float moveY;
-    [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1 (체크용으로 인스펙터 잠깐 빼둠)
-    [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1 (체크용으로 인스펙터 잠깐 빼둠)
+    [HideInInspector] public int lastDirX = 1;        // right : 1, left : -1
+    [HideInInspector] public int lastDirY = 1;        // up : 1, down : -1
+    [HideInInspector] public bool walkLock;           // 씬 이동 페이드중에 잠금(페이드매니저에서 처리)
 
     // interation
     private FiledItem curFiledItem = null;
