@@ -125,24 +125,32 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
-    // 사과 탐색
-    void AppleCheck()
+    void AppleCheck()     //사과 오브젝트 확인
     {
-        Apples = GameObject.FindGameObjectsWithTag("Apple");
-        if (Apples.Length > 0)
+        GameObject[] allApples = GameObject.FindGameObjectsWithTag("Apple");
+        List<GameObject> validApples = new List<GameObject>();
+
+        foreach (GameObject apple in allApples)
+        {
+            Apple appleScript = apple.GetComponent<Apple>();
+            if (appleScript != null && appleScript.isGround)   //땅에 떨어진 사과만 감지
+            {
+                validApples.Add(apple);
+            }
+        }
+
+        if (validApples.Count > 0)   //가장 가까운 사과를 nearest Apple로 지정
         {
             float minDistance = float.MaxValue;
             GameObject closest = null;
 
-            foreach (GameObject Apple in Apples)
+            foreach (GameObject apple in validApples)
             {
-                if (!Apple.GetComponent<Apple>().isGround) continue;
-
-                float dist = Vector2.Distance(transform.position, Apple.transform.position);
+                float dist = Vector2.Distance(transform.position, apple.transform.position);
                 if (dist < minDistance)
                 {
                     minDistance = dist;
-                    closest = Apple;
+                    closest = apple;
                 }
             }
 
@@ -151,12 +159,6 @@ public class Enemy_Grim : MonoBehaviour
                 nearestApple = closest;
                 applePos = nearestApple.transform.position;
                 appledistance = minDistance;
-            }
-            else
-            {
-                nearestApple = null;
-                applePos = Vector2.positiveInfinity;
-                appledistance = float.MaxValue;
             }
         }
         else
@@ -450,7 +452,7 @@ public class Enemy_Grim : MonoBehaviour
         col.enabled = true;
         isReturning = false;
         isEating = false;
-        playerfind = true;
+        playerfind = false;
         goback = true;
     }
 
