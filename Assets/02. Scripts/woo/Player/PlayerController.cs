@@ -369,6 +369,7 @@ public class PlayerController : MonoBehaviour
             }
         }
         else FadeManager.Instance.FadeOutSceneChange(sceneName);
+        SoundManager2.Instance.PlaySFX("SFX_SceneChange");
         curDoor = null;
     }
 
@@ -611,6 +612,8 @@ public class PlayerController : MonoBehaviour
             this.transform.position = curWarpMirror.GetWarpPosition();
             FadeManager.Instance.FadeOutSceneChange(warpSceneName);
         }
+
+        SoundManager2.Instance.PlaySFX("SFX_SceneChange");
         curWarpMirror = null;
     }
 

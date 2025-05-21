@@ -11,9 +11,14 @@ public class Apple : MonoBehaviour
 
     private Vector3 previousPosition;
     private float checkTimer = 0f;
+    private Animator effectAni;
+    private SpriteRenderer sp;
+
 
     private void Start()
     {
+        effectAni = GetComponentInChildren<Animator>();
+        sp = GetComponent<SpriteRenderer>();
         previousPosition = transform.position;
         Destroy(this.gameObject, 8f);
     }
@@ -31,6 +36,8 @@ public class Apple : MonoBehaviour
             if (distanceMoved < stopThreshold * stopThreshold)
             {
                 isGround = true;
+                sp.enabled = false;
+                effectAni.SetBool("isHit", true);
                 SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
             }
 
@@ -39,15 +46,13 @@ public class Apple : MonoBehaviour
         }
     }
 
+    // WallFull 이랑 MapBorder랑만 충돌
     private void OnCollisionEnter2D(Collision2D collision)
     {
         // 2) 어딘가에 닿았을을 경우 (강제 종료)
         isGround = true;
+        sp.enabled = false;
+        effectAni.SetBool("isHit", true);
         SoundManager2.Instance.PlaySFX("SFX_Apple_Fall");
-
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            
-        }
     }
 }

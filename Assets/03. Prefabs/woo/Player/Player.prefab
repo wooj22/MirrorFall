@@ -383,12 +383,14 @@ MonoBehaviour:
   moveY: 0
   lastDirX: 1
   lastDirY: 1
+  walkLock: 0
   sr: {fileID: 0}
   rb: {fileID: 0}
   ani: {fileID: 0}
   flashLight: {fileID: 0}
   lineRenderer: {fileID: 3541042446487351461}
   inventory: {fileID: 0}
+  footStep: {fileID: 0}
   isMoveLKey: 0
   isMoveRKey: 0
   isMoveUpKey: 0
@@ -2169,7 +2171,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 9a561780deb54704d993695d9b5f20dd, type: 3}
+  m_Sprite: {fileID: 21300000, guid: af0d320a6a6bbd64e96e72801d2a1ad9, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
