@@ -8,7 +8,7 @@ public class Enemy_Grim : MonoBehaviour
 {
     //[SerializeField] Vector2 debugPos;
     //[SerializeField] GameObject debugOb;
-
+    private bool mirrorTaked = false;
     // AI
     public string anim_cur = "Idle";
     public float speed = 3.2f;            // 이동 속도
@@ -123,6 +123,10 @@ public class Enemy_Grim : MonoBehaviour
         }
     }
 
+    public void MirrorCheck()
+    {
+        mirrorTaked = true;
+    }
     void AppleCheck()     //사과 오브젝트 확인
     {
         GameObject[] allApples = GameObject.FindGameObjectsWithTag("Apple");
@@ -176,7 +180,7 @@ public class Enemy_Grim : MonoBehaviour
 
         if (!playerfind && !goback) // 플레이어 감지x, 복귀 중x
         {
-            if (playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
+            if ((playerdistance < findDistance && !isPlayerHidden && PlayerInSight() && IsPathClearBox(transform.position, playerPos)) || mirrorTaked)
             {
                 playerfind = true;
             }
@@ -218,7 +222,7 @@ public class Enemy_Grim : MonoBehaviour
         }
         else if (!playerfind && goback) // 플레이어 감지x, 복귀 중o
         {
-            if (playerdistance < findDistance && !player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClearBox(transform.position, playerPos))
+            if ((playerdistance < findDistance && !player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClearBox(transform.position, playerPos))|| mirrorTaked)
             {
                 playerfind = true;
                 goback = false;
