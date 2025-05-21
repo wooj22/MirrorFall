@@ -23,7 +23,7 @@ public class BossSceneManager : MonoBehaviour
     public void BossStart()
     {
         aiText.text = "거울 조각을 다 모았다고? 이번에 잡히면 끝이다?\n대신, 힌트를 하나 줄게. \n방 안에 숨겨진 장치를 작동하지 않는다면 출구는 영원히 보이지 않을 거야!";
-        narrationText.text = "기둥의 장치를 작동시키세요";
+        narrationText.text = "4개의 장치를 작동시키고, 거울을 찾아 탈출하세요.";
         Invoke(nameof(TextOff), 6f);
     }
 
