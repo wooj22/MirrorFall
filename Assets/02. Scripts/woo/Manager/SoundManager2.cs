@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class SoundManager2 : MonoBehaviour
 {
+    [SerializeField] float maxVolume;
+
     [SerializeField] AudioSource bgmSource;
     [SerializeField] AudioSource sfxSource;
     [SerializeField] List<AudioClip> bgmClipList;
@@ -88,7 +90,7 @@ public class SoundManager2 : MonoBehaviour
     /// 볼륨 페이드인
     private IEnumerator FadeInVolume(AudioSource audio)
     {
-        float targetVolume = 0.45f;
+        float targetVolume = maxVolume;
         float currentTime = 0f;
 
         audio.volume = 0;
@@ -151,5 +153,16 @@ public class SoundManager2 : MonoBehaviour
             SoundManager2.Instance.StopBGM();
         }
         
+    }
+    public void SetBGMVolume(float volume)
+    {
+        this.maxVolume = volume;
+        bgmSource.volume = volume;
+    }
+
+    public void SetSFXVolume(float volume)
+    {
+        this.maxVolume = volume;
+        sfxSource.volume = volume;
     }
 }

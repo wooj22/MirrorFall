@@ -20,10 +20,10 @@ public class OptionManager : MonoBehaviour
         bgmSlider.value = savedBGM;
         sfxSlider.value = savedSFX;
 
-        if (SoundManager.Instance != null)
+        if (SoundManager2.Instance != null)
         {
-            SoundManager.Instance.SetBGMVolume(savedBGM);
-            SoundManager.Instance.SetSFXVolume(savedSFX);
+            SoundManager2.Instance.SetBGMVolume(savedBGM);
+            SoundManager2.Instance.SetSFXVolume(savedSFX);
         }
     }
     public void OnClickOptionButton()
@@ -42,10 +42,10 @@ public class OptionManager : MonoBehaviour
 
         PlayerPrefs.SetFloat("BGM", bgm);
         PlayerPrefs.SetFloat("SFX", sfx);
-        if (SoundManager.Instance != null)
+        if (SoundManager2.Instance != null)
         {
-            SoundManager.Instance.SetBGMVolume(bgm);
-            SoundManager.Instance.SetSFXVolume(sfx);
+            SoundManager2.Instance.SetBGMVolume(bgm);
+            SoundManager2.Instance.SetSFXVolume(sfx);
         }
         OptionPanel.SetActive(false);
     }
@@ -53,10 +53,10 @@ public class OptionManager : MonoBehaviour
     {
         bgmSlider.value = originalBGM;
         sfxSlider.value = originalSFX;
-        if (SoundManager.Instance != null)
+        if (SoundManager2.Instance != null)
         {
-            SoundManager.Instance.SetBGMVolume(originalBGM);
-            SoundManager.Instance.SetSFXVolume(originalSFX);
+            SoundManager2.Instance.SetBGMVolume(originalBGM);
+            SoundManager2.Instance.SetSFXVolume(originalSFX);
         }
 
         OptionPanel.SetActive(false);
