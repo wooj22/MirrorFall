@@ -407,7 +407,8 @@ public class PlayerController : MonoBehaviour
         else
         {
             inventory.AddItem(item.name);
-            GameManager.Instance.RegisterCollectedItem(item.itemId);        // 수집 저장
+            // 수집 저장(튜토리얼 예외처리)
+            if (item.itemId != "NONE") GameManager.Instance.RegisterCollectedItem(item.itemId);        
             curFiledItem = null;
             item.InteractionUIOff();
             Destroy(item.gameObject);
