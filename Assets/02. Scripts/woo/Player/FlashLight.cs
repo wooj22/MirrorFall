@@ -193,7 +193,6 @@ public class FlashLight : MonoBehaviour
             add_duration += player.brightDurationTime;
             return;
         }
-
         braightCoroutine = StartCoroutine(BrightnessCo());
         player.isBright = true;
     }
