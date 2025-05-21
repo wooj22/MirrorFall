@@ -145,7 +145,7 @@ public class SoundManager2 : MonoBehaviour
         }
         else if (scene.name == "09_Boss")
         {
-            SoundManager2.Instance.SetBGM("BGM_InGame");
+            SoundManager2.Instance.SetBGM("BGM_InGameBoss");
             SoundManager2.Instance.FadeInBGM();
         }
         else if (scene.name == "02_Opening" || scene.name == "10_GameClear" ||

@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {   
-    private HashSet<int> collectedMirror = new HashSet<int>();  // mirror piece collected data
+    private HashSet<int> collectedMirror = new HashSet<int>();    // mirror piece collected data
     //private List<string> savedInventoryItems = null;            // inventory save data
     //private bool hasSavedInventory = false;                     // 아 이거 뭐더라 나중에 확인해봐
 
@@ -109,9 +109,6 @@ public class GameManager : MonoBehaviour
         {
             player.gameObject.SetActive(true);
             player.InitPlayer_ToBossScene();
-
-            //SoundManager2.Instance.SetBGM("BGM_InGame");
-            //SoundManager2.Instance.PlayBGM();
         }
     }
 }

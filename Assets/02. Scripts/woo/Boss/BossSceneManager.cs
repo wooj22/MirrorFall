@@ -43,9 +43,6 @@ public class BossSceneManager : MonoBehaviour
             ai.SetActive(true);
             Walls.SetActive(false);
             StartCoroutine(BossCountDown());
-
-            SoundManager2.Instance.SetBGM("BGM_InGameBoss");
-            SoundManager2.Instance.PlayBGM();
         }
     }
 
