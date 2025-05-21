@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SoundManager2 : MonoBehaviour
 {
@@ -118,5 +119,37 @@ public class SoundManager2 : MonoBehaviour
 
         audio.volume = 0f;
         audio.Stop();
+    }
+
+
+    /*-------------- BGM Controll -----------------*/
+    void OnEnable()
+    {
+        SceneManager.sceneLoaded += OnSceneLoaded;
+    }
+
+    private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+    {
+        if(scene.name == "01_Start") 
+        {
+            SoundManager2.Instance.SetBGM("BGM_Title");
+            SoundManager2.Instance.PlayBGM();
+        }
+        else if(scene.name == "03_Tutorial")
+        {
+            SoundManager2.Instance.SetBGM("BGM_InGame");
+            SoundManager2.Instance.FadeInBGM();
+        }
+        else if (scene.name == "09_Boss")
+        {
+            SoundManager2.Instance.SetBGM("BGM_InGame");
+            SoundManager2.Instance.FadeInBGM();
+        }
+        else if (scene.name == "02_Opening" || scene.name == "10_GameClear" ||
+            scene.name == "11_GameOver" || scene.name == "12_GameOverBoss")
+        {
+            SoundManager2.Instance.StopBGM();
+        }
+        
     }
 }

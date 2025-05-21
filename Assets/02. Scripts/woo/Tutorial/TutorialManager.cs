@@ -54,8 +54,9 @@ public class TutorialManager : MonoBehaviour
         currentStep = steps[currentStepIndex];
         currentStep.Enter();
 
-        SoundManager2.Instance.SetBGM("BGM_InGame");
-        SoundManager2.Instance.FadeInBGM();
+        // bgm
+        //SoundManager2.Instance.SetBGM("BGM_InGame");
+        //SoundManager2.Instance.FadeInBGM();
     }
 
     private void Update()
