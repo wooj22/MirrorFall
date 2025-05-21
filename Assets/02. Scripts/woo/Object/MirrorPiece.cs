@@ -9,8 +9,12 @@ public class MirrorPiece : MonoBehaviour
 
     void Start()
     {
-        // 씬 진입시, 이미 수집한 조각이면 비활성화
-        if (GameManager.Instance.HasCollected(pieceNum)) gameObject.SetActive(false);
+        // 씬 진입시, 이미 수집한 조각이라면
+        if (GameManager.Instance.HasCollected(pieceNum)) 
+        {
+            GameObject.FindWithTag("Player").GetComponent<PlayerUIHandler>().OnAdviceUI();
+            gameObject.SetActive(false); 
+        }
         else
         {
             // 플레이어에게 전달 (위치 업데이트용)

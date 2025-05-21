@@ -9,6 +9,7 @@ public class PlayerUIHandler : MonoBehaviour
     [SerializeField] Sprite[] hpSpriteArr = new Sprite[3];
     [SerializeField] Image[] mirrorUIArr = new Image[5];
     [SerializeField] SpriteRenderer[] arrowArr = new SpriteRenderer[8];
+    [SerializeField] Text adviceUI;
 
     public static PlayerUIHandler Instance { get; private set; }
     private void Awake()
@@ -35,5 +36,15 @@ public class PlayerUIHandler : MonoBehaviour
         {
             arrowArr[i].enabled = (i == way);
         }
+    }
+
+    public void OnAdviceUI() { 
+        adviceUI.gameObject.SetActive(true);
+        Invoke(nameof(OffAdviceUI), 3f);
+    }
+
+    private void OffAdviceUI()
+    {
+        adviceUI.gameObject.SetActive(false);
     }
 }
