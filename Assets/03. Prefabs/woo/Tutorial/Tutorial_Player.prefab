@@ -699,6 +699,7 @@ MonoBehaviour:
   appleItemUI_Prefab: {fileID: 7405307771351926102, guid: 7fbfff5d8e8352e428c31be39af7db76, type: 3}
   brightItemUI_Prefab: {fileID: 5974114325616355824, guid: 3d23f3f15c8414f49ad7af58717df5a3, type: 3}
   hourglassItemUI_Prefab: {fileID: 8510636987902889920, guid: 176fed6dcf5561c449b07208c43db7f8, type: 3}
+  null_Prefab: {fileID: 8510636987902889920, guid: 221748e9cc5b78c488dab28dc3fe6735, type: 3}
 --- !u!114 &8298910581248834899
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -764,6 +765,7 @@ MonoBehaviour:
   - {fileID: 3888110664287477830}
   - {fileID: 455437268736177287}
   - {fileID: 2735423900619083489}
+  adviceUI: {fileID: 0}
 --- !u!114 &3149544782288991690
 MonoBehaviour:
   m_ObjectHideFlags: 0
