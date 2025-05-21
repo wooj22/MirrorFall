@@ -92,6 +92,7 @@ public class GameManager : MonoBehaviour
         if (scene.name == "01_Start" ||
             scene.name == "10_GameClear" || scene.name == "11_GameOver")
         {
+            SoundManager2.Instance.StopBGM();
             Destroy(player.gameObject);
             Destroy(this.gameObject);
         }
@@ -104,6 +105,9 @@ public class GameManager : MonoBehaviour
         {
             player.gameObject.SetActive(true);
             player.InitPlayer_ToBossScene();
+
+            SoundManager2.Instance.SetBGM("BGM_InGame");
+            SoundManager2.Instance.PlayBGM();
         }
     }
 }

@@ -26,9 +26,9 @@ public class Step1 : TutorialStep
 
     public override void Exit() 
     {
-        manager.playerText.text = "";
-        manager.narrationText.text = "";
-
+        manager.PlayerScriptOff();
+        manager.NarrationScriptOff();
+        
         coco.StopCoroutine(step1_co);
         Debug.Log("Tutorial Step1 Clear");
     }
@@ -37,11 +37,11 @@ public class Step1 : TutorialStep
     {
         yield return new WaitForSeconds(2f);
 
-        manager.playerText.text = "여긴.. 어디지?    성..?";
+        manager.PlayerScriptUpdate("여긴.. 어디지?    성..?");
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_1");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
-        manager.playerText.text = "";
-        manager.narrationText.text = "거울 조각이 가리키는 방향으로 이동하세요\n(이동 : WASD)";
+        manager.PlayerScriptOff();
+        manager.NarrationScriptUpdate("거울 조각이 가리키는 방향으로 이동하세요\n(이동 : WASD)");
     }
 }

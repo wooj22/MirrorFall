@@ -27,10 +27,9 @@ public class Step2 : TutorialStep
 
     public override void Exit()
     {
-        manager.playerText.text = "";
-        manager.aiText.text = "";
-        manager.narrationText.text = "";
-
+        manager.PlayerScriptOff();
+        manager.AiScriptOff();
+        manager.NarrationScriptOff();
         manager.zone2.enabled = false;
 
         coco.StopCoroutine(step2_co);
@@ -39,11 +38,11 @@ public class Step2 : TutorialStep
 
     IEnumerator ScriptDirector()
     {
-        manager.aiText.text = "네 자신이 싫다면 내가 대신 살아줄까?";
+        manager.AiScriptUpdate("네 자신이 싫다면 내가 대신 살아줄까?");
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_2");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
-        manager.aiText.text = "";
-        manager.narrationText.text = "노란 사과를 줍고[F], 시야를 밝히세요. [1][2][3]";
+        manager.AiScriptOff();
+        manager.NarrationScriptUpdate("노란 사과를 줍고[F], 시야를 밝히세요. [1][2][3]");
     }
 }

@@ -12,8 +12,7 @@ public class Step4 : TutorialStep
 
     public override void Enter()
     {
-        manager.narrationText.text = "은신 기둥에서 [Shift]키를 누르고 적이 지나갈때까지 기다리세요";
-        
+        manager.NarrationScriptUpdate("은신 기둥에서 [Shift]키를 누르고 적이 지나갈때까지 기다리세요");
     }
 
     public override void Update()
@@ -31,10 +30,9 @@ public class Step4 : TutorialStep
 
     public override void Exit()
     {
-        manager.playerText.text = "";
-        manager.aiText.text = "";
-        manager.narrationText.text = "";
-
+        manager.PlayerScriptOff();
+        manager.AiScriptOff();
+        manager.NarrationScriptOff();
         manager.zone4.enabled = false;
 
         Debug.Log("Tutorial Step4 Clear");

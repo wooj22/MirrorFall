@@ -248,7 +248,6 @@ public class PlayerController : MonoBehaviour
         saveBossRangeIndex = flashLight.GetCurBaseIndex();
         saveBossInventoryItems = inventory.GetInventoryData();
 
-        
         Debug.Log("SavePlayerData_ToBossScene");
     }
 
