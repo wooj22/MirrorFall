@@ -6,9 +6,9 @@ using UnityEngine.UI;
 public class BossSceneManager : MonoBehaviour
 {
     [Header("Boss Controll")]
+    [SerializeField] private GameObject ai;
     [SerializeField] private GameObject Walls;
     [SerializeField] private int operationDeviceCount;
-
 
     [Header("Boss UI")]
     [SerializeField] private Text timerUI;
@@ -22,27 +22,34 @@ public class BossSceneManager : MonoBehaviour
     /// Boss Start (거울조각을 먹었을 때 호출)
     public void BossStart()
     {
-        // TODO :: ai 활성화 여기 추가
         aiText.text = "거울 조각을 다 모았다고? 이번에 잡히면 끝이다?\n대신, 힌트를 하나 줄게. \n방 안에 숨겨진 장치를 작동하지 않는다면 출구는 영원히 보이지 않을 거야!";
         narrationText.text = "기둥의 장치를 작동시키세요";
+        Invoke(nameof(TextOff), 6f);
     }
 
-    /// 장치 발동 체크
+    public void TextOff()
+    {
+        aiText.text = "";
+    }
+
+    /// Device Operation Cheak
     public void DeviceOperationCheak()
     {
         operationDeviceCount++;
+
+        // 4개의 장치가 모두 작동 됐을 떄
         if (operationDeviceCount >= 4)
         {
+            ai.SetActive(true);
             Walls.SetActive(false);
             StartCoroutine(BossCountDown());
 
-            // sound
             SoundManager2.Instance.SetBGM("BGM_InGameBoss");
             SoundManager2.Instance.PlayBGM();
         }
     }
 
-    /// Count Down
+    /// Boos Count Down
     private IEnumerator BossCountDown()
     {
         while (currentTime < BossSceneTimeLimit)
