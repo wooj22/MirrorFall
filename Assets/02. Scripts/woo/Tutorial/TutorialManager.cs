@@ -77,6 +77,14 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
+    // 튜토리얼 스킵
+    public void TutorialSkip()
+    {
+        isClear = true;
+        ai.gameObject.SetActive(false);
+        FadeManager.Instance.FadeOutSceneChange("04_Play0");
+    }
+
     // 튜토리얼 클리어 (Tutorial WarpMirror 워프시)
     public void TutorialClear()
     {
