@@ -7,8 +7,11 @@ public class ToStartManager : MonoBehaviour
     public GameObject ToStartButton;
     void Start()
     {
-        ToStartButton.SetActive(false);
-        StartCoroutine(ShowToStartButton());
+        if (ToStartButton != null)
+        {
+            ToStartButton.SetActive(false);
+            StartCoroutine(ShowToStartButton());
+        }
     }
 
     // Update is called once per frame
