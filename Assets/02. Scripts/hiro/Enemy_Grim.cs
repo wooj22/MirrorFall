@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Enemy_Grim : MonoBehaviour
@@ -378,11 +379,7 @@ public class Enemy_Grim : MonoBehaviour
     // 공격
     void Attack()
     {
-        bool isPlayerHidden = player.GetComponent<PlayerController>().isHide;
-
-        if (isPlayerHidden) return;
-
-        if (playerdistance <= attackDistance)
+        if (playerdistance <= attackDistance && !isAttacking && !isReturning && playerfind)
         {
             player.GetComponent<PlayerController>().Hit("K");
             rb.velocity = Vector2.zero;
