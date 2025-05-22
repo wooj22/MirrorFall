@@ -39,8 +39,8 @@ public class FadeManager : MonoBehaviour
 
         while (fadeCount > 0.001f)
         {
-            fadeCount -= 0.01f;
-            yield return new WaitForSeconds(0.002f);
+            fadeCount -= 0.05f;
+            yield return new WaitForSeconds(0.001f);
             fadeImage.color = new Color(0, 0, 0, fadeCount);
         }
 
@@ -61,8 +61,8 @@ public class FadeManager : MonoBehaviour
 
         while (fadeCount < 1.0f)
         {
-            fadeCount += 0.01f;
-            yield return new WaitForSeconds(0.002f);
+            fadeCount += 0.05f;
+            yield return new WaitForSeconds(0.001f);
             fadeImage.color = new Color(0, 0, 0, fadeCount);
         }
 
@@ -84,8 +84,8 @@ public class FadeManager : MonoBehaviour
         float fadeCount = 0;
         while (fadeCount < 1.0f)
         {
-            fadeCount += 0.01f;
-            yield return new WaitForSeconds(0.002f);
+            fadeCount += 0.05f;
+            yield return new WaitForSeconds(0.001f);
             fadeImage.color = new Color(0, 0, 0, fadeCount);
         }
 
