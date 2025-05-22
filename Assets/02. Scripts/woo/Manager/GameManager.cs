@@ -93,7 +93,7 @@ public class GameManager : MonoBehaviour
     public void BossRetry()
     {
         Debug.Log("º¸½ºÀü Retry");
-        FadeManager.Instance.FadeOutSceneChange("09_Boss");
+        SceneSwitch.Instance.SceneSwithcing("09_Boss");
     }
 
 
