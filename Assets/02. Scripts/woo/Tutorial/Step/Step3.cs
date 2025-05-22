@@ -53,7 +53,7 @@ public class Step3 : TutorialStep
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
         manager.PlayerScriptOff();
-        manager.NarrationScriptUpdate("빨간 사과를 줍고[F], 사과를 던져 AI를 유인하세요. [1][2][3]");
+        manager.NarrationScriptUpdate("빨간 사과를 줍고[E], 사과를 던져 AI를 유인하세요. [1][2][3]");
         manager.apple.SetActive(true);
     }
 }

@@ -238,6 +238,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 725898593239752703}
+  itemId: 
 --- !u!114 &-7488712888395745857
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -328,4 +329,4 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC90D\uAE30 [F]"
+  m_Text: "\uC90D\uAE30 [E]"

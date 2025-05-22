@@ -43,6 +43,6 @@ public class Step2 : TutorialStep
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
         manager.AiScriptOff();
-        manager.NarrationScriptUpdate("양초를 줍고[F], 시야를 밝히세요. [1][2][3]");
+        manager.NarrationScriptUpdate("양초를 줍고[E], 시야를 밝히세요. [1][2][3]");
     }
 }

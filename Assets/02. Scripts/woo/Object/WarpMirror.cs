@@ -32,7 +32,7 @@ public class WarpMirror : MonoBehaviour
     // 워프 타임 
     public void UpdateWarpTimeUI()
     {
-        if(isWarpReady) interactionText.text = "워프 [F]";
+        if(isWarpReady) interactionText.text = "워프 [E]";
         else interactionText.text = (int)warpCoolTime - (int)warpTimmer + "초 뒤\n워프 가능";
     }
 

@@ -675,7 +675,7 @@ MonoBehaviour:
   moveR: 100
   moveUp: 119
   moveDown: 115
-  interationKey: 102
+  interationKey: 101
   hideKey: 304
   Item1Key: 49
   Item2Key: 50

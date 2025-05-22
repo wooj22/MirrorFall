@@ -136,6 +136,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   uiCanvas: {fileID: 8957011036128573993}
+  itemId: 
 --- !u!114 &-6601059258259610038
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -226,7 +227,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC90D\uAE30 [F]"
+  m_Text: "\uC90D\uAE30 [E]"
 --- !u!1 &8957011036128573993
 GameObject:
   m_ObjectHideFlags: 0

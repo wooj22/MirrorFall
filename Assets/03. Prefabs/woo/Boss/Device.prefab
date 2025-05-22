@@ -230,7 +230,7 @@ MonoBehaviour:
   - {x: 0.018749585, y: -0.44248745, z: 0}
   m_ShapePathHash: -1219823877
   m_Mesh: {fileID: 0}
-  m_InstanceId: 145280
+  m_InstanceId: 175476
   m_LocalBounds:
     m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
     m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
@@ -568,7 +568,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "\uC791\uB3D9 [F]"
+  m_Text: "\uC791\uB3D9 [E]"
 --- !u!1 &8322680917742751672
 GameObject:
   m_ObjectHideFlags: 0
