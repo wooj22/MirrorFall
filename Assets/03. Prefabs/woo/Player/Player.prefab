@@ -360,7 +360,7 @@ MonoBehaviour:
   hitDurationTime: 1
   addictionDurationTime: 3
   speedDownRate: 0.5
-  addictionColor: {r: 0.2, g: 1, b: 0.101960786, a: 1}
+  addictionColor: {r: 0.62352943, g: 0.7921569, b: 0.5568628, a: 1}
   invisibleDuration: 0.2
   invisibleTargetAlpha: 0.3
   originAlpha: 1
@@ -428,7 +428,7 @@ MonoBehaviour:
   appleItemUI_Prefab: {fileID: 7405307771351926102, guid: 7fbfff5d8e8352e428c31be39af7db76, type: 3}
   brightItemUI_Prefab: {fileID: 5974114325616355824, guid: 3d23f3f15c8414f49ad7af58717df5a3, type: 3}
   hourglassItemUI_Prefab: {fileID: 8510636987902889920, guid: 176fed6dcf5561c449b07208c43db7f8, type: 3}
-  null_Prefab: {fileID: 0}
+  null_Prefab: {fileID: 8510636987902889920, guid: 221748e9cc5b78c488dab28dc3fe6735, type: 3}
 --- !u!114 &1404456564485693591
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -494,7 +494,7 @@ MonoBehaviour:
   - {fileID: 309972732450909274}
   - {fileID: 5326368682075891201}
   - {fileID: 8687636731705022085}
-  adviceUI: {fileID: 0}
+  adviceUI: {fileID: 6170430009574342433}
 --- !u!114 &6313312472609358701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -686,7 +686,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1911171262528838305
 RectTransform:
   m_ObjectHideFlags: 0

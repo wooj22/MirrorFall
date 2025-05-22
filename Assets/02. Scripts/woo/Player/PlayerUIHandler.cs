@@ -38,13 +38,15 @@ public class PlayerUIHandler : MonoBehaviour
         }
     }
 
-    public void OnAdviceUI() { 
+    public void OnAdviceUI(string text) { 
         adviceUI.gameObject.SetActive(true);
+        adviceUI.text = text;
         Invoke(nameof(OffAdviceUI), 3f);
     }
 
     private void OffAdviceUI()
     {
+        adviceUI.text = "";
         adviceUI.gameObject.SetActive(false);
     }
 }

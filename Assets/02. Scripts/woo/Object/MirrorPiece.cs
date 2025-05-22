@@ -12,7 +12,7 @@ public class MirrorPiece : MonoBehaviour
         // 씬 진입시, 이미 수집한 조각이라면
         if (GameManager.Instance.HasCollected(pieceNum)) 
         {
-            GameObject.FindWithTag("Player").GetComponent<PlayerUIHandler>().OnAdviceUI();
+            GameObject.FindWithTag("Player").GetComponent<PlayerUIHandler>().OnAdviceUI("여기에 있는 거울은 이미 찾은 듯 하다.");
             gameObject.SetActive(false); 
         }
         else
