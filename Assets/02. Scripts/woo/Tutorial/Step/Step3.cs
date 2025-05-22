@@ -43,7 +43,7 @@ public class Step3 : TutorialStep
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 
         manager.PlayerScriptOff();
-        manager.AiScriptUpdate("잡히면 너 대신 내가 밖으로 나가는거다?\n거울 조각이 없으면 넌 무너질거야");
+        manager.AiScriptUpdate("잡히면 너 대신 내가 밖으로 나가는 거다?\n거울 조각이 없으면 넌 무너질 거야!");
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_4");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 

@@ -21,7 +21,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &4895890541888276817
 Transform:
   m_ObjectHideFlags: 0
@@ -209,12 +209,12 @@ MonoBehaviour:
   debugPos: {x: 0, y: 0}
   debugOb: {fileID: 0}
   anim_cur: Idle
-  speed: 2
+  speed: 3.5
   findDistance: 50
   missDistance: 100
   applefindDistance: 10
   applemissDistance: 15
-  attackDistance: 2
+  attackDistance: 0.7
   eatDistance: 2
   startPos: {x: 0, y: 0}
   allPatrolPoints: {fileID: 0}
