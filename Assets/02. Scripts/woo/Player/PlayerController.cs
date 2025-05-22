@@ -724,13 +724,22 @@ public class PlayerController : MonoBehaviour
         // 보스전 죽는 1번 트리거
         if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
+            // 사운드랑 딜레이는 gamemanager에서 처리
             GameManager.Instance.BossPlayerDie();
-            // 원래는 여기가 Retry 패널이었는데 12_GameOver 씬으로 보내는걸로 수정(게임매니저에서)
         }
         else
         {
-            FadeManager.Instance.FadeOutSceneChange("11_GameOver");
+            // 딜레이 주고 씬 전환
+            SoundManager2.Instance.PlaySFX("SFX_Grimhilde_Die");
+            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
+            SoundManager2.Instance.FadeOutBGM();
+            Invoke(nameof(DieSceneChange), 4f);
         }
+    }
+
+    private void DieSceneChange()
+    {
+        FadeManager.Instance.FadeOutSceneChange("11_GameOver");
     }
 
     

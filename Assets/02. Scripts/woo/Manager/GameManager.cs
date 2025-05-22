@@ -81,7 +81,15 @@ public class GameManager : MonoBehaviour
     // 보스방에서 플레이어가 죽었을 떄 (Hit, 제한시간)
     public void BossPlayerDie()
     {
-        FadeManager.Instance.FadeOutSceneChange("12_GameOverBoss");
+        SoundManager2.Instance.PlaySFX("SFX_Grimhilde_Die");
+        SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
+        SoundManager2.Instance.FadeOutBGM();
+        Invoke(nameof(DieSceneChange), 4f);
+    }
+
+    private void DieSceneChange()
+    {
+        FadeManager.Instance.FadeOutSceneChange("11_GameOver");
     }
 
     // 12_GameOverBoss 씬에서 Retry시 호출해야하는 함수

@@ -20,10 +20,6 @@ public class Die : BaseState
         if (player.moveX < 0) { player.sr.flipX = true; }
         else if (player.moveX > 0) { player.sr.flipX = false; }
 
-        // sound
-        SoundManager2.Instance.PlaySFX("SFX_Grimhilde_Die");
-        SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
-
         player.Die();
         //AnimatorStateInfo stateInfo = player.ani.GetCurrentAnimatorStateInfo(0);
         //Destroy(player.gameObject, stateInfo.length + 2);

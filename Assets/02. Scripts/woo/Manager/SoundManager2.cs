@@ -44,13 +44,20 @@ public class SoundManager2 : MonoBehaviour
     public void PlayBGM()
     {
         bgmSource.loop = true;
+        bgmSource.volume = maxVolume;
         bgmSource.Play();
     }
 
     public void PlayOneShotBGM(string clipName)
     {
         AudioClip clipToPlay = bgmClipList.Find(clip => clip.name == clipName);
+        bgmSource.volume = maxVolume;
         bgmSource.PlayOneShot(clipToPlay);
+    }
+
+    public float GetPlayTimeBGM()
+    {
+        return bgmSource.clip.length;
     }
 
     public void StopBGM()
