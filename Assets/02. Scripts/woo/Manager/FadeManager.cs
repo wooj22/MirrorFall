@@ -50,7 +50,11 @@ public class FadeManager : MonoBehaviour
     //. FadeOut
     private IEnumerator FadeOutCo()
     {
-        if(_player != null) _player.walkLock = true; // 페이드동안 플레이어가있다면 이동 잠금
+        if (_player != null)
+        {
+            _player.rb.velocity = Vector2.zero;
+            _player.walkLock = true; // 페이드동안 플레이어가있다면 이동 잠금
+        }
 
         float fadeCount = 0f;
         fadeImage.gameObject.SetActive(true);
@@ -68,7 +72,11 @@ public class FadeManager : MonoBehaviour
     /// Screen FadeOut & Goto Scene
     private IEnumerator FadeOutSceneSwitch(string scenename)
     {
-        if (_player != null) _player.walkLock = true;        // 페이드동안 플레이어가있다면 이동 잠금
+        if (_player != null)
+        {
+            _player.rb.velocity = Vector2.zero;
+            _player.walkLock = true;        // 페이드동안 플레이어가있다면 이동 잠금
+        }
 
         fadeImage.gameObject.SetActive(true);
         Time.timeScale = 1;
