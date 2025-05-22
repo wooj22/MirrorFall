@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class PlayerController : MonoBehaviour
 {
+    // debug
+    public bool isCheatMode;
+
     [Header("State")]
     [SerializeField] public PlayerState state; 
     [SerializeField] public PlayerWayState wayState;    
@@ -690,6 +693,7 @@ public class PlayerController : MonoBehaviour
     public void Hit(string aiTag)
     {
         if(isDie) return;
+        if (isCheatMode) return;        // 치트모드
 
         // 난쟁이
         if (aiTag == "L")
