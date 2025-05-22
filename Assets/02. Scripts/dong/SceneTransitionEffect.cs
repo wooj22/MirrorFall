@@ -35,10 +35,9 @@ public class SceneTransitionEffect : MonoBehaviour
         img2Group.SetActive(true);
 
         // 페이드 인 + img2 그룹 함께
+        SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
         yield return StartCoroutine(FadeCanvasGroup(img2CanvasGroup, 0f, 1f, 1f));
         yield return StartCoroutine(FadeAlpha(fadePanel, 1f, 0f, 1f));
-
-        SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
     }
 
     private IEnumerator FadeAlpha(Image image, float start, float end, float duration)
