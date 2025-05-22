@@ -33,9 +33,6 @@ EditorBuildSettings:
     path: Assets/01. Scenes/09_Boss.unity
     guid: 0dc6546091a691e43b57896c353b22f1
   - enabled: 1
-    path: Assets/01. Scenes/99_Delete.unity
-    guid: f7225b27750be3545995fc7b31e8b76a
-  - enabled: 1
     path: Assets/01. Scenes/10_GameClear.unity
     guid: 5b48080e19ac76f4da497a900f788694
   - enabled: 1
