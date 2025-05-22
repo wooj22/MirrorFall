@@ -230,14 +230,14 @@ public class FlashLight : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / brightDuration);
-            baseLight.pointLightInnerRadius = Mathf.Lerp(endIn, originInBaseLightRadius, t);
-            baseLight.pointLightOuterRadius = Mathf.Lerp(endOut, originOutBaseLightRadius, t);
+            baseLight.pointLightInnerRadius = Mathf.Lerp(endIn, startIn, t);
+            baseLight.pointLightOuterRadius = Mathf.Lerp(endOut, startOut, t);
             yield return null;
         }
 
         // origin set
-        baseLight.pointLightInnerRadius = originInBaseLightRadius;
-        baseLight.pointLightOuterRadius = originOutBaseLightRadius;
+        baseLight.pointLightInnerRadius = startIn;
+        baseLight.pointLightOuterRadius = startOut;
 
         player.isBright = false;
     }
