@@ -172,8 +172,8 @@ public class PlayerController : MonoBehaviour
             OperationDevice();
 
             // Test (Attack)
-            if (Input.GetKeyDown(KeyCode.K)) Hit("K");
-            if (Input.GetKeyDown(KeyCode.L)) Hit("L");
+            //if (Input.GetKeyDown(KeyCode.K)) Hit("K");
+            //if (Input.GetKeyDown(KeyCode.L)) Hit("L");
 
             // state update logic
             curState?.ChangeStateLogic();
