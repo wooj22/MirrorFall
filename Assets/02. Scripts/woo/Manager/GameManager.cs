@@ -127,7 +127,6 @@ public class GameManager : MonoBehaviour
         // 게임 오버 보스 컷씬에서는 Destory X (다시 돌아올 가능성 있음)
         if (scene.name == "12_GameOverBoss")
         {
-            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
             player.gameObject.SetActive(false);
         }
 

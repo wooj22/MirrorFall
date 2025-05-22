@@ -358,6 +358,7 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 67e6d1a6d93699548a2d0cc03dbd5218, type: 3}
   - {fileID: 8300000, guid: af91e17c5fb1e424c8234e731d918197, type: 3}
   - {fileID: 8300000, guid: d508e4604b1cc7645b108c6836dd3c41, type: 3}
+  - {fileID: 8300000, guid: c71d409c058142049818647bb46cf5db, type: 3}
   - {fileID: 8300000, guid: 80a0d8e9b88086d4d9dfa61392e63790, type: 3}
   - {fileID: 8300000, guid: d5ffe8ab5e870de47863dbf641ee68e6, type: 3}
   - {fileID: 8300000, guid: 9dff2dc1b22ed77499cb66916a96b68d, type: 3}
@@ -365,6 +366,5 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 686eab048f203854e8b02c64b0b3c0ee, type: 3}
   - {fileID: 8300000, guid: 6448c6beae6c35a43bac06b276fd2ffe, type: 3}
   - {fileID: 8300000, guid: 507c33d075230bb46ae5e36ff5a98ab9, type: 3}
-  - {fileID: 8300000, guid: a04c76fb0047fe04e899faf32dd39133, type: 3}
   - {fileID: 8300000, guid: a04c76fb0047fe04e899faf32dd39133, type: 3}
   fadeVolumeTime: 3

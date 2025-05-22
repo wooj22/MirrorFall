@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.2
-  targetAlpha: 0.5
+  targetAlpha: 0.1
   top: {fileID: 7991946539534379039}
 --- !u!1 &6235294681652394018
 GameObject:
