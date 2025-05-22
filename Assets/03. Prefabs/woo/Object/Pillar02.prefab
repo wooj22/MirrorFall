@@ -349,7 +349,7 @@ MonoBehaviour:
   - {x: 0.018749585, y: -0.44248745, z: 0}
   m_ShapePathHash: -1219823877
   m_Mesh: {fileID: 0}
-  m_InstanceId: 73164
+  m_InstanceId: 303550
   m_LocalBounds:
     m_Center: {x: 0.029586434, y: -0.30888006, z: 0}
     m_Extent: {x: 0.22585449, y: 0.13360739, z: 0}
@@ -503,5 +503,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeDuration: 0.2
-  targetAlpha: 0.3
+  targetAlpha: 0.5
   top: {fileID: 758813429472432784}
