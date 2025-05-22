@@ -19,7 +19,7 @@ public class Step4 : TutorialStep
     {
         // 사과 찾기
         if (applePos == null) { applePos = GameObject.FindWithTag("Apple").transform; }
-        manager.ai.MoveToPos(applePos);
+        if (applePos != null) manager.ai.MoveToPos(applePos);
         if (manager.player.step4_isHide) Step4_Clear = true;
     }
 
