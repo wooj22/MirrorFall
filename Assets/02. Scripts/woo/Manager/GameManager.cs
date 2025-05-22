@@ -119,7 +119,6 @@ public class GameManager : MonoBehaviour
 
         if(scene.name == "11_GameOver")
         {
-            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
             Destroy(player.gameObject);
             Destroy(this.gameObject);
         }
