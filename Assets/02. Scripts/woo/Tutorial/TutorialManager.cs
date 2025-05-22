@@ -16,6 +16,7 @@ public class TutorialManager : MonoBehaviour
     [SerializeField] public TutorialPlayer player;         
     [SerializeField] public TutorialAI ai;
     [SerializeField] public GameObject apple;
+    [SerializeField] public GameObject appleXPos;
     [SerializeField] public Transform aiRespawnPos; 
 
     [Header("MapCollider")]
