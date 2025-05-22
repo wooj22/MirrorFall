@@ -338,7 +338,7 @@ MonoBehaviour:
   maxVolume: 0
   bgmSource: {fileID: 4123795426277330937}
   sfxSource: {fileID: 6015235366350987228}
-  warningSfxSource: {fileID: 0}
+  warningSfxSource: {fileID: 3871584975910021349}
   bgmClipList:
   - {fileID: 8300000, guid: 74a4c957271931746b2b00bd0e5651f1, type: 3}
   - {fileID: 8300000, guid: 75fc7c87d5592d842b98c57c1d148e1d, type: 3}

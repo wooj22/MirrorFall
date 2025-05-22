@@ -38,7 +38,7 @@ public class Step2 : TutorialStep
 
     IEnumerator ScriptDirector()
     {
-        manager.AiScriptUpdate("네 자신이 싫다면 내가 대신 살아줄까?");
+        manager.AiScriptUpdate("네 자신이 싫다면 내가 대신 해줄까?");
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_2");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
 

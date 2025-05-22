@@ -746,18 +746,13 @@ public class PlayerController : MonoBehaviour
     public void Die()
     {
         // 보스전 죽는 1번 트리거
-        if(SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
+        if (SceneSwitch.Instance.GetCurrentScene() == "09_Boss")
         {
-            // 사운드랑 딜레이는 gamemanager에서 처리
             GameManager.Instance.BossPlayerDie();
         }
         else
         {
-            // 딜레이 주고 씬 전환
-            SoundManager2.Instance.PlaySFX("SFX_Grimhilde_Die");
-            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
-            SoundManager2.Instance.FadeOutBGM();
-            Invoke(nameof(DieSceneChange), 4f);
+            Invoke(nameof(DieSceneChange), 2f);
         }
     }
 

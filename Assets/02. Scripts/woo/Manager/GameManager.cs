@@ -81,15 +81,12 @@ public class GameManager : MonoBehaviour
     // 보스방에서 플레이어가 죽었을 떄 (Hit, 제한시간)
     public void BossPlayerDie()
     {
-        SoundManager2.Instance.PlaySFX("SFX_Grimhilde_Die");
-        SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
-        SoundManager2.Instance.FadeOutBGM();
-        Invoke(nameof(DieSceneChange), 4f);
+        Invoke(nameof(DieSceneChange), 2.5f);
     }
 
     private void DieSceneChange()
     {
-        FadeManager.Instance.FadeOutSceneChange("11_GameOver");
+        FadeManager.Instance.FadeOutSceneChange("12_GameOverBoss");
     }
 
     // 12_GameOverBoss 씬에서 Retry시 호출해야하는 함수
@@ -114,16 +111,25 @@ public class GameManager : MonoBehaviour
     private void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
         // 플레이 끝
-        if (scene.name == "01_Start" ||
-            scene.name == "10_GameClear" || scene.name == "11_GameOver")
+        if (scene.name == "01_Start" || scene.name == "10_GameClear")
         {
-            //SoundManager2.Instance.StopBGM();
+            Destroy(player.gameObject);
+            Destroy(this.gameObject);
+        }
+
+        if(scene.name == "11_GameOver")
+        {
+            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
             Destroy(player.gameObject);
             Destroy(this.gameObject);
         }
 
         // 게임 오버 보스 컷씬에서는 Destory X (다시 돌아올 가능성 있음)
-        if(scene.name == "12_GameOverBoss") player.gameObject.SetActive(false);
+        if (scene.name == "12_GameOverBoss")
+        {
+            SoundManager2.Instance.PlayOneShotBGM("BGM_Gameover");
+            player.gameObject.SetActive(false);
+        }
 
         // 보스씬 로드시 save data로 player init
         if (scene.name == "09_Boss")
