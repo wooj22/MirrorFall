@@ -158,7 +158,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 0e49d4b25745c0b47ae4c0ebc9f390b6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: aae91f33f2cdbfd478cf4bdc7d8919cd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -258,7 +258,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3bb42d796cc9294bab6976c9413fdd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  deviceOnImage: {fileID: 21300000, guid: aae91f33f2cdbfd478cf4bdc7d8919cd, type: 3}
+  deviceOnImage: {fileID: 21300000, guid: 0e49d4b25745c0b47ae4c0ebc9f390b6, type: 3}
   uiCanvas: {fileID: 8322680917742751672}
   isOperation: 0
 --- !u!1 &2913232321613283598
