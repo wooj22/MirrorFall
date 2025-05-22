@@ -9,6 +9,7 @@ public class SoundManager2 : MonoBehaviour
 
     [SerializeField] AudioSource bgmSource;
     [SerializeField] AudioSource sfxSource;
+    [SerializeField] AudioSource warningSfxSource;
     [SerializeField] List<AudioClip> bgmClipList;
     [SerializeField] List<AudioClip> sfxClipList;
     [SerializeField] float fadeVolumeTime = 3f;
@@ -95,6 +96,13 @@ public class SoundManager2 : MonoBehaviour
         return sfxSource.clip.length;
     }
 
+    // 이거 하나 추가돼서 그냥 따로 만듦
+    public void PlayWarningSFX()
+    {
+        warningSfxSource.Play();
+    }
+
+
     /// 볼륨 페이드인
     private IEnumerator FadeInVolume(AudioSource audio)
     {
@@ -171,5 +179,6 @@ public class SoundManager2 : MonoBehaviour
     public void SetSFXVolume(float volume)
     {
         sfxSource.volume = volume;
+        warningSfxSource.volume = volume;
     }
 }

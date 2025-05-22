@@ -13,6 +13,8 @@ public class Hide : BaseState
         // hide set
         player.isHide = true;
         player.HideInvisible(player.invisibleTargetAlpha);
+
+        SoundManager2.Instance.PlaySFX("SFX_Stealth");
     }
 
     /// Change State

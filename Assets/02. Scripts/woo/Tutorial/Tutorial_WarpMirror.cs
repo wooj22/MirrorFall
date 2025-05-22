@@ -15,7 +15,7 @@ public class Tutorial_WarpMirror : MonoBehaviour
 
     private void Update()
     {
-        isInteractionKey = Input.GetKey(KeyCode.F);
+        isInteractionKey = Input.GetKey(KeyCode.E);
 
         if (isInteractionKey && isInPlayer) 
             manager.TutorialClear();

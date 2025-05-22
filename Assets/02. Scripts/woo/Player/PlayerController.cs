@@ -433,10 +433,10 @@ public class PlayerController : MonoBehaviour
         int pieceNum = curMirrorPiece.GetPieceNum();
         switch (pieceNum)
         {
-            case 1: piece1 = true; curPieceCount++; break;
-            case 2: piece2 = true; curPieceCount++; break;
-            case 3: piece3 = true; curPieceCount++; break;
-            case 4: piece4 = true; curPieceCount++; break;
+            case 1: piece1 = true; curPieceCount++; SoundManager2.Instance.PlayWarningSFX(); break;
+            case 2: piece2 = true; curPieceCount++; SoundManager2.Instance.PlayWarningSFX(); break;
+            case 3: piece3 = true; curPieceCount++; SoundManager2.Instance.PlayWarningSFX(); break;
+            case 4: piece4 = true; curPieceCount++; SoundManager2.Instance.PlayWarningSFX(); break;
             case 5:
                 {
                     piece5 = true; 
