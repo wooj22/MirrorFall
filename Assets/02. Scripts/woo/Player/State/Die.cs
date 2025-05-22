@@ -1,3 +1,4 @@
+using System.ComponentModel;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -8,6 +9,8 @@ public class Die : BaseState
     /// Enter
     public override void Enter()
     {
+        if (player.isDie) return;  // die중에 die 예외처리
+
         Debug.Log("Die Enter");
 
         // controll
