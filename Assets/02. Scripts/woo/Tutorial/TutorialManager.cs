@@ -143,8 +143,8 @@ public class TutorialManager : MonoBehaviour
         FadeManager.Instance.FadeOut();
         yield return new WaitForSeconds(1.2f);
 
-        aiText.gameObject.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         aiText.fontSize = 45;
+        aiText.transform.parent.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
         aiText.text = "아니? 대신 내가 나가서 네 얼굴로 살아줄게.. \n예전처럼 예쁘게";
         SoundManager2.Instance.PlaySFX("Voice_Tutorial_6");
         yield return new WaitForSeconds(SoundManager2.Instance.GetPlayTimeSFX());
