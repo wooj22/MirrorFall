@@ -485,7 +485,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextMirrorPos: {x: 0, y: 0}
-  warpCoolTime: 60
+  warpCoolTime: 25
   warpTimmer: 0
   isWarpReady: 0
   nextSeneName: 07_Play3
