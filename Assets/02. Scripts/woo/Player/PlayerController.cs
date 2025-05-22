@@ -456,11 +456,11 @@ public class PlayerController : MonoBehaviour
         GameObject grim = GameObject.FindWithTag("Grim");
         if (grim != null) grim.GetComponent<Enemy_Grim>().MirrorCheck();
 
-        GameObject[] dwarves = GameObject.FindGameObjectsWithTag("Dwarf");
-        foreach (GameObject dwarf in dwarves)
-        {
-            if (dwarf != null) dwarf.GetComponent<Dwarf>().MirrorCheck();
-        }
+        //GameObject[] dwarves = GameObject.FindGameObjectsWithTag("Dwarf");
+        //foreach (GameObject dwarf in dwarves)
+        //{
+        //    if (dwarf != null) dwarf.GetComponent<Dwarf>().MirrorCheck();
+        //}
 
         piece.InteratcionUIOff();
         curMirrorPiece = null;
