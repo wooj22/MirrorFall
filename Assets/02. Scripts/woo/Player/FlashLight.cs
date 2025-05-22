@@ -73,7 +73,6 @@ public class FlashLight : MonoBehaviour
         // update
         spotLight.pointLightInnerAngle = curLiahtAngle;
         spotLight.pointLightOuterAngle = curLiahtAngle + 20f;
-
     }   
 
     public void SetCurBaseIndex(int index) { 
@@ -223,6 +222,7 @@ public class FlashLight : MonoBehaviour
 
         yield return new WaitForSeconds(player.brightDurationTime);
         yield return new WaitForSeconds(add_duration);      // 추가시간
+        player.isBright = false;                            // 줄어들때는 재시작 가능
 
         // off
         elapsed = 0f;
@@ -230,15 +230,15 @@ public class FlashLight : MonoBehaviour
         {
             elapsed += Time.deltaTime;
             float t = Mathf.Clamp01(elapsed / brightDuration);
-            baseLight.pointLightInnerRadius = Mathf.Lerp(endIn, startIn, t);
-            baseLight.pointLightOuterRadius = Mathf.Lerp(endOut, startOut, t);
+            baseLight.pointLightInnerRadius = Mathf.Lerp(endIn, curBaseRadius, t);
+            baseLight.pointLightOuterRadius = Mathf.Lerp(endOut, curBaseRadius + 1.0f, t);
             yield return null;
         }
 
         // origin set
-        baseLight.pointLightInnerRadius = startIn;
-        baseLight.pointLightOuterRadius = startOut;
+        baseLight.pointLightInnerRadius = curBaseRadius;
+        baseLight.pointLightOuterRadius = curBaseRadius + 1.0f;
 
-        player.isBright = false;
+        
     }
 }
