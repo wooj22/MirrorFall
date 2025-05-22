@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8184253955180445131}
   - component: {fileID: 6950690426267012232}
   - component: {fileID: 7943473268219607287}
+  - component: {fileID: -8310052585529425207}
   m_Layer: 0
   m_Name: Tutorial_Ai
   m_TagString: Untagged
@@ -125,3 +126,15 @@ MonoBehaviour:
   speed: 1
   attackLimit: 0.1
   anim_cur: Idle
+--- !u!114 &-8310052585529425207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9217032252869352135}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c006a2d9c4408314883dfa1c7eb11de0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
