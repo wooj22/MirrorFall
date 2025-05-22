@@ -8,8 +8,6 @@ public class Dwarf : MonoBehaviour
     [SerializeField] Vector2 debugPos;
     [SerializeField] GameObject debugOb;
 
-    private bool mirrorTaked=false;
-
     public string anim_cur = "Idle";
     public float speed = 2f;            // 이동 속도
     public float findDistance = 5f;     //플레이어 감지 범위
@@ -103,10 +101,6 @@ public class Dwarf : MonoBehaviour
             playerdistance = float.MaxValue;
         }
     }
-    public void MirrorCheck()
-    {
-        mirrorTaked = true;
-    }
 
     void AppleCheck()     //사과 오브젝트 확인
     {
@@ -158,7 +152,7 @@ public class Dwarf : MonoBehaviour
         if (!playerfind && !goback)     //플레이어 감지X, 복귀 중X
         {
             // 플레이어 근처로 오면 추적 시작
-            if ((playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))||mirrorTaked)
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))
             {
                 playerfind = true;
             }
@@ -186,7 +180,7 @@ public class Dwarf : MonoBehaviour
         }
         else if (playerfind && !goback)     //플레이어 감지O, 복귀 중X
         {
-            if (playerdistance > missDistance && !mirrorTaked)
+            if (playerdistance > missDistance)
             {
                 goback = true;
                 playerfind = false;
@@ -198,7 +192,7 @@ public class Dwarf : MonoBehaviour
         }
         else if (!playerfind && goback)     //플레이어 감지X, 복귀 중O
         {
-            if ((playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))||mirrorTaked)
+            if (playerdistance < findDistance && !Player.GetComponent<PlayerController>().isHide && PlayerInSight() && IsPathClear(transform.position, PlayerPos))
             {
                 playerfind = true;
                 goback = false;
