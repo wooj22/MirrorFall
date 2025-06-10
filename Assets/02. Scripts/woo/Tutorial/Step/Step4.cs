@@ -5,6 +5,7 @@ public class Step4 : TutorialStep
 {
     private bool Step4_Clear;
     private Transform applePos;
+    private bool isAppleFound;      // 사과가 생성되었다가 사라진 경우를 대비
 
     public Step4(MonoBehaviour coco, TutorialManager tutorialManager) :
         base(coco, tutorialManager)
@@ -18,7 +19,10 @@ public class Step4 : TutorialStep
     public override void Update()
     {
         // 사과 찾기
-        if (applePos == null) { applePos = GameObject.FindWithTag("Apple").transform; }
+        if (!isAppleFound && applePos == null) { 
+            applePos = GameObject.FindWithTag("Apple").transform;
+            isAppleFound = true;
+        }
         if (applePos != null) manager.ai.MoveToPos(applePos);
         if (manager.player.step4_isHide) Step4_Clear = true;
     }
