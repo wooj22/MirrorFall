@@ -15,4 +15,4 @@
 
 
 ## 📽 소개 영상
-[[![Eclipse 소개 영상](https://img.youtube.com/vi/iwEdFb4ASW8/0.jpg)](https://www.youtube.com/watch?v=iwEdFb4ASW8)](https://youtu.be/IHRpCRU-bZ8?si=tp2kyNRcqS_nrQE8)
+[https://youtu.be/IHRpCRU-bZ8?si=tp2kyNRcqS_nrQE8]
